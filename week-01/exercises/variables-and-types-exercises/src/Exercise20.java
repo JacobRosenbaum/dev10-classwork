@@ -5,8 +5,11 @@ public class Exercise20 {
         // From Alice Roosevelt Longworth:
         String aliceQuote = "If you can't say something good about someone, sit right here by me.";
 
+        char firstChar = aliceQuote.charAt(0);
+        char twentiethChar = aliceQuote.charAt(21);
         char tenthChar = aliceQuote.charAt(10);
-        System.out.println(tenthChar);
+        System.out.println(firstChar);
+        System.out.println(twentiethChar);
 
         // 1. Store the first character from aliceQuote in a char variable.
         // 2. Print it.
