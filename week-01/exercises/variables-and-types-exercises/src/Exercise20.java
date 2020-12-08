@@ -6,8 +6,8 @@ public class Exercise20 {
         String aliceQuote = "If you can't say something good about someone, sit right here by me.";
 
         char firstChar = aliceQuote.charAt(0);
-        char twentiethChar = aliceQuote.charAt(21);
-        char tenthChar = aliceQuote.charAt(10);
+        char twentiethChar = aliceQuote.charAt(19);
+        char tenthChar = aliceQuote.charAt(9);
         System.out.println(firstChar);
         System.out.println(twentiethChar);
 
