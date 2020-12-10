@@ -11,6 +11,24 @@ public class Exercise15 {
         String word = console.nextLine();
         String opposite = null;
 
-        // 1. Re-implement Exercise08 using a switch statement.
+        switch (word){
+            case "hot":
+                System.out.println("cold");
+                break;
+            case "small":
+                System.out.println("big");
+                break;
+            case "strong":
+                System.out.println("weak");
+                break;
+            case "ice":
+                System.out.println("fire");
+                break;
+            default:
+                System.out.println("I don't know that word");
+                break;
+        }
+
+
     }
 }

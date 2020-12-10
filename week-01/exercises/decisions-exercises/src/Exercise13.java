@@ -20,6 +20,9 @@ public class Exercise13 {
         //    ury   Mercury      yes
         //    ury     curry       no
         //    mer   Mercury       no (case sensitive)
+        if (haystack.contains(needle)){
+            System.out.println("The needle is in the haystack at position " + haystack.indexOf(needle));
+        }
         // 2. As a stretch goal, display the location (index) of needle in haystack.
     }
 }

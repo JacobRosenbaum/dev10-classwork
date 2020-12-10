@@ -9,6 +9,12 @@ public class Exercise05 {
         String secret = console.nextLine();
 
         // 1. Add decision statements so that:
+        if (secret.equalsIgnoreCase("tahini")){
+            System.out.println("You're correct. The secret word is \"tahini\".");
+        }
+        else{
+            System.out.println("That's not quite right. Try again.");
+        }
         // If the secret work is tahini, print the message:
         //   You're correct. The secret word is "tahini".
         // Otherwise, print:

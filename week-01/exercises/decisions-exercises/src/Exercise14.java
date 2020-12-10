@@ -22,6 +22,24 @@ public class Exercise14 {
             case 1:
                 System.out.println("I refuse to say \"a case of the Mondays\".");
                 break;
+            case 2:
+                System.out.println("Fat Tuesday babeee");
+                break;
+            case 3:
+                System.out.println("Humpday");
+                break;
+            case 4:
+                System.out.println("Thirsty Thursday");
+                break;
+            case 5:
+                System.out.println("Weekend starts now... it's Friday");
+                break;
+            case 6:
+                System.out.println("Saturday is the best day of the week");
+                break;
+            case 7:
+                System.out.println("Football Sunday!");
+                break;
             default:
                 System.out.println("I don't recognize that day.");
                 break;

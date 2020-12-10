@@ -18,6 +18,12 @@ public class Exercise08 {
         } else if (word.equalsIgnoreCase("little")) {
             opposite = "big";
         }
+        else if (word.equalsIgnoreCase("wet")) {
+            opposite = "dry";
+        }
+        else if (word.equalsIgnoreCase("strong")) {
+            opposite = "weak";
+        }
 
         if (opposite == null) {
             System.out.printf("I don't have an opposite for %s.%n", word);

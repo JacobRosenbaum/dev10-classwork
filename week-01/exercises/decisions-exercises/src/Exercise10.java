@@ -21,5 +21,26 @@ public class Exercise10 {
         // If a lbs/zone combo does not exist, print a warning message for the user.
 
         Scanner console = new Scanner(System.in);
+
+        System.out.print("What' the parcel lbs? ");
+        String lbs = console.nextLine();
+        int pounds = Integer.parseInt(lbs);
+
+        System.out.print("What's the zone? ");
+        String zone = console.nextLine();
+        int zoneNumber = Integer.parseInt(zone);
+
+        if ((zoneNumber == 1)||( zoneNumber == 2) && (pounds == 1) ){
+
+            System.out.println("Your parcel costs $7.50");
+
+        } else if (zoneNumber == 3 && (pounds == 1) ){
+            System.out.println("Your parcel costs $7.85");
+        }
+        else if ((zoneNumber == 1)||( zoneNumber == 2) && (pounds == 2) ){
+            System.out.println("Your parcel costs $8.25");
+
+        }
+
     }
 }
