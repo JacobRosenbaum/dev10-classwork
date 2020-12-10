@@ -11,5 +11,13 @@ public class Exercise02 {
         // 8
         // 10
         // 12
+        int number = 1;
+
+        for (int i = 0; i < number; i++){
+            number++;
+            if ((number < 13) && (number > 0) && (number % 2 == 0)){
+                System.out.println(number);
+            }
+        }
     }
 }

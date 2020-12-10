@@ -11,5 +11,14 @@ public class Exercise03 {
         // 19
         // 18
         // 17
+        int high = 24;
+        int low = 17;
+        for (int i = 0 ; i < high; i++){
+            high--;
+            System.out.println(high);
+            if (high == low){
+                break;
+            }
+        }
     }
 }
