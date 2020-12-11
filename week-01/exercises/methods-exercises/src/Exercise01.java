@@ -5,6 +5,12 @@ public class Exercise01 {
         String firstCompliment = getRandomCompliment();
         System.out.println(firstCompliment);
 
+        String secondCompliment = getRandomCompliment();
+        System.out.println(secondCompliment);
+
+        String thirdCompliment = getRandomCompliment();
+        System.out.println(thirdCompliment);
+
         // Call the getRandomCompliment method two more times.
         // 1. Store the result in a new string variable.
         // 2. Print the result.

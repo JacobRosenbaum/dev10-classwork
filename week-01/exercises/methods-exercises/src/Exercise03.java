@@ -13,6 +13,7 @@ public class Exercise03 {
     // milesToKilometers converts miles to kilometers.
     // 1. Complete the milesToKilometers method.
     public static float milesToKilometers(float miles) {
-        return 0;
+
+        return (miles * 1.60934f);
     }
 }

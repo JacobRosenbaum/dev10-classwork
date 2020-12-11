@@ -9,5 +9,15 @@ public class Exercise06 {
 
     public static void main(String[] args) {
         // 2. Call your method in various ways to test it here.
+        System.out.println(isBetween(10, 2, 30));
+    }
+
+    public static boolean isBetween(int number1, int number2, int number3) {
+
+        if ((number1 > number2) && (number1 < number3)) {
+            return true;
+        }
+
+       return false;
     }
 }
