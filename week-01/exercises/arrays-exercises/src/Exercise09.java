@@ -3,6 +3,11 @@ public class Exercise09 {
     public static void main(String[] args) {
         String[] haystack = makeHaystack();
 
+       for (int i = 0; i < haystack.length; i++){
+           if (haystack[i] != null){
+               System.out.println(i);
+           }
+       }
         // A needle is randomly placed in a haystack array with a capacity of 100.
         // 1. Loop through the haystack and find the needle.
         // 2. Print the index where you found it.

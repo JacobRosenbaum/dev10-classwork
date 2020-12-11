@@ -4,6 +4,23 @@ public class Exercise11 {
 
     public static void main(String[] args) {
         int[] values = makeRandomArray();
+        int positiveNumbers = 0;
+        int[] positiveElements = new int[positiveNumbers];
+
+        for (int i = 0; i < values.length; i++) {
+
+            if (values[i] > 0) {
+                positiveNumbers++;
+            }
+
+            for (int j = 0; j < values.length; j++) {
+                positiveElements[j] = positiveNumbers;
+            }
+        }
+
+        System.out.println(positiveNumbers);
+        System.out.println(positiveElements);
+
 
         // 1. Count the number of positive elements in `values`.
         // 2. Create a new int[] to hold the positive elements.

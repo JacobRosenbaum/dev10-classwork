@@ -5,6 +5,19 @@ public class Exercise10 {
 
     public static void main(String[] args) {
         String[] bugs = makeBugArray();
+        int mosquitoCount = 0;
+        int beetleCount = 0;
+
+        for (int i = 0; i < bugs.length; i++){
+            if (bugs[i].equalsIgnoreCase("mosquito")){
+                mosquitoCount++;
+            }
+            else if (bugs[i].equalsIgnoreCase("beetle")){
+                beetleCount++;
+            }
+        }
+        System.out.println("Mosquito count = " + mosquitoCount);
+        System.out.println("Beetle count = " + beetleCount);
 
         // The bugs array elements are either the value "beetle" or "mosquito".
         // 1. Count the number of beetles and mosquitoes.

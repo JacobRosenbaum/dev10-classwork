@@ -5,6 +5,16 @@ public class Exercise07 {
     public static void main(String[] args) {
         int[] values = makeRandomArray();
 
+        int sum = 0;
+        // 1. Create a loop to calculate the sum of elements in `values`.
+        // 2. Print the result.
+        for (int i = 0; i < values.length; i++){
+
+            sum+= values[i];
+
+        }
+        System.out.println(sum);
+        System.out.println(values.length);
         // The makeRandomArray method returns an int[] of a length between 50 and 150, whose elements are randomly
         // generated between -500 and 500.
         // 1. Create a loop to calculate the sum of elements in `values`.
