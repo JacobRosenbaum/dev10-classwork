@@ -1,4 +1,3 @@
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class App {
@@ -14,21 +13,11 @@ public class App {
         int parsedCapsulesAvailable = Integer.parseInt(capsulesAvailable);
         System.out.printf("\nThere are %s unoccupied capsules ready to be booked.\n", parsedCapsulesAvailable);
 
-        /*
-        CREATE AN STRING ARRAY
-        I'll create an array to hold the number of unoccupied capsules.
-        */
         String[] capsulesArray = new String[parsedCapsulesAvailable];
         boolean exit = false;
-        /*
 
-        MENU
+        // MENU
 
-        If there are capsules available to be booked, we need to enter the menu. Inside of an if statement,
-        making sure the user input a capsule number greater than 0,
-        I will create a do while loop. The "do" portion will be to print out the 4 options of the menu "while"
-        boolean 'exit' = false. Inside of the do while loop will be a switch statement.
-        */
         if (parsedCapsulesAvailable > 0) {
             do {
                 System.out.println("\nGUEST MENU");
@@ -39,12 +28,14 @@ public class App {
                 System.out.println("4. Exit");
                 System.out.print("Choose an option [1-4]: ");
                 String menuOption = console.nextLine();
-                boolean checkedIn = false;
                 boolean checkedOut = false;
-                boolean roomError = false;
+                boolean checkedIn = false;
+                boolean roomErrorCheckOut = false;
+                boolean roomErrorCheckIn = false;
                 String hotelGuest = "";
                 boolean viewGuests = true;
                 boolean returnToMain = false;
+                boolean returnToMainCheckOut = true;
 
                 switch (menuOption) {
                     case "1":
@@ -58,28 +49,28 @@ public class App {
                             int capsuleParsed = Integer.parseInt(capsuleNumber);
                             if ((capsuleParsed > (parsedCapsulesAvailable)) || (capsuleParsed < 1)) {
                                 System.out.println("\nWe don't have that capsule");
-                                roomError = true;
+                                roomErrorCheckIn = true;
 
                             } else {
                                 for (int i = capsuleParsed - 1; i < capsulesArray.length; i++) {
                                     if (capsulesArray[i] == null) {
                                         capsulesArray[capsuleParsed - 1] = guestName;
-                                        roomError = false;
+                                        roomErrorCheckIn = false;
                                         break;
                                     } else {
                                         System.out.println("\nError!");
                                         System.out.printf("Capsule #%s is occupied.\n", capsuleParsed);
-                                        roomError = true;
+                                        roomErrorCheckIn = true;
                                         break;
                                     }
                                 }
                             }
-                            if (!roomError) {
+                            if (!roomErrorCheckIn) {
                                 System.out.println("\nGreat Success!");
                                 System.out.printf("%s is booked in capsule #%s\n", guestName, capsuleParsed);
                                 checkedIn = true;
                             }
-                        } while ((!checkedIn) || (roomError));
+                        } while ((!checkedIn) || (roomErrorCheckIn));
                         break;
                     case "2":
                         do {
@@ -90,13 +81,13 @@ public class App {
                             int capsuleParsed = Integer.parseInt(capsuleNumber);
                             if ((capsuleParsed > (parsedCapsulesAvailable)) || (capsuleParsed < 1)) {
                                 System.out.println("\nWe don't have that capsule");
-                                roomError = true;
+                                roomErrorCheckOut = true;
                             } else {
                                 for (int i = capsuleParsed - 1; i < capsulesArray.length; i++) {
                                     if (capsulesArray[i] != null) {
                                         hotelGuest = capsulesArray[capsuleParsed - 1];
-                                        roomError = false;
-                                        if (!roomError) {
+                                        roomErrorCheckOut = false;
+                                        if (!roomErrorCheckOut) {
                                             System.out.println("\nGreat Success!");
                                             System.out.printf("%s has been checked out of capsule #%s\n", hotelGuest, capsuleParsed);
                                             capsulesArray[capsuleParsed - 1] = null;
@@ -107,113 +98,84 @@ public class App {
                                     } else {
                                         System.out.println("\nError!");
                                         System.out.printf("Capsule #%s is unoccupied.\n", capsuleParsed);
-                                        roomError = true;
+                                        roomErrorCheckOut = true;
                                         break;
                                     }
                                 }
                             }
+                            System.out.println("\nTo check another room, press 1.\nOtherwise, press 2 to go back to the Main Menu");
+                            String leaveOrStay = console.nextLine();
+                            if (leaveOrStay.equalsIgnoreCase("1")) {
+                                returnToMainCheckOut = true;
 
-                        } while ((!checkedOut) || (roomError));
+                            } else if (leaveOrStay.equalsIgnoreCase("2")) {
+                                returnToMainCheckOut = false;
+                                break;
+                            }
+
+                        } while ((!checkedOut) || (roomErrorCheckOut) || (returnToMainCheckOut));
                         break;
                     case "3":
-
                         do {
                             System.out.println("\nView Guests");
                             System.out.println("============");
                             System.out.printf("Capsule #[1-%s]: ", parsedCapsulesAvailable);
                             String capsuleNumber = console.nextLine();
                             int capsuleParsed = Integer.parseInt(capsuleNumber);
+                            int guestCount = 0;
                             for (int i = 0; i < capsulesArray.length; i++) {
-
-                                if (i + 1 >= (capsuleParsed - 5) && (i + 1 < capsuleParsed) && (i + 1 != capsuleParsed))
-                                    System.out.printf("Capsule #%s: %s%n",
-                                            i + 1, capsulesArray[i] == null ? "[unoccupied]" : capsulesArray[i]);
+                                String roomOccupied = capsulesArray[i] == null ? "[unoccupied]" : capsulesArray[i];
+                                if ((i + 1 >= (capsuleParsed - 10) && (i + 1 <= capsuleParsed) || ((i + 1 <= (capsuleParsed + 10) && (i + 1 > capsuleParsed))))
+                                ) {
+                                    if ((i + 1 >= (capsuleParsed - 5) && (i + 1 <= capsuleParsed))) {
+                                        guestCount++;
+                                        System.out.printf("Capsule #%s: %s%n",
+                                                i + 1, roomOccupied);
+                                    } else if (((i + 1 <= (capsuleParsed + 5) && (i + 1 > capsuleParsed)))) {
+                                        guestCount++;
+                                        System.out.printf("Capsule #%s: %s%n",
+                                                i + 1, roomOccupied);
+                                    } else if ((((i + 1) + 11) > capsulesArray.length) && (guestCount < 1)) {
+                                        guestCount++;
+                                        System.out.printf("Capsule #%s: %s%n",
+                                                i + 1, roomOccupied);
+                                    } else if ((guestCount < 11) && (guestCount != 0)) {
+                                        guestCount++;
+                                        System.out.printf("Capsule #%s: %s%n",
+                                                i + 1, roomOccupied);
+                                    }
+                                }
                             }
-                            System.out.printf("Capsule #%s: %s%n",
-                                    capsuleParsed, capsulesArray[capsuleParsed - 1] == null ? "[unoccupied]" : capsulesArray[capsuleParsed - 1]);
-                            for (int i = 0; i < capsulesArray.length; i++) {
-                                if (i + 1 <= (capsuleParsed + 5) && (i + 1 > capsuleParsed) && (i + 1 != capsuleParsed)){
-                                    System.out.printf("Capsule #%s: %s%n",
-                                            i + 1, capsulesArray[i] == null ? "[unoccupied]" : capsulesArray[i]);
+                            System.out.println("\nTo view another set of rooms, press 1.\nOtherwise, press 2 to go back to the Main Menu");
+                            String viewMore = console.nextLine();
+                            if (viewMore.equalsIgnoreCase("1")) {
+                                viewGuests = true;
+                            } else if (viewMore.equalsIgnoreCase("2")) {
+                                viewGuests = false;
+                                break;
                             }
                         }
-                        System.out.println("\nTo view another set of rooms, press 1.\nOtherwise, press 2 to go back to the Main Menu");
-                        String viewMore = console.nextLine();
-                        if (viewMore.equalsIgnoreCase("1")) {
-                            viewGuests = true;
-                        } else if (viewMore.equalsIgnoreCase("2")) {
-                            viewGuests = false;
-                            break;
-                        }
-
-
-                } while (viewGuests = true) ;
-                break;
-
-                case "4":
-                    do{
-                        System.out.println("Exit");
-                        System.out.println("====");
-                        System.out.println("Are you sure you want to exit?\nAll data will be lost");
-                        System.out.print("Exit [y/n]: ");
-                        String exitOrStay = console.nextLine();
-                        if(exitOrStay.equalsIgnoreCase("y")){
-                            System.out.println("\nGoodbye!");
-                            exit = true;
-                        }
-                        else if(exitOrStay.equalsIgnoreCase("n")){
-                            returnToMain = true;
-                        }
-
-                    } while (returnToMain = false);
-                   /* default:
-                        System.out.println("Please type again");
-*/
-            }
-        } while (!exit) ;
+                        while (viewGuests = true);
+                        break;
+                    case "4":
+                        do {
+                            System.out.println("Exit");
+                            System.out.println("====");
+                            System.out.println("Are you sure you want to exit?\nAll data will be lost");
+                            System.out.print("Exit [y/n]: ");
+                            String exitOrStay = console.nextLine();
+                            if (exitOrStay.equalsIgnoreCase("y")) {
+                                System.out.println("\nGoodbye!");
+                                exit = true;
+                            } else if (exitOrStay.equalsIgnoreCase("n")) {
+                                returnToMain = true;
+                            }
+                        } while (returnToMain = false);
+                        break;
+                    default:
+                        System.out.println("Please type again - I didn't understand that.");
+                }
+            } while (!exit);
+        }
     }
-
-        /*
-        CASE 1: If the user types number 1, I will print lines asking the user to input a name and capsule number
-        for a guest. Once I have the input, I will run a for loop to check my array of capsules to see if that room
-        is occupied. I'll make an if statement, if the for loop returns 'null', I will print a message saying
-        the guest has been checked in. Then, I will add the guests name to the capsule array using the user input
-        as my index number. I'll make a boolean called 'checkedIn' which will now equal true.
-        Else, I will print a message saying the room is booked. The if statement will
-        be in a while loop, it will re-print the capsule number message until the capsule number returns null.
-        That while loop will be inside another while loop that runs while 'checkedIn' = false. When checkedIn
-        equals true, I will break the loop, re-printing the menu. THIS WILL BE A METHOD
-
-        CASE 2: If the user types number 2, I will print lines asking the user to input a name and capsule number
-        for a guest. Once I have the input, I will run a for loop to check my array of capsules to see if that room
-        is occupied. I'll make an if statement, if the for loop returns a string, I will print a message saying
-        the guest has been checked out using the array index as my capsule number and the string as the guest.
-        Then, I will add the guests name to the capsule array using the user input
-        as my index number. I'll make a boolean called 'checkedOut' which will now equal true.
-        Else, I will print a message saying the room is unoccupied. The if statement will
-        be in a while loop, it will re-print the capsule number message until the capsule number returns a string.
-        That while loop will be inside another while loop that runs while 'checkedOut' = false.When checkedOut
-        equals true, I will break the loop, re-printing the menu. THIS WILL BE A METHOD
-
-        CASE 3: If the user types number 3; I'll have to show my array of guests with their index number equaling
-        their capsule number. I'll print the message asking for a capsule number.
-        I'll declare two Strings arrays, fivePrevious and fiveNext. I'll run one for loop of my array of capsules
-        with int i equaling the capsule number the user input.
-        I'll initialize a String array closeCapsules to hold the 5 values above and below the capsule number.
-        I'll initialize a int capsuleCounter to see if I have 11 capsules.
-        I'll initialize a boolean capsuleEqualsEleven.
-        I'll nest an if statement in my for loop. IF the index of a value in my capsules array is
-        (larger than the index value AND less than or equal the value plus 5) I will add the value to the fiveNext array
-        and add 1 to the capsuleCounter
-        ELSE IF the index of the capsule value is (smaller than the index value AND less than or equal the value minus 5)
-        I'll add it to the previousFive array and add 1 to the capsuleCounter.
-        Another if statement, IF capsuleCounter = 11; print the previousFive array and the nextFive array.
-        ELSE IF (capsuleCounter != 11), I'll
-        NEED TO WORK THIS EDGE CASE OUT... / WILL HANDLE IT IN THE CODE
-
-        CASE 4: If the user types number 4, I will print out a confirmation to make sure they want
-        to exit, and once they confirm, boolean 'exit' will = true and the loop will end. IF they do not confirm,
-        the menu will re-print.
-        */
-}
 }
