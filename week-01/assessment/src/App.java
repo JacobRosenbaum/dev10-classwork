@@ -44,6 +44,7 @@ public class App {
                 boolean roomError = false;
                 String hotelGuest = "";
                 boolean viewGuests = true;
+                boolean returnToMain = false;
 
                 switch (menuOption) {
                     case "1":
@@ -150,6 +151,21 @@ public class App {
                 break;
 
                 case "4":
+                    do{
+                        System.out.println("Exit");
+                        System.out.println("====");
+                        System.out.println("Are you sure you want to exit?\nAll data will be lost");
+                        System.out.print("Exit [y/n]: ");
+                        String exitOrStay = console.nextLine();
+                        if(exitOrStay.equalsIgnoreCase("y")){
+                            System.out.println("\nGoodbye!");
+                            exit = true;
+                        }
+                        else if(exitOrStay.equalsIgnoreCase("n")){
+                            returnToMain = true;
+                        }
+
+                    } while (returnToMain = false);
                    /* default:
                         System.out.println("Please type again");
 */
