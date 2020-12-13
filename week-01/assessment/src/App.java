@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class App {
@@ -42,6 +43,7 @@ public class App {
                 boolean checkedOut = false;
                 boolean roomError = false;
                 String hotelGuest = "";
+                boolean viewGuests = true;
 
                 switch (menuOption) {
                     case "1":
@@ -96,7 +98,7 @@ public class App {
                                         if (!roomError) {
                                             System.out.println("\nGreat Success!");
                                             System.out.printf("%s has been checked out of capsule #%s\n", hotelGuest, capsuleParsed);
-                                            capsulesArray[capsuleParsed-1] = null;
+                                            capsulesArray[capsuleParsed - 1] = null;
                                             checkedOut = true;
                                             break;
                                         }
@@ -113,13 +115,47 @@ public class App {
                         } while ((!checkedOut) || (roomError));
                         break;
                     case "3":
-                    case "4":
+
+                        do {
+                            System.out.println("\nView Guests");
+                            System.out.println("============");
+                            System.out.printf("Capsule #[1-%s]: ", parsedCapsulesAvailable);
+                            String capsuleNumber = console.nextLine();
+                            int capsuleParsed = Integer.parseInt(capsuleNumber);
+                            for (int i = 0; i < capsulesArray.length; i++) {
+
+                                if (i + 1 >= (capsuleParsed - 5) && (i + 1 < capsuleParsed) && (i + 1 != capsuleParsed))
+                                    System.out.printf("Capsule #%s: %s%n",
+                                            i + 1, capsulesArray[i] == null ? "[unoccupied]" : capsulesArray[i]);
+                            }
+                            System.out.printf("Capsule #%s: %s%n",
+                                    capsuleParsed, capsulesArray[capsuleParsed - 1] == null ? "[unoccupied]" : capsulesArray[capsuleParsed - 1]);
+                            for (int i = 0; i < capsulesArray.length; i++) {
+                                if (i + 1 <= (capsuleParsed + 5) && (i + 1 > capsuleParsed) && (i + 1 != capsuleParsed)){
+                                    System.out.printf("Capsule #%s: %s%n",
+                                            i + 1, capsulesArray[i] == null ? "[unoccupied]" : capsulesArray[i]);
+                            }
+                        }
+                        System.out.println("\nTo view another set of rooms, press 1.\nOtherwise, press 2 to go back to the Main Menu");
+                        String viewMore = console.nextLine();
+                        if (viewMore.equalsIgnoreCase("1")) {
+                            viewGuests = true;
+                        } else if (viewMore.equalsIgnoreCase("2")) {
+                            viewGuests = false;
+                            break;
+                        }
+
+
+                } while (viewGuests = true) ;
+                break;
+
+                case "4":
                    /* default:
                         System.out.println("Please type again");
 */
-                }
-            } while (!exit);
-        }
+            }
+        } while (!exit) ;
+    }
 
         /*
         CASE 1: If the user types number 1, I will print lines asking the user to input a name and capsule number
@@ -163,5 +199,5 @@ public class App {
         to exit, and once they confirm, boolean 'exit' will = true and the loop will end. IF they do not confirm,
         the menu will re-print.
         */
-    }
+}
 }
