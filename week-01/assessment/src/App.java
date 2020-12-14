@@ -105,7 +105,6 @@ public class App {
                                 String roomOccupied = capsulesArray[i] == null ? "[unoccupied]" : capsulesArray[i];
                                 if ((capsuleParsed > (parsedCapsulesAvailable)) || (capsuleParsed < 1)) {
                                     System.out.println("\nError!\nWe don't have that capsule");
-//                                    returnToMainFromViewGuests = 2;
                                     break;
                                 } else if ((i + 1 >= (capsuleParsed - 10) && (i + 1 <= capsuleParsed) || ((i + 1 <= (capsuleParsed + 10) && (i + 1 > capsuleParsed))))
                                 ) {
