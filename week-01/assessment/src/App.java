@@ -36,7 +36,6 @@ public class App {
                 int returnToMainFromCheckout = 1;
                 int returnToMainFromViewGuests = 1;
 
-
                 switch (menuOption) {
                     case "1":
 
@@ -78,7 +77,6 @@ public class App {
                                 System.out.println("\nError!\nWe don't have that capsule");
                                 roomCheckOutError = true;
                             } else {
-//                                for (int i = capsuleParsed - 1; i < capsulesArray.length; i++) {
                                 if (capsulesArray[capsuleParsed - 1] != null) {
                                     hotelGuest = capsulesArray[capsuleParsed - 1];
                                     System.out.println("\nGreat Success!");
@@ -92,16 +90,6 @@ public class App {
                                     roomCheckOutError = true;
                                 }
                             }
-
-//                            System.out.print("\n1. Check another room\n2. Return to main menu\nChoose an option [1-2]: ");
-//                            String leaveOrStay = console.nextLine();
-//                            if (leaveOrStay.equalsIgnoreCase("1")) {
-//                                returnToMainCheckOut = true;
-//
-//                            } else if (leaveOrStay.equalsIgnoreCase("2")) {
-//                                returnToMainCheckOut = false;
-//                                break;
-//                            }
                             returnToMainFromCheckout = returnToMenu(console, "\n1. Check another room\n2. Return to main menu\nChoose an option [1-2]: ");
                         } while ((!checkedOut) && (roomCheckOutError) && (returnToMainFromCheckout == 1));
                         break;
@@ -140,16 +128,7 @@ public class App {
                                     }
                                 }
                             }
-//                            System.out.print("\n1. View another set of rooms\n2. Return to main menu\nChoose an option [1-2]: ");
-//                            String viewMore = console.nextLine();
-//                            if (viewMore.equalsIgnoreCase("1")) {
-//                                viewGuests = true;
-//                            } else if (viewMore.equalsIgnoreCase("2")) {
-//                                viewGuests = false;
-//                                break;
-//                            }
                             returnToMainFromViewGuests = returnToMenu(console, "\n1. View another set of rooms\n2. Return to main menu\nChoose an option [1-2]: ");
-
                         } while (returnToMainFromViewGuests == 1);
                         break;
                     case "4":
@@ -184,6 +163,4 @@ public class App {
         return (2);
 
     }
-
-
 }
