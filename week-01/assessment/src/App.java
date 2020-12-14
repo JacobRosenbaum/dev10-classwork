@@ -31,7 +31,7 @@ public class App {
                 boolean checkedOut = false;
                 boolean checkedIn = false;
                 boolean roomErrorCheckOut = false;
-                boolean roomErrorCheckIn = false;
+                boolean roomCheckInError = false;
                 String hotelGuest = "";
                 boolean viewGuests = true;
                 boolean returnToMain = false;
@@ -39,38 +39,53 @@ public class App {
 
                 switch (menuOption) {
                     case "1":
-                        do {
+
                             System.out.println("\nGuest Check In");
                             System.out.println("============");
                             System.out.print("Guest Name: ");
                             String guestName = console.nextLine();
-                            System.out.printf("Capsule #[1-%s]: ", parsedCapsulesAvailable);
-                            String capsuleNumber = console.nextLine();
-                            int capsuleParsed = Integer.parseInt(capsuleNumber);
-                            if ((capsuleParsed > (parsedCapsulesAvailable)) || (capsuleParsed < 1)) {
-                                System.out.println("\nWe don't have that capsule");
-                                roomErrorCheckIn = true;
+                            do {
+                                System.out.printf("Capsule #[1-%s]: ", parsedCapsulesAvailable);
+                                String capsuleNumber = console.nextLine();
+                                int capsuleParsed = Integer.parseInt(capsuleNumber);
+                                if ((capsuleParsed > (parsedCapsulesAvailable)) || (capsuleParsed < 1)) {
+                                    System.out.println("\nError!\nWe don't have that capsule\n");
+                                    roomCheckInError = true;
 
-                            } else {
-                                for (int i = capsuleParsed - 1; i < capsulesArray.length; i++) {
-                                    if (capsulesArray[i] == null) {
+                                } else {
+                                    if (capsulesArray[capsuleParsed - 1] == null) {
                                         capsulesArray[capsuleParsed - 1] = guestName;
-                                        roomErrorCheckIn = false;
+                                        System.out.println("\nGreat Success!");
+                                        System.out.printf("%s is booked in capsule #%s\n", guestName, capsuleParsed);
+                                        checkedIn = true;
                                         break;
                                     } else {
                                         System.out.println("\nError!");
-                                        System.out.printf("Capsule #%s is occupied.\n", capsuleParsed);
-                                        roomErrorCheckIn = true;
-                                        break;
+                                        System.out.printf("Capsule #%s is occupied.\n\n", capsuleParsed);
+                                        roomCheckInError = true;
+
                                     }
+
+//                                for (int i = capsuleParsed - 1; i < capsulesArray.length; i++) {
+//                                    if (capsulesArray[i] == null) {
+//                                        capsulesArray[capsuleParsed - 1] = guestName;
+//                                        roomCheckInError = false;
+//                                        break;
+//                                    } else {
+//                                        System.out.println("\nError!");
+//                                        System.out.printf("Capsule #%s is occupied.\n", capsuleParsed);
+//                                        roomCheckInError = true;
+//                                        break;
+//                                    }
+//                                }
                                 }
-                            }
-                            if (!roomErrorCheckIn) {
-                                System.out.println("\nGreat Success!");
-                                System.out.printf("%s is booked in capsule #%s\n", guestName, capsuleParsed);
-                                checkedIn = true;
-                            }
-                        } while ((!checkedIn) || (roomErrorCheckIn));
+
+//                            if (!roomCheckInError) {
+//                                System.out.println("\nGreat Success!");
+//                                System.out.printf("%s is booked in capsule #%s\n", guestName, capsuleParsed);
+//                                checkedIn = true;
+//                            }
+                        } while ((!checkedIn) || (roomCheckInError));
                         break;
                     case "2":
                         do {
@@ -94,7 +109,7 @@ public class App {
                                             checkedOut = true;
                                             break;
                                         }
-                                        break;
+//                                        break;
                                     } else {
                                         System.out.println("\nError!");
                                         System.out.printf("Capsule #%s is unoccupied.\n", capsuleParsed);
