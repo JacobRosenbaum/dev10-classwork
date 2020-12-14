@@ -45,22 +45,22 @@ public class App {
                         String guestName = console.nextLine();
                         do {
                             System.out.printf("Capsule #[1-%s]: ", parsedCapsulesAvailable);
-                            String capsuleNumber = console.nextLine();
-                            int capsuleParsed = Integer.parseInt(capsuleNumber);
-                            if ((capsuleParsed > (parsedCapsulesAvailable)) || (capsuleParsed < 1)) {
+                            String capsuleNumberCheckIn = console.nextLine();
+                            int capsuleParsedCheckIn = Integer.parseInt(capsuleNumberCheckIn);
+                            if ((capsuleParsedCheckIn > (parsedCapsulesAvailable)) || (capsuleParsedCheckIn < 1)) {
                                 System.out.println("\nError!\nWe don't have that capsule\n");
                                 roomCheckInError = true;
 
                             } else {
-                                if (capsulesArray[capsuleParsed - 1] == null) {
-                                    capsulesArray[capsuleParsed - 1] = guestName;
+                                if (capsulesArray[capsuleParsedCheckIn - 1] == null) {
+                                    capsulesArray[capsuleParsedCheckIn - 1] = guestName;
                                     System.out.println("\nGreat Success!");
-                                    System.out.printf("%s is booked in capsule #%s\n", guestName, capsuleParsed);
+                                    System.out.printf("%s is booked in capsule #%s\n", guestName, capsuleParsedCheckIn);
                                     checkedIn = true;
                                     break;
                                 } else {
                                     System.out.println("\nError!");
-                                    System.out.printf("Capsule #%s is occupied.\n\n", capsuleParsed);
+                                    System.out.printf("Capsule #%s is occupied.\n\n", capsuleParsedCheckIn);
                                     roomCheckInError = true;
                                 }
                             }
@@ -71,22 +71,22 @@ public class App {
                         System.out.println("============");
                         do {
                             System.out.printf("Capsule #[1-%s]: ", parsedCapsulesAvailable);
-                            String capsuleNumber = console.nextLine();
-                            int capsuleParsed = Integer.parseInt(capsuleNumber);
-                            if ((capsuleParsed > (parsedCapsulesAvailable)) || (capsuleParsed < 1)) {
+                            String capsuleNumberCheckOut = console.nextLine();
+                            int capsuleParsedCheckOut = Integer.parseInt(capsuleNumberCheckOut);
+                            if ((capsuleParsedCheckOut > (parsedCapsulesAvailable)) || (capsuleParsedCheckOut < 1)) {
                                 System.out.println("\nError!\nWe don't have that capsule");
                                 roomCheckOutError = true;
                             } else {
-                                if (capsulesArray[capsuleParsed - 1] != null) {
-                                    hotelGuest = capsulesArray[capsuleParsed - 1];
+                                if (capsulesArray[capsuleParsedCheckOut - 1] != null) {
+                                    hotelGuest = capsulesArray[capsuleParsedCheckOut - 1];
                                     System.out.println("\nGreat Success!");
-                                    System.out.printf("%s has been checked out of capsule #%s\n", hotelGuest, capsuleParsed);
-                                    capsulesArray[capsuleParsed - 1] = null;
+                                    System.out.printf("%s has been checked out of capsule #%s\n", hotelGuest, capsuleParsedCheckOut);
+                                    capsulesArray[capsuleParsedCheckOut - 1] = null;
                                     checkedOut = true;
 
                                 } else {
                                     System.out.println("\nError!");
-                                    System.out.printf("Capsule #%s is unoccupied.\n", capsuleParsed);
+                                    System.out.printf("Capsule #%s is unoccupied.\n", capsuleParsedCheckOut);
                                     roomCheckOutError = true;
                                 }
                             }
@@ -98,21 +98,21 @@ public class App {
                             System.out.println("\nView Guests");
                             System.out.println("============");
                             System.out.printf("Capsule #[1-%s]: ", parsedCapsulesAvailable);
-                            String capsuleNumber = console.nextLine();
-                            int capsuleParsed = Integer.parseInt(capsuleNumber);
+                            String capsuleNumberViewGuest = console.nextLine();
+                            int capsuleParsedViewGuest = Integer.parseInt(capsuleNumberViewGuest);
                             int guestCount = 0;
                             for (int i = 0; i < capsulesArray.length; i++) {
                                 String roomOccupied = capsulesArray[i] == null ? "[unoccupied]" : capsulesArray[i];
-                                if ((capsuleParsed > (parsedCapsulesAvailable)) || (capsuleParsed < 1)) {
+                                if ((capsuleParsedViewGuest > (parsedCapsulesAvailable)) || (capsuleParsedViewGuest < 1)) {
                                     System.out.println("\nError!\nWe don't have that capsule");
                                     break;
-                                } else if ((i + 1 >= (capsuleParsed - 10) && (i + 1 <= capsuleParsed) || ((i + 1 <= (capsuleParsed + 10) && (i + 1 > capsuleParsed))))
+                                } else if ((i + 1 >= (capsuleParsedViewGuest - 10) && (i + 1 <= capsuleParsedViewGuest) || ((i + 1 <= (capsuleParsedViewGuest + 10) && (i + 1 > capsuleParsedViewGuest))))
                                 ) {
-                                    if ((i + 1 >= (capsuleParsed - 5) && (i + 1 <= capsuleParsed))) {
+                                    if ((i + 1 >= (capsuleParsedViewGuest - 5) && (i + 1 <= capsuleParsedViewGuest))) {
                                         guestCount++;
                                         System.out.printf("Capsule #%s: %s%n",
                                                 i + 1, roomOccupied);
-                                    } else if (((i + 1 <= (capsuleParsed + 5) && (i + 1 > capsuleParsed)))) {
+                                    } else if (((i + 1 <= (capsuleParsedViewGuest + 5) && (i + 1 > capsuleParsedViewGuest)))) {
                                         guestCount++;
                                         System.out.printf("Capsule #%s: %s%n",
                                                 i + 1, roomOccupied);
