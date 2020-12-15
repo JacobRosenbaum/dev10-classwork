@@ -5,12 +5,13 @@ public class Exercise03 {
         // 1. Add setters for both the name and rating fields in Musician.
 
         Musician one = new Musician("Frank Ocean", 10);
+        one.setName("Frank Sinatra");
         System.out.println(one.getName());
 
         // 2. Use the appropriate setter to change Musician one's name to your favorite musician.
         // (If Frank Ocean is your favorite musician, choose your second favorite.)
 
-        System.out.println(one.getName());
+//        System.out.println(one.getName());
 
         // Expected Output
         // Frank Ocean
