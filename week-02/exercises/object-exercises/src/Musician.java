@@ -20,6 +20,7 @@ public class Musician {
 //        setName("Frank Sinatra");
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -27,6 +28,7 @@ public class Musician {
     public int getRating() {
         return rating;
     }
+
     public void setRating(int rating) {
         this.rating = rating;
     }

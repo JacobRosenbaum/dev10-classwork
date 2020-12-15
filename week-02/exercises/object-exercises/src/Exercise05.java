@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Exercise05 {
 
     public static void main(String[] args) {
-        // STILL NEEDS WORK
+
         Scanner console = new Scanner(System.in);
 
         Musician[] musicians = new Musician[5];
