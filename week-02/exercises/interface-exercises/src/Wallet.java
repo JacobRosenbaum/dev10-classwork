@@ -4,6 +4,10 @@
  * Withdraws are allowed up to the balance.
  */
 public class Wallet implements MoneyStorage {
+    @Override
+    public void setBalance(double amount, double balance) {
+        this.balance = balance;
+    }
 
     private double balance;
     private String description;

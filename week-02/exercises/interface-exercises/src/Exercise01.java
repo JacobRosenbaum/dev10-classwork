@@ -8,12 +8,16 @@ public class Exercise01 {
      */
 
     public static void main(String[] args) {
-        Wallet wallet = new Wallet(0.0, "Brown Wallet");
-        wallet.deposit(5.55);
-        print(wallet);
+        Wallet brownWallet = new Wallet(0.0, "Brown Wallet");
+        brownWallet.deposit(5.55);
+        print(brownWallet);
 
         Mortgage mortgage = new Mortgage(250000.0, "abcd-1234-hdre-9898");
         print(mortgage);
+
+        Wallet richWallet = new Wallet(20000000.50, "Rich Wallet");
+        richWallet.deposit(34563.50);
+        print(richWallet);
 
         // 1. Declare a third MoneyStore variable here, either Wallet or Mortgage.
         // 2. Pass it to the `print` method.

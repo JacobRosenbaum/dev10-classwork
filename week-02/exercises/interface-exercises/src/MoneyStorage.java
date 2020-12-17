@@ -8,6 +8,14 @@ public interface MoneyStorage {
     double getBalance();
 
     /**
+     * @set the new balance
+     */
+    default void setBalance(double amount, double balance) {
+
+    }
+
+
+    /**
      * @return a description of the MoneyStorage
      */
     String getDescription();
@@ -24,4 +32,6 @@ public interface MoneyStorage {
      * May not be the full parameter amount if rules doesn't allow it.
      */
     double withdraw(double amount);
+
+
 }
