@@ -61,4 +61,23 @@ public class Exercise13 {
             }
         } while (!input.equals("4"));
     }
+
+    private void addBoardGame(Scanner console, BoardGame boardGame){
+
+        System.out.print("What's the name of your game?: ");
+        String boardGameName = console.nextLine();
+
+        System.out.print("Minimum players?: ");
+        int minimumPlayers = Integer.parseInt(console.nextLine());
+
+        System.out.print("Maximum players?: ");
+        int maximumPlayers = Integer.parseInt(console.nextLine());
+
+        System.out.print("Category?: ");
+        String category = console.nextLine();
+
+        boardGame.add(new BoardGame(boardGameName, minimumPlayers, maximumPlayers, category);
+        ;
+
+    }
 }

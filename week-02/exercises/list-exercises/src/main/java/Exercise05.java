@@ -8,6 +8,11 @@ public class Exercise05 {
     public static void main(String[] args) {
 
         ArrayList<BoardGame> games = GameRepository.getAll();
+        for (BoardGame adventureGames : games){
+            if (adventureGames.getCategory() == "Adventure"){
+                System.out.println(adventureGames);
+            }
+        }
 
         // 1. Loop over each BoardGame in `games` and print games with the "Adventure" category.
     }
