@@ -1,3 +1,5 @@
+import java.util.Locale;
+
 public class Exercise06 {
 
     // 1. Read the capitalizeAll JavaDocs.
@@ -18,6 +20,10 @@ public class Exercise06 {
      * @return a new String[] with each element capitalized.
      */
     public String[] capitalizeAll(String[] values) {
+
+        for (int i = 0; i < values.length; i++) {
+            values[i].charAt(0) ==
+        }
         return null;
     }
 }

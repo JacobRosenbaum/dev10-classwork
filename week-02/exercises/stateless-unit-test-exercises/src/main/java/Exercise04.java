@@ -9,7 +9,7 @@ public class Exercise04 {
     // 4. Tests are incomplete. Complete them to verify all scenarios.
 
     /**
-     * Calculates the cost to the customer give an item price and the quantity purchased.
+     * Calculates the cost to the customer given an item price and the quantity purchased.
      * Negative price or quantity results in 0.0 cost.
      * Volume discounts apply.
      * 1 - 15 items: no discount
@@ -23,6 +23,25 @@ public class Exercise04 {
      * @return the total cost with volume discounts applied
      */
     public double calculateTotalCost(double price, int quantity) {
-        return 0.0;
+
+        if ((price < 0) || (quantity < 0)) {
+            price = 0;
+            return price;
+        } else if ((quantity >= 1) && (quantity <= 15)) {
+            return price * quantity;
+        } else if ((quantity >= 16) && (quantity <= 25)) {
+            price = (price * .95) * quantity;
+            return price;
+        } else if ((quantity >= 26) && (quantity <= 50)) {
+            price = (price * .9) * quantity;
+            return price;
+        } else if ((quantity >= 51) && (quantity <= 75)) {
+            price = (price * .85) * quantity;
+            return price;
+        } else if (quantity > 75) {
+            price = (price * .78) * quantity;
+            return price;
+        }
+        return price;
     }
 }
