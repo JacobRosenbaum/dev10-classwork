@@ -18,11 +18,9 @@ public class GameBoard {
         int colWidth = Gomoku.WIDTH;
         int[][] board = new int[rowWidth][colWidth];
         int counter = 2;
-//        int stoneCounter = currentPlayer.getStones().size() - 1;
         ArrayList<Stone> stoneCounter = new ArrayList<>();
-//        Stone test;
-
-
+        String dash = " _ ";
+        // PRINT COLUMNS
         for (int i = 0; i <= board.length; i++) {
             if (i == 0) {
                 System.out.print("  ");
@@ -32,42 +30,53 @@ public class GameBoard {
         }
         System.out.println();
         System.out.print("01");
-//        Stone previousStone = currentPlayer.getStones().get().getColumn();
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board.length; col++) {
 //                if ((col == stone.getColumn()) && (row == stone.getRow())) {
 //                    System.out.print(" " + symbol.getSymbol() + " ");
 //                }
-                for (int stones = 0; stones < currentPlayer.getStones().size(); stones++) {
+                for (int stones = 0 ; stones < currentPlayer.getStones().size(); stones++) {
                     stoneCounter.add(currentPlayer.getStones().get(stones));
-//                    System.out.println("row: " + (stoneCounter.get(stones).getRow() + 1) + " " + "column: " + (stoneCounter.get(stones).getColumn() + 1));
-
-                    if (row == (stoneCounter.get(stones).getRow()) &&
-                            col == (stoneCounter.get(stones).getColumn()) &&
-                            (stoneCounter.get(stones).isBlack() == true) &&
-                            (board[row][col] == '\u0000')
+                    if (row == (stoneCounter.get(stones).getRow() - 1) &&
+                            col == (stoneCounter.get(stones).getColumn() - 1) &&
+                            (stoneCounter.get(stones).isBlack() == true)
                     ) {
                         System.out.print(" " + "X" + " ");
-                    } else if (row == (stoneCounter.get(stones).getRow()) &&
-                            col == (stoneCounter.get(stones).getColumn()) &&
-                            (stoneCounter.get(stones).isBlack() == false) &&
-                            (board[row][col] == '\u0000')
+                        col++;
+                    } else if (row == (stoneCounter.get(stones).getRow() - 1) &&
+                            col == (stoneCounter.get(stones).getColumn() - 1) &&
+                            (stoneCounter.get(stones).isBlack() == false)
                     ) {
                         System.out.print(" " + "O" + " ");
+                        col++;
                     }
                 }
-//                else if ((row == currentPlayer.getStones().get(row).getRow()) && (col == currentPlayer.getStones().get(col).getColumn())){
-//                    System.out.print(" " + symbol.getSymbol() + " ");
+//                for (Stone stones : stoneCounter) {
+//                    stoneCounter.add(stones);
 //                }
-//                else if ((col == stoneCounter.get(col).getColumn()) && (row == stoneCounter.get(row).getRow()) && (stoneCounter.get(row).isBlack() == false)){
-//                    System.out.println(" O ");
+//                for (Stone markStones : stoneCounter){
+//                    if ((row == (markStones.getRow() - 1)) &&
+//                            (col == (markStones.getColumn() - 1)) &&
+//                            (markStones.isBlack() == true)
+//                    ) {
+//                        System.out.print(" " + "X" + " ");
+//                        col++;
+//                    } else if ((row == markStones.getRow() - 1) &&
+//                            (col == (markStones.getColumn() - 1)) &&
+//                            (markStones.isBlack() == false)
+//                    ) {
+//                        System.out.print(" " + "O" + " ");
+//                        col++;
+////                    }
+//                    }
 //                }
-                if (board[row][col] == '\u0000' && col < colWidth) {
-                    System.out.print(" _ ");
-                } else {
-                    System.out.print(" ");
+
+                // PRINT DASHES
+                if (board[row][col] == '\u0000') {
+                    System.out.print(dash);
                 }
             }
+            // PRINT ROWS
             System.out.println();
             if (row + counter < board.length + 1) {
                 System.out.printf("%-2s", ((row + counter) < 10) ? "0" + (row + counter) : (row + counter));

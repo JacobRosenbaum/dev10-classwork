@@ -9,7 +9,7 @@ public class EndGame {
 
     public void restartGame(){
 
-        System.out.print("Play again? [y/n]");
+        System.out.print("\nPlay again? [y/n]: ");
         String input = console.nextLine();
 
         if (input.equalsIgnoreCase("y")){

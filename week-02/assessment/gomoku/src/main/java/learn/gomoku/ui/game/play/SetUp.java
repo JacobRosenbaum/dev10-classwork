@@ -13,7 +13,7 @@ public class SetUp {
 
     public void startGame() {
 
-        System.out.print("Welcome to Gomoku\n================\n\n");
+        System.out.print("\nWelcome to Gomoku\n================\n\n");
         Player player1 = setPlayer.setPlayer1(console);
         System.out.println("\nPlayer 1 is " + player1.getName());
         Player player2 = setPlayer.setPlayer2(console);

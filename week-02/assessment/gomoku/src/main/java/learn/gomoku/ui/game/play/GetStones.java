@@ -17,7 +17,7 @@ public class GetStones {
             System.out.print("Enter a column: ");
             int column = Integer.parseInt(console.nextLine());
             System.out.println();
-            return blackStone = new Stone(row - 1, column - 1, true);
+            return blackStone = new Stone(row, column, true);
         } else {
             System.out.println("\n" + currentPlayer.getCurrent().getName() + "'s turn\n");
             return blackStone = blackStoneMove;
@@ -33,8 +33,7 @@ public class GetStones {
             System.out.print("Enter a column: ");
             int column = Integer.parseInt(console.nextLine());
             System.out.println();
-
-            return whiteStone = new Stone(row - 1, column - 1, false);
+            return whiteStone = new Stone(row, column, false);
         } else {
             System.out.println("\n" + currentPlayer.getCurrent().getName() + "'s turn\n");
             return whiteStone = whiteStoneMove;
