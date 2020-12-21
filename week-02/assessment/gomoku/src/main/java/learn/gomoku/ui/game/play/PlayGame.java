@@ -10,6 +10,7 @@ public class PlayGame {
 
     GetStones getStone = new GetStones();
     GameBoard board = new GameBoard();
+    EndGame endGame = new EndGame();
 
     public void playGame(Gomoku currentPlayer, Player player1, Player player2, GamePiece blackPiece,
                          GamePiece whitePiece) {
@@ -49,5 +50,7 @@ public class PlayGame {
                 board.printBoard(whiteStone, whitePiece, player1, player2, currentPlayer);
             }
         } while (currentPlayer.isOver() == false);
+
+        endGame.restartGame();
     }
 }
