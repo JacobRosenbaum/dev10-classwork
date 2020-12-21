@@ -1,12 +1,10 @@
-package learn.gomoku.ui;
+package learn.gomoku.ui.game.item;
 
-import learn.gomoku.players.Player;
-
-public class WhiteGamePiece implements GamePiece {
+public class BlackGamePiece implements GamePiece{
 
 //    private int col;
 //    private int row;
-//
+
 //    @Override
 //    public int getRow(int row) {
 //        return row;
@@ -27,11 +25,9 @@ public class WhiteGamePiece implements GamePiece {
 //        this.col = col;
 //    }
 
-
     @Override
     public String getSymbol() {
-        return "O";
+        return "X";
     }
-
 
 }

@@ -1,4 +1,4 @@
-package learn.gomoku.ui;
+package learn.gomoku.ui.game.item;
 import learn.gomoku.players.Player;
 
 public interface GamePiece {
