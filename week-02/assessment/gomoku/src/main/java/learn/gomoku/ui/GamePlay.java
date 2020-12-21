@@ -6,29 +6,46 @@ import learn.gomoku.players.HumanPlayer;
 import learn.gomoku.players.Player;
 import learn.gomoku.players.RandomPlayer;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GamePlay {
     Scanner console = new Scanner(System.in);
+    Stone blackStone;
+    Stone whiteStone;
+    ArrayList<Stone> whiteList = new ArrayList<>();
+    ArrayList<Stone> blackList = new ArrayList<>();
 
     public void runGame() {
 
         System.out.print("Welcome to Gomoku\n================\n\n");
         Player player1 = setPlayer1(console);
+        System.out.println("\nPlayer 1 is " + player1.getName());
         Player player2 = setPlayer2(console);
+        System.out.println("\nPlayer 2 is " + player2.getName());
         Gomoku currentPlayer = new Gomoku(player1, player2);
+        GamePiece blackPiece = new BlackGamePiece();
+        GamePiece whitePiece = new WhiteGamePiece();
+
 
         System.out.println("\nRandomizing...\n");
-        System.out.println(currentPlayer.getCurrent().getName() + " goes first.\n");
-        playGame(currentPlayer, player1, player2);
+        System.out.println(currentPlayer.getCurrent().getName() + " goes first.");
+        Stone blackStone = null;
+        Stone whiteStone = null;
+        playGame(currentPlayer, player1, player2, blackPiece, whitePiece);
 
     }
 
-    public void printWorld() {
-        int rowWidth = 15;
-        int colWidth = 15;
+    public void printBoard(Stone stone, GamePiece symbol, Player player1, Player player2, Gomoku currentPlayer) {
+        int rowWidth = Gomoku.WIDTH;
+        int colWidth = Gomoku.WIDTH;
         int[][] board = new int[rowWidth][colWidth];
         int counter = 2;
+//        int stoneCounter = currentPlayer.getStones().size() - 1;
+        ArrayList<Stone> stoneCounter = new ArrayList<>();
+//        Stone test;
+
+
         for (int i = 0; i <= board.length; i++) {
             if (i == 0) {
                 System.out.print("  ");
@@ -38,12 +55,40 @@ public class GamePlay {
         }
         System.out.println();
         System.out.print("01");
+//        Stone previousStone = currentPlayer.getStones().get().getColumn();
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board.length; col++) {
-                if (board[row][col] == '\u0000') {
+//                if ((col == stone.getColumn()) && (row == stone.getRow())) {
+//                    System.out.print(" " + symbol.getSymbol() + " ");
+//                }
+                for (int stones = 0; stones < currentPlayer.getStones().size(); stones++) {
+                    stoneCounter.add(currentPlayer.getStones().get(stones));
+//                    System.out.println("row: " + (stoneCounter.get(stones).getRow() + 1) + " " + "column: " + (stoneCounter.get(stones).getColumn() + 1));
+
+                    if (row == (stoneCounter.get(stones).getRow()) &&
+                            col == (stoneCounter.get(stones).getColumn()) &&
+                            (stoneCounter.get(stones).isBlack() == true) &&
+                            (board[row][col] == '\u0000')
+                    ) {
+                        System.out.print(" " + "X" + " ");
+                    } else if (row == (stoneCounter.get(stones).getRow()) &&
+                            col == (stoneCounter.get(stones).getColumn()) &&
+                            (stoneCounter.get(stones).isBlack() == false) &&
+                            (board[row][col] == '\u0000')
+                    ) {
+                        System.out.print(" " + "O" + " ");
+                    }
+                }
+//                else if ((row == currentPlayer.getStones().get(row).getRow()) && (col == currentPlayer.getStones().get(col).getColumn())){
+//                    System.out.print(" " + symbol.getSymbol() + " ");
+//                }
+//                else if ((col == stoneCounter.get(col).getColumn()) && (row == stoneCounter.get(row).getRow()) && (stoneCounter.get(row).isBlack() == false)){
+//                    System.out.println(" O ");
+//                }
+                if (board[row][col] == '\u0000' && col < colWidth) {
                     System.out.print(" _ ");
                 } else {
-                    System.out.printf(" %s ", board[row][col]);
+                    System.out.print(" ");
                 }
             }
             System.out.println();
@@ -53,7 +98,6 @@ public class GamePlay {
         }
 
     }
-
 
     public Player setPlayer1(Scanner console) {
         System.out.println("Player 1 is: \n");
@@ -71,6 +115,7 @@ public class GamePlay {
     }
 
     public Player setPlayer2(Scanner console) {
+
         System.out.println("\nPlayer 2 is: \n");
         System.out.print("1. Human\n2. Random Player\nSelect [1-2]: ");
         String player = console.nextLine();
@@ -86,90 +131,81 @@ public class GamePlay {
     }
 
     public Stone getBlackStone(Stone blackStoneMove, Gomoku currentPlayer) {
-        Stone blackStone;
-        if (blackStoneMove == (null)) {
-            System.out.println(currentPlayer.getCurrent().getName() + "'s turn");
+
+        if (currentPlayer.getCurrent().generateMove(currentPlayer.getStones()) == null) {
+            System.out.println("\n" + currentPlayer.getCurrent().getName() + "'s turn");
             System.out.print("Enter a row: ");
             int row = Integer.parseInt(console.nextLine());
             System.out.print("Enter a column: ");
             int column = Integer.parseInt(console.nextLine());
-            return blackStone = new Stone(row, column, true);
+            System.out.println();
+            return blackStone = new Stone(row - 1, column - 1, true);
         } else {
+            System.out.println("\n" + currentPlayer.getCurrent().getName() + "'s turn\n");
             return blackStone = blackStoneMove;
         }
     }
 
     public Stone getWhiteStone(Stone whiteStoneMove, Gomoku currentPlayer) {
-        Stone whiteStone;
-        if (whiteStoneMove == (null)) {
-            System.out.println(currentPlayer.getCurrent().getName() + "'s turn");
+
+        if (currentPlayer.getCurrent().generateMove(currentPlayer.getStones()) == null) {
+            System.out.println("\n" + currentPlayer.getCurrent().getName() + "'s turn");
             System.out.print("Enter a row: ");
             int row = Integer.parseInt(console.nextLine());
             System.out.print("Enter a column: ");
             int column = Integer.parseInt(console.nextLine());
-            return whiteStone = new Stone(row, column, true);
+            System.out.println();
+
+            return whiteStone = new Stone(row - 1, column - 1, false);
         } else {
+            System.out.println("\n" + currentPlayer.getCurrent().getName() + "'s turn\n");
             return whiteStone = whiteStoneMove;
         }
     }
 
-    public void playGame(Gomoku currentPlayer, Player player1, Player player2){
-        Stone blackStoneMove;
-        if (currentPlayer == player1){
-            blackStoneMove = player1.generateMove(currentPlayer.getStones());
-        }
-        else{
-            blackStoneMove = player2.generateMove(currentPlayer.getStones());
-        }
-        getBlackStone(blackStoneMove, currentPlayer);
 
-        currentPlayer.swap();
-        printWorld();
+    public void playGame(Gomoku currentPlayer, Player player1, Player player2, GamePiece blackPiece,
+                         GamePiece whitePiece) {
 
-        Stone whiteStoneMove;
-        if (currentPlayer == player2){
-            whiteStoneMove = player2.generateMove(currentPlayer.getStones());
-        }
-        else{
-            whiteStoneMove = player1.generateMove(currentPlayer.getStones());
-        }
-        getWhiteStone(whiteStoneMove, currentPlayer);
+        do {
+            Stone blackStoneMove;
+            Stone blackStone;
+            if (currentPlayer.getCurrent().getName() == player1.getName()) {
+                blackStoneMove = player1.generateMove(currentPlayer.getStones());
+            } else {
+                blackStoneMove = player2.generateMove(currentPlayer.getStones());
+            }
+            blackStone = getBlackStone(blackStoneMove, currentPlayer);
+            blackList.add(blackStone);
+            currentPlayer.place(blackStone);
+            if (blackStone == blackStoneMove) {
+                printBoard(blackStoneMove, blackPiece, player1, player2, currentPlayer);
+            } else {
+                printBoard(blackStone, blackPiece, player1, player2, currentPlayer);
+            }
+//            currentPlayer.swap();
 
-        currentPlayer.swap();
-        printWorld();
+            Stone whiteStone;
+            Stone whiteStoneMove;
+            if (currentPlayer.getCurrent().getName() == player1.getName()) {
+                whiteStoneMove = player1.generateMove(currentPlayer.getStones());
+            } else {
+                whiteStoneMove = player2.generateMove(currentPlayer.getStones());
+            }
+            whiteStone = getWhiteStone(whiteStoneMove, currentPlayer);
+            whiteList.add(whiteStone);
+            currentPlayer.place(whiteStone);
+            if (whiteStone == whiteStoneMove) {
+                printBoard(whiteStoneMove, whitePiece, player1, player2, currentPlayer);
+            } else {
+                printBoard(whiteStone, whitePiece, player1, player2, currentPlayer);
+            }
+
+        } while (currentPlayer.isOver() == false);
+
     }
 
+    public Stone getWhiteStone() {
+        return whiteStone;
+    }
 }
-
-
-//        player1.generateMove(currentPlayer.getStones());
-//        player2.generateMove(currentPlayer.getStones());
-
-//        do {
-//            if (player1.generateMove(currentPlayer.getStones()) == null) {
-//                System.out.println(firstPlayer + "'s turn.\n");
-//                System.out.print("Enter a row: ");
-//                int row = Integer.parseInt(console.nextLine());
-//                System.out.print("\nEnter a column: ");
-//                int column = Integer.parseInt(console.nextLine());
-//                Stone blackPlayer = new Stone(row, column, true);
-//                currentPlayer.swap();
-//            } else if (player1.generateMove(currentPlayer.getStones()) != null) {
-//                System.out.println(firstPlayer + "'s turn.\n");
-//                player1.generateMove(currentPlayer.getStones());
-//                currentPlayer.swap();
-//            }
-//        } while(currentPlayer.isOver() == false);
-//           List<Stones> stones = currentPlayer.getStones();
-
-//            if ((player1 == new RandomPlayer()) && (player1 == currentPlayer)){
-//                player1.generateMove();
-//            }
-//
-//            else if ((player1 == new HumanPlayer()) && (player1 == currentPlayer)){
-//                System.out.println("Enter a row: ");
-//                int row = console.nextInt();
-//                System.out.println("Enter a column: ");
-//                int column = console.nextInt();
-//
-//            }

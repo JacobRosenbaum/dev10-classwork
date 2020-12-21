@@ -1,12 +1,11 @@
 package learn.gomoku;
 
-import learn.gomoku.game.Gomoku;
-import learn.gomoku.ui.SetUp;
+import learn.gomoku.ui.GamePlay;
 
 public class App {
 
     public static void main(String[] args) {
-        SetUp game = new SetUp();
-        game.startGame();
+        GamePlay game = new GamePlay();
+        game.runGame();
     }
 }
