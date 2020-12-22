@@ -1,5 +1,6 @@
 package learn.cards;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,28 +14,28 @@ class CardTest {
     @Test
     void shouldNameTwoOfHearts() {
         // TODO: instantiate Card with arguments.
-        Card card = new Card();
-        assertEquals("2 of Hearts", card.getName());
+        Card card = new Card(Rank.TWO, Suit.HEARTS);
+        assertEquals("2 of Hearts", card.getName(Rank.TWO, Suit.HEARTS));
     }
-
+//
     @Test
     void shouldNameQueenOfDiamonds() {
         // TODO: instantiate Card with arguments.
-        Card card = new Card();
-        assertEquals("Queen of Diamonds", card.getName());
+        Card card = new Card(Rank.QUEEN, Suit.DIAMONDS);
+        assertEquals("Queen of Diamonds", card.getName(Rank.QUEEN, Suit.DIAMONDS));
     }
 
     @Test
     void shouldNameTenOfClubs() {
         // TODO: instantiate Card with arguments.
-        Card card = new Card();
-        assertEquals("10 of Clubs", card.getName());
+        Card card = new Card(Rank.TEN, Suit.CLUBS);
+        assertEquals("10 of Clubs", card.getName(Rank.TEN, Suit.CLUBS));
     }
 
     @Test
     void shouldNameAceOfSpades() {
         // TODO: instantiate Card with arguments.
-        Card card = new Card();
-        assertEquals("Ace of Spades", card.getName());
+        Card card = new Card(Rank.ACE, Suit.SPADES);
+        assertEquals("Ace of Spades", card.getName(Rank.ACE, Suit.SPADES));
     }
 }

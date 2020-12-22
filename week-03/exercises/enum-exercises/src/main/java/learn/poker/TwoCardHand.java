@@ -13,20 +13,30 @@ public class TwoCardHand implements Comparable<TwoCardHand> {
     }
 
     public Card getOne() {
+
         return one;
     }
 
     public Card getTwo() {
+
         return two;
     }
 
     @Override
     public int compareTo(TwoCardHand o) {
         // 1. Complete the compareTo method.
-        // If the current TwoCardHand(`this`) has a lower score than the TwoCardHand parameter, compareTo returns
+        // If the current TwoCardHand(`this`) has a lower score than
+        // the TwoCardHand parameter, compareTo returns
         // an int less than 0.
-        // If `this` has a higher score than the TwoCardHand parameter, compareTo returns an int greater than 0.
-        // If `this` and the TwoCardHand parameter have the same score, compareTo returns 0.
+
+        if (){
+
+        }
+
+        // If `this` has a higher score than the TwoCardHand parameter,
+        // compareTo returns an int greater than 0.
+        // If `this` and the TwoCardHand parameter have the same score,
+        // compareTo returns 0.
         // See Exercise04.md for scoring rules.
         return 0;
     }
