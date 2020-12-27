@@ -5,37 +5,35 @@ import learn.unexplained.models.EncounterType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class EncounterFileRepositoryTest {
 
-    static final String TEST_PATH = "./data/encounters-test.csv";
-    final Encounter[] testEncounters = new Encounter[]{
-            new Encounter(1, EncounterType.UFO, "2020-01-01", "short test #1", 1),
-            new Encounter(2, EncounterType.CREATURE, "2020-02-01", "short test #2", 1),
-            new Encounter(3, EncounterType.SOUND, "2020-03-01", "short test #3", 1)
-    };
+    private static final String SEED_PATH = "./data/encounters-seed.csv";
+    private static final String TEST_PATH = "./data/encounters-test.csv";
 
-    EncounterRepository repository = new EncounterFileRepository(TEST_PATH);
+    private EncounterFileRepository repository = new EncounterFileRepository(TEST_PATH);
 
     @BeforeEach
-    void setup() throws DataAccessException {
-        for (Encounter e : repository.findAll()) {
-            repository.deleteById(e.getEncounterId());
-        }
-
-        for (Encounter e : testEncounters) {
-            repository.add(e);
-        }
+    void setUp() throws IOException {
+        Files.copy(
+                Paths.get(SEED_PATH),
+                Paths.get(TEST_PATH),
+                StandardCopyOption.REPLACE_EXISTING);
     }
 
     @Test
     void shouldFindAll() throws DataAccessException {
-        List<Encounter> encounters = repository.findAll();
-        Encounter[] actual = encounters.toArray(new Encounter[encounters.size()]);
-        assertArrayEquals(testEncounters, actual);
+        List<Encounter> actual = repository.findAll();
+
+        assertNotNull(actual);
+        assertEquals(3, actual.size());
     }
 
     @Test
@@ -52,6 +50,73 @@ class EncounterFileRepositoryTest {
 
         assertNotNull(actual);
         assertEquals(4, actual.getEncounterId());
+    }
+
+    @Test
+    void shouldFindOneOfEachType() throws DataAccessException {
+        List<Encounter> ufos = repository.findByType(EncounterType.UFO);
+        assertNotNull(ufos);
+        assertEquals(1, ufos.size());
+
+        List<Encounter> creatures = repository.findByType(EncounterType.CREATURE);
+        assertNotNull(creatures);
+        assertEquals(1, creatures.size());
+
+        List<Encounter> sounds = repository.findByType(EncounterType.SOUND);
+        assertNotNull(sounds);
+        assertEquals(1, sounds.size());
+
+
+    }
+
+    @Test
+    void shouldNotFindMissingType() throws DataAccessException {
+        List<Encounter> visions = repository.findByType(EncounterType.VISION);
+        assertEquals(0, visions.size());
+    }
+
+    @Test
+    void shouldUpdateExisting() throws DataAccessException {
+        Encounter encounter = new Encounter();
+        encounter.setEncounterId(2);
+        encounter.setType(EncounterType.CREATURE);
+        encounter.setWhen("updated time 2015-07-07");
+        encounter.setDescription("updated test #2");
+        encounter.setOccurrences(2);
+
+        boolean success = repository.update(encounter);
+        assertTrue(success);
+
+        Encounter actual = repository.findById(2);
+        assertNotNull(actual);
+        assertEquals("updated time 2015-07-07", actual.getWhen());
+        assertEquals("updated test #2", actual.getDescription());
+        assertEquals(2, actual.getOccurrences());
+    }
+
+    @Test
+    void shouldNotUpdateMissing() throws DataAccessException {
+        Encounter encounter = new Encounter();
+        encounter.setEncounterId(12345);
+
+        boolean actual = repository.update(encounter);
+        assertFalse(actual);
+
+    }
+
+    @Test
+    void shouldDeleteExisting() throws DataAccessException {
+        boolean actual = repository.deleteById(3);
+        assertTrue(actual);
+
+        Encounter encounter = repository.findById(3);
+        assertNull(encounter);
+    }
+
+    @Test
+    void shouldNotDeleteMissing() throws DataAccessException {
+        boolean actual = repository.deleteById(41);
+        assertFalse(actual);
     }
 
 }

@@ -32,6 +32,7 @@ public class EncounterFileRepository implements EncounterRepository {
                 }
             }
         } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
 
         } catch (IOException ex) {
             throw new DataAccessException(ex.getMessage(), ex);
@@ -102,6 +103,65 @@ public class EncounterFileRepository implements EncounterRepository {
             return encounter;
         }
         return null;
+    }
+//    Add two new methods.
+//
+//            Name: findByType
+//    Inputs: EncounterType
+//    Output: List<Encounter>
+//    Description: Returns all encounters with a given type as a list.
+
+    public List<Encounter> findByType(EncounterType type) throws DataAccessException {
+        ArrayList<Encounter> result = new ArrayList<>();
+        for (Encounter encounter : findAll()) {
+            if (encounter.getType() == type) {
+                result.add(encounter);
+            }
+        }
+        return result;
+    }
+
+//    Name: update
+//    Inputs: Encounter
+//    Output: boolean
+//    Description: Updates an existing encounter if it exists and returns true.
+//    If it doesn't exist, returns false.
+//
+//    Since EncounterFileRepository implements EncounterRepository,
+//    the method contracts must also be added to the interface.
+
+    public boolean update(Encounter encounter) throws DataAccessException {
+        List<Encounter> all = findAll();
+
+        for (int i = 0; i < all.size(); i++) {
+            if (all.get(i).getEncounterId() == encounter.getEncounterId()) {
+                all.set(i, encounter);
+                writeAll(all);
+
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Encounter findById(int encounterId) throws DataAccessException {
+        for (Encounter encounter : findAll()) {
+            if (encounter.getEncounterId() == encounterId) {
+                return encounter;
+            }
+        }
+        return null;
+    }
+
+    private void writeToFile(List<Encounter> encounters) throws DataAccessException {
+        try (PrintWriter writer = new PrintWriter(filePath)) {
+            for (Encounter encounter : encounters) {
+                writer.println();
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private String clean(String value) {
