@@ -3,8 +3,10 @@ package learn.unexplained.domain;
 import learn.unexplained.data.DataAccessException;
 import learn.unexplained.data.EncounterRepository;
 import learn.unexplained.models.Encounter;
+import learn.unexplained.models.EncounterType;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class EncounterService {
@@ -38,6 +40,57 @@ public class EncounterService {
 
         encounter = repository.add(encounter);
         result.setPayload(encounter);
+        return result;
+    }
+
+// findByType
+
+    public List<Encounter> findByType(EncounterType type) throws DataAccessException{
+        return repository.findByType(type);
+    }
+
+//update
+
+    public EncounterResult update(Encounter encounter) throws DataAccessException {
+        EncounterResult result = validate(encounter);
+
+        if (!result.isSuccess()) {
+            return result;
+        }
+
+        Encounter existing = repository.findById(encounter.getEncounterId());
+        if (existing == null) {
+            result.addErrorMessage("Encounter Id " + encounter.getEncounterId() + " not found");
+            return result;
+        }
+
+        boolean success = repository.update(encounter);
+
+        if (!success) {
+            result.addErrorMessage("Could not find Encounter Id " + encounter.getEncounterId());
+        }
+
+        return result;
+    }
+
+//deleteById
+
+    public EncounterResult deleteById(int encounterId) throws DataAccessException {
+        EncounterResult result = new EncounterResult();
+        Encounter encounter = repository.findById(encounterId);
+
+        if (encounter == null) {
+            result.addErrorMessage("Could not find Encounter Id " + encounter.getEncounterId());
+            return result;
+        }
+
+        boolean success = repository.deleteById(encounterId);
+
+        if (!success) {
+            result.addErrorMessage("Could not find Encounter Id " + encounter.getEncounterId());
+            return result;
+        }
+
         return result;
     }
 

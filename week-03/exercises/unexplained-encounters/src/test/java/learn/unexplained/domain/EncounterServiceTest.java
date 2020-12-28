@@ -6,6 +6,8 @@ import learn.unexplained.models.Encounter;
 import learn.unexplained.models.EncounterType;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class EncounterServiceTest {
@@ -68,6 +70,41 @@ class EncounterServiceTest {
 
         EncounterResult actual = service.add(encounter);
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void shouldFindByType() throws DataAccessException{
+        List<Encounter> creatures = service.findByType(EncounterType.CREATURE);
+        assertNotNull(creatures);
+        assertEquals(1, creatures.size());
+    }
+
+    @Test
+    void shouldNotFindNullType() throws DataAccessException{
+        List<Encounter> ufos = service.findByType(EncounterType.UFO);
+        assertNull(ufos);
+    }
+
+    @Test
+    void shouldUpdate() throws DataAccessException {
+        EncounterResult result = service.update(new Encounter())
+        assertTrue(result.isSuccess());
+    }
+
+    @Test
+    void shouldNotUpdate() throws DataAccessException {
+        OrbiterResult result = service.update(new Orbiter(3,
+                "Updated Astro",
+                OrbiterType.VENUSIAN, null));
+        assertFalse(result.isSuccess());
+    }
+
+    @Test
+    void shouldNotUpdateEmptyName() throws DataAccessException {
+        OrbiterResult result = service.update(new Orbiter(3,
+                " ",
+                OrbiterType.VENUSIAN, null));
+        assertFalse(result.isSuccess());
     }
 
     private EncounterResult makeResult(String message) {
