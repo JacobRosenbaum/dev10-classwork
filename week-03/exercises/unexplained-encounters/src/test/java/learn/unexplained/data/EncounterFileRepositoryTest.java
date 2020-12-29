@@ -76,6 +76,18 @@ class EncounterFileRepositoryTest {
     }
 
     @Test
+    void shouldFindById() throws DataAccessException{
+        Encounter encounter = repository.findById(1);
+
+        assertNotNull(encounter);
+        assertEquals(1, encounter.getEncounterId());
+        assertEquals(EncounterType.UFO, encounter.getType());
+        assertEquals("2020-01-01", encounter.getWhen());
+        assertEquals("short test #1", encounter.getDescription());
+        assertEquals(1, encounter.getOccurrences());
+    }
+
+    @Test
     void shouldUpdateExisting() throws DataAccessException {
         Encounter encounter = new Encounter();
         encounter.setEncounterId(2);

@@ -21,6 +21,13 @@ public class EncounterService {
         return repository.findAll();
     }
 
+    // findByType
+
+    public List<Encounter> findByType(EncounterType type) throws DataAccessException{
+        return repository.findByType(type);
+    }
+
+
     public EncounterResult add(Encounter encounter) throws DataAccessException {
         EncounterResult result = validate(encounter);
         if (!result.isSuccess()) {
@@ -43,11 +50,6 @@ public class EncounterService {
         return result;
     }
 
-// findByType
-
-    public List<Encounter> findByType(EncounterType type) throws DataAccessException{
-        return repository.findByType(type);
-    }
 
 //update
 

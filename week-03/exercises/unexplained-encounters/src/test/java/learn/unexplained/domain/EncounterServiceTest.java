@@ -15,6 +15,23 @@ class EncounterServiceTest {
     EncounterService service = new EncounterService(new EncounterRepositoryDouble());
 
     @Test
+    void shouldFindAll() throws DataAccessException {
+        List<Encounter> actual = service.findAll();
+
+        assertNotNull(actual);
+        assertEquals(3, actual.size());
+    }
+
+    @Test
+    void shouldByType() throws DataAccessException {
+        List<Encounter> actual = service.findByType(EncounterType.UFO);
+
+        assertNotNull(actual);
+        assertEquals(1, actual.size());
+    }
+
+
+    @Test
     void shouldNotAddNull() throws DataAccessException {
         EncounterResult expected = makeResult("encounter cannot be null");
         EncounterResult actual = service.add(null);
@@ -56,7 +73,7 @@ class EncounterServiceTest {
 
     @Test
     void shouldNotAddDuplicate() throws DataAccessException {
-        Encounter encounter = new Encounter(0, EncounterType.CREATURE, "1/1/2015", "test description", 1);
+        Encounter encounter = new Encounter(0, EncounterType.CREATURE, "2020-02-01", "short test #2", 1);
         EncounterResult expected = makeResult("duplicate encounter is not allowed");
         EncounterResult actual = service.add(encounter);
         assertEquals(expected, actual);
@@ -87,25 +104,25 @@ class EncounterServiceTest {
 
     @Test
     void shouldUpdate() throws DataAccessException {
-        EncounterResult result = service.update(new Encounter())
+        EncounterResult result = service.update(new Encounter());
         assertTrue(result.isSuccess());
     }
 
-    @Test
-    void shouldNotUpdate() throws DataAccessException {
-        OrbiterResult result = service.update(new Orbiter(3,
-                "Updated Astro",
-                OrbiterType.VENUSIAN, null));
-        assertFalse(result.isSuccess());
-    }
-
-    @Test
-    void shouldNotUpdateEmptyName() throws DataAccessException {
-        OrbiterResult result = service.update(new Orbiter(3,
-                " ",
-                OrbiterType.VENUSIAN, null));
-        assertFalse(result.isSuccess());
-    }
+//    @Test
+//    void shouldNotUpdate() throws DataAccessException {
+//        OrbiterResult result = service.update(new Orbiter(3,
+//                "Updated Astro",
+//                OrbiterType.VENUSIAN, null));
+//        assertFalse(result.isSuccess());
+//    }
+//
+//    @Test
+//    void shouldNotUpdateEmptyName() throws DataAccessException {
+//        OrbiterResult result = service.update(new Orbiter(3,
+//                " ",
+//                OrbiterType.VENUSIAN, null));
+//        assertFalse(result.isSuccess());
+//    }
 
     private EncounterResult makeResult(String message) {
         EncounterResult result = new EncounterResult();
