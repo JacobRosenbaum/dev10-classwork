@@ -1,13 +1,16 @@
 # Assessment 3: Solar Farm
+
 ## Plan of Attack
+
 I tend to take a bit longer to figure out my code, so I'm allotting an entire day to complete each phase.
+
 * First Day(12/30)
     - Complete the Models
 
 * Second Day(12/31)
     - Complete Data layer
     - Complete testing for Data layer
-    
+
 * Third Day(1/1)
     - Complete Domain layer
     - Complete testing for Domain layer
@@ -18,6 +21,7 @@ I tend to take a bit longer to figure out my code, so I'm allotting an entire da
     - Ensure app is functioning properly
 
 ## File Structure
+
 * data
     * panels.csv
         - Contains the true data for the project
@@ -25,7 +29,7 @@ I tend to take a bit longer to figure out my code, so I'm allotting an entire da
         - Contains the test data to assist with testing the repository and service
     * panels-seed.csv
         - Contains the seed data to populate the test repository and assist with testing
-        
+
 * src
     * Main
         * Data Layer
@@ -35,12 +39,11 @@ I tend to take a bit longer to figure out my code, so I'm allotting an entire da
                 - Contract for CRUD Operations
             - DataAccessException: Class
                 - Custom exception containing a message and throwable root cause
-        
+
         * Domain Layer
             - PanelService: Class
-                - Contains the rules and pass-through methods for repository CRUD operations
-            _ PanelResult: Class
-                  - Contains the results: error messages and the "payload" of the CRUD operation
+                - Contains the rules and pass-through methods for repository CRUD operations _ PanelResult: Class
+                    - Contains the results: error messages and the "payload" of the CRUD operation
         * UI Layer
             - View: Class
                 - Prints the UI onto the Console
@@ -55,7 +58,7 @@ I tend to take a bit longer to figure out my code, so I'm allotting an entire da
                 - Contains the the different types of materials that a panel can have
         * App: class
             - Runs the application
-        
+
     * Test
         * Data
             - PanelFileRepositoryTest
@@ -65,10 +68,11 @@ I tend to take a bit longer to figure out my code, so I'm allotting an entire da
         * Domain
             - PanelServiceTest
                 - Contains tests to ensure the PanelService class is working properly
-        
+
 ## Tasks
 
 ### Models - Estimated completion time: 1 hour
+
 * [ ] Create private fields containing the info we need to know about each panel including the following
     - int Id
     - String Section
@@ -78,17 +82,19 @@ I tend to take a bit longer to figure out my code, so I'm allotting an entire da
     - boolean isTracking
 * [ ] Create a constructor
 * [ ] Create getters and setters for the fields
-* [ ] Write a method to ensure String equality 
-* [ ] Create a stateful Enum for each type of material 
+* [ ] Write a method to ensure String equality
+* [ ] Create a stateful Enum for each type of material
+
 ### Data Layer - Estimated completion time: 8 hours
+
 * [ ] Create the PanelRepository Interface to include the following methods (subject to change)
-  * CRUD Methods
-    - findAll
-    - findById
-    - findByMaterialType
-    - add
-    - update
-    - deleteById
+    * CRUD Methods
+        - findAll
+        - findById
+        - findByMaterialType
+        - add
+        - update
+        - deleteById
 
 * [ ] Create the PanelFileRepository implementing the Interface and Override the CRUD Methods to properly access data
 * [ ] Write helper methods including the following (subject to change)
@@ -100,9 +106,19 @@ I tend to take a bit longer to figure out my code, so I'm allotting an entire da
 
 * [ ] Create Data Access Exception class
 * [ ] Write unit tests to ensure the repository works when it's supposed to and does not work when it's not supposed to
-    
-    
+  including the following (subject to a lot of change):
+    * shouldAdd
+    * shouldNotAdd
+    * shouldUpdate
+    * shouldNotUpdate
+    * shouldFindAll
+    * shouldFindByType
+    * shouldNotFindMissingType
+    * shouldDelete
+    * shouldNotDelete
+
 ### Domain Layer - Estimated Completion time: 8 hours
+
 * [ ] Create PanelResult initial fields
     * ArrayList<String> messages
     * Panel panel
@@ -112,19 +128,29 @@ I tend to take a bit longer to figure out my code, so I'm allotting an entire da
 * [ ] In the PanelService class, write a PanelRepository repository field
 * [ ] Inject that field into a constructor
 * [ ] Write both pass-through and logic-intensive CRUD methods taking into account the following rules:
-  * Section is required and cannot be blank.
-  * Row is a positive number less than or equal to 250.
-  * Column is a positive number less than or equal to 250.
-  * Year Installed must be in the past.
-  * Material is required and can only be one of the five materials listed.
-  * Is Tracking is required.
-  * The combined values of Section, Row, and Column may not be duplicated.
+    * Section is required and cannot be blank.
+    * Row is a positive number less than or equal to 250.
+    * Column is a positive number less than or equal to 250.
+    * Year Installed must be in the past.
+    * Material is required and can only be one of the five materials listed.
+    * Is Tracking is required.
+    * The combined values of Section, Row, and Column may not be duplicated.
 
 * [ ] Write a validation helper method (and potentially more helper methods - subject tp change)
 * [ ] Create a double with the bare minimum logic to assist with testing(update double as I write unit tests)
 * [ ] Write unit tests to ensure the service works when it's supposed to and does not work when it's not supposed to
-
+  including the following (subject to a lot of change):
+    * shouldAdd
+    * shouldNotAdd
+    * shouldUpdate
+    * shouldNotUpdate
+    * shouldFindAll
+    * shouldFindByType
+    * shouldNotFindMissingType
+    * shouldDelete
+    * shouldNotDelete
 ### UI Layer - Estimated Completion time: 8 hours
+
 * [ ] Create Controller class, View class, and stateful MenuOption Enum
 * [ ] In the Controller file, write the following fields
     * PanelService service
@@ -146,7 +172,8 @@ I tend to take a bit longer to figure out my code, so I'm allotting an entire da
     * overloaded readInt
     * readType
 
-* [ ] In the controller file, write the following methods to pass the service data along to the view class and print to the viewer(subject to change)
+* [ ] In the controller file, write the following methods to pass the service data along to the view class and print to
+  the viewer(subject to change)
     * displayAllPanels
     * displayByType
     * displayById
