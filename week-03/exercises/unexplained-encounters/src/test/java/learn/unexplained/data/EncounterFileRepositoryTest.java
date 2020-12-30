@@ -93,7 +93,7 @@ class EncounterFileRepositoryTest {
         encounter.setEncounterId(2);
         encounter.setType(EncounterType.CREATURE);
         encounter.setWhen("updated time 2015-07-07");
-        encounter.setDescription("updated test #2");
+        encounter.setDescription("updated Test #2");
         encounter.setOccurrences(2);
 
         boolean success = repository.update(encounter);
@@ -102,7 +102,7 @@ class EncounterFileRepositoryTest {
         Encounter actual = repository.findById(2);
         assertNotNull(actual);
         assertEquals("updated time 2015-07-07", actual.getWhen());
-        assertEquals("updated test #2", actual.getDescription());
+        assertEquals("updated Test #2", actual.getDescription());
         assertEquals(2, actual.getOccurrences());
     }
 

@@ -1,4 +1,4 @@
 encounter_id,type,when,description,occurrences
 1,UFO,2020-01-01,short test #1,1
-2,CREATURE,2020-02-01,test #2,1
+2,CREATURE,updated time 2015-07-07,updated Test #2,2
 3,SOUND,2020-03-01,short test #3,1

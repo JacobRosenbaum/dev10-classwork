@@ -23,7 +23,7 @@ public class EncounterService {
 
     // findByType
 
-    public List<Encounter> findByType(EncounterType type) throws DataAccessException{
+    public List<Encounter> findByType(EncounterType type) throws DataAccessException {
         return repository.findByType(type);
     }
 
@@ -32,17 +32,6 @@ public class EncounterService {
         EncounterResult result = validate(encounter);
         if (!result.isSuccess()) {
             return result;
-        }
-
-        // check for duplicate
-        List<Encounter> encounters = repository.findAll();
-        for (Encounter e : encounters) {
-            if (Objects.equals(encounter.getWhen(), e.getWhen())
-                    && Objects.equals(encounter.getType(), e.getType())
-                    && Objects.equals(encounter.getDescription(), e.getDescription())) {
-                result.addErrorMessage("duplicate encounter is not allowed");
-                return result;
-            }
         }
 
         encounter = repository.add(encounter);
@@ -60,18 +49,19 @@ public class EncounterService {
             return result;
         }
 
-        Encounter existing = repository.findById(encounter.getEncounterId());
-        if (existing == null) {
-            result.addErrorMessage("Encounter Id " + encounter.getEncounterId() + " not found");
-            return result;
+        if (encounter.getEncounterId() <= 0) {
+            result.addErrorMessage("Encounter Id is required");
         }
 
-        boolean success = repository.update(encounter);
-
-        if (!success) {
-            result.addErrorMessage("Could not find Encounter Id " + encounter.getEncounterId());
+        if (result.isSuccess()) {
+            if (repository.update(encounter)) {
+                result.setPayload(encounter);
+            } else {
+                String message = String.format("Encounter Id: %s was not found",
+                        encounter.getEncounterId());
+                result.addErrorMessage(message);
+            }
         }
-
         return result;
     }
 
@@ -79,24 +69,17 @@ public class EncounterService {
 
     public EncounterResult deleteById(int encounterId) throws DataAccessException {
         EncounterResult result = new EncounterResult();
-        Encounter encounter = repository.findById(encounterId);
 
-        if (encounter == null) {
-            result.addErrorMessage("Could not find Encounter Id " + encounter.getEncounterId());
-            return result;
-        }
-
-        boolean success = repository.deleteById(encounterId);
-
-        if (!success) {
-            result.addErrorMessage("Could not find Encounter Id " + encounter.getEncounterId());
-            return result;
+        if (!repository.deleteById(encounterId)){
+            String message = String.format("Encounter Id: %s was not found",
+                    encounterId);
+            result.addErrorMessage(message);
         }
 
         return result;
     }
 
-    private EncounterResult validate(Encounter encounter) {
+    private EncounterResult validate(Encounter encounter) throws DataAccessException {
 
         EncounterResult result = new EncounterResult();
         if (encounter == null) {
@@ -114,6 +97,18 @@ public class EncounterService {
 
         if (encounter.getOccurrences() <= 0) {
             result.addErrorMessage("occurrences must be greater than 0");
+        }
+
+        // check for duplicate
+        List<Encounter> encounters = repository.findAll();
+        for (Encounter e : encounters) {
+            if (!Objects.equals(encounter.getEncounterId(), e.getEncounterId())
+                    && Objects.equals(encounter.getWhen(), e.getWhen())
+                    && Objects.equals(encounter.getType(), e.getType())
+                    && Objects.equals(encounter.getDescription(), e.getDescription())) {
+                result.addErrorMessage("duplicate encounter is not allowed");
+                break;
+            }
         }
 
         return result;
