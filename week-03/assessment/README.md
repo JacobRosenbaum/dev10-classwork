@@ -72,22 +72,23 @@ I tend to take a bit longer to figure out my code, so I'm allotting an entire da
 ## Tasks
 
 ### Models - Estimated completion time: 1 hour
+#### Actual time: 20 minutes (pre revision)
 
-* [ ] Create private fields containing the info we need to know about each panel including the following
+* [x] Create private fields containing the info we need to know about each panel including the following
     - int Id
     - String Section
     - int Row
     - int Column
     - int yearInstalled
     - boolean isTracking
-* [ ] Create a constructor
-* [ ] Create getters and setters for the fields
+* [x] Create a constructor
+* [x] Create getters and setters for the fields
 * [ ] Write a method to ensure String equality
-* [ ] Create a stateful Enum for each type of material
+* [x] Create a stateful Enum for each type of material
 
 ### Data Layer - Estimated completion time: 8 hours
 
-* [ ] Create the PanelRepository Interface to include the following methods (subject to change)
+* [x] Create the PanelRepository Interface to include the following methods (subject to change)
     * CRUD Methods
         - findAll
         - findById

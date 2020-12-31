@@ -1,6 +1,6 @@
 package learn.solar.models;
 
-public enum PanelType {
+public enum PanelMaterial {
     MULTICRYSTALLINE_SILICON("Multicrystalline Silicon"),
     MONOCRYSTALLINE_SILICON("Monocrystalline Silicon"),
     AMORPHOUS_SILICON("Amorphous Silicon"),
@@ -9,7 +9,7 @@ public enum PanelType {
 
     private String materialName;
 
-    PanelType(String materialName) {
+    PanelMaterial(String materialName) {
         this.materialName = materialName;
     }
 

@@ -2,10 +2,11 @@ package learn.solar.models;
 
 public class Panel {
 
-    private int id;
+    private int panelId;
     private String section;
     private int row;
     private int column;
+    private PanelMaterial material;
     private int yearInstalled;
     private boolean isTracking;
 
@@ -13,21 +14,23 @@ public class Panel {
 
     }
 
-    public Panel(int id, String section, int row, int column, int yearInstalled, boolean isTracking) {
-        this.id = id;
+
+    public Panel(int panelId, String section, int row, int column, PanelMaterial material, int yearInstalled, boolean isTracking) {
+        this.panelId = panelId;
         this.section = section;
         this.row = row;
         this.column = column;
+        this.material = material;
         this.yearInstalled = yearInstalled;
         this.isTracking = isTracking;
     }
 
-    public int getId() {
-        return id;
+    public int getPanelId() {
+        return panelId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPanelId(int panelId) {
+        this.panelId = panelId;
     }
 
     public String getSection() {
@@ -52,6 +55,14 @@ public class Panel {
 
     public void setColumn(int column) {
         this.column = column;
+    }
+
+    public PanelMaterial getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(PanelMaterial material) {
+        this.material = material;
     }
 
     public int getYearInstalled() {
