@@ -3,6 +3,7 @@ package learn.solar.data;
 import learn.solar.models.Panel;
 import learn.solar.models.PanelMaterial;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -168,6 +169,41 @@ class PanelFileRepositoryTest {
 
         boolean success = repository.update(panel);
         assertFalse(success);
+    }
+
+    @Test
+    void userInputDelimiterShouldNotRuinUpdate() throws DataAccessException{
+        Panel panel = new Panel();
+
+        panel.setPanelId(3);
+        panel.setSection("Camp Delimiter, test");
+        panel.setRow(1);
+        panel.setColumn(7);
+        panel.setMaterial(PanelMaterial.MONOCRYSTALLINE_SILICON);
+        panel.setYearInstalled(2017);
+        panel.setTracking(false);
+        repository.update(panel);
+        Panel actual = repository.findById(3);
+
+        assertEquals("Camp Delimiter test", actual.getSection());
+        assertEquals(1, actual.getRow());
+
+    }
+
+    @Test
+    void userInputDelimiterShouldNotRuinAdd() throws DataAccessException{
+        Panel panel = new Panel();
+
+        panel.setSection("Camp Delimiter, test");
+        panel.setRow(1);
+        panel.setColumn(7);
+        panel.setMaterial(PanelMaterial.MONOCRYSTALLINE_SILICON);
+        panel.setYearInstalled(2017);
+        panel.setTracking(false);
+
+        Panel actual = repository.add(panel);
+        assertEquals(1, actual.getRow());
+
     }
 
     @Test

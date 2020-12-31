@@ -9,7 +9,7 @@ import java.util.List;
 
 public class PanelFileRepository implements PanelRepository {
     private static final String DELIMITER = ",";
-    private static final String DELIMITER_REPLACEMENT = "~~~";
+//    private static final String DELIMITER_REPLACEMENT = "~~~";
     private static final String HEADER = "Panel_ID,Section,Row,Column,Material,Year_Installed,Is_Tracking";
     private String filePath;
 
@@ -49,7 +49,6 @@ public class PanelFileRepository implements PanelRepository {
         return result;
     }
 
-
     @Override
     public List<Panel> findBySection(String section) throws DataAccessException {
         ArrayList<Panel> result = new ArrayList<>();
@@ -73,7 +72,6 @@ public class PanelFileRepository implements PanelRepository {
         }
         return result;
     }
-
 
     @Override
     public Panel findById(int panelId) throws DataAccessException {
@@ -135,14 +133,14 @@ public class PanelFileRepository implements PanelRepository {
         try (PrintWriter writer = new PrintWriter(filePath)) {
             writer.println(HEADER);
             for (Panel panel : panels) {
-                writer.println(serialize(panel));
+                writer.println(panelToLine(panel));
             }
         } catch (IOException ex) {
             throw new DataAccessException(ex.getMessage(), ex);
         }
     }
 
-    private String serialize(Panel panel) {
+    private String panelToLine(Panel panel) {
         return String.format("%s,%s,%s,%s,%s,%s,%s",
                 panel.getPanelId(),
                 cleanField(panel.getSection()),
@@ -159,7 +157,7 @@ public class PanelFileRepository implements PanelRepository {
         if (fields.length == 7) {
             Panel panel = new Panel();
             panel.setPanelId(Integer.parseInt(fields[0]));
-            panel.setSection(restoreField(fields[1]));
+            panel.setSection(cleanField(fields[1]));
             panel.setRow(Integer.parseInt(fields[2]));
             panel.setColumn(Integer.parseInt(fields[3]));
             panel.setMaterial(PanelMaterial.valueOf(fields[4]));
@@ -172,11 +170,14 @@ public class PanelFileRepository implements PanelRepository {
     }
 
     private String cleanField(String value) {
-        return value.replace(DELIMITER, DELIMITER_REPLACEMENT);
+        return value.replace(DELIMITER, "")
+                .replace("/r", "")
+                .replace("/n", "");
+
     }
 
-    private String restoreField(String value) {
-        return value.replace(DELIMITER_REPLACEMENT, DELIMITER);
-    }
+//    private String restoreField(String value) {
+//        return value.replace(DELIMITER_REPLACEMENT, DELIMITER);
+//    }
 
 }
