@@ -55,7 +55,7 @@ public class PanelFileRepository implements PanelRepository {
         ArrayList<Panel> result = new ArrayList<>();
 
         for (Panel panel : findAll()) {
-            if (panel.getSection() == section) {
+            if (panel.getSection().equals(section)) {
                 result.add(panel);
             }
         }
