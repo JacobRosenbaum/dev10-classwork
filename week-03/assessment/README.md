@@ -87,6 +87,7 @@ I tend to take a bit longer to figure out my code, so I'm allotting an entire da
 * [x] Create a stateful Enum for each type of material
 
 ### Data Layer - Estimated completion time: 8 hours
+#### Actual time: 3 Hours (pre revision)
 
 * [x] Create the PanelRepository Interface to include the following methods (subject to change)
     * CRUD Methods
@@ -97,16 +98,16 @@ I tend to take a bit longer to figure out my code, so I'm allotting an entire da
         - update
         - deleteById
 
-* [ ] Create the PanelFileRepository implementing the Interface and Override the CRUD Methods to properly access data
-* [ ] Write helper methods including the following (subject to change)
+* [x] Create the PanelFileRepository implementing the Interface and Override the CRUD Methods to properly access data
+* [x] Write helper methods including the following (subject to change)
     * serialize
     * deserialize
     * writeAll
     * clean
     * restore
 
-* [ ] Create Data Access Exception class
-* [ ] Write unit tests to ensure the repository works when it's supposed to and does not work when it's not supposed to
+* [x] Create Data Access Exception class
+* [x] Write unit tests to ensure the repository works when it's supposed to and does not work when it's not supposed to
   including the following (subject to a lot of change):
     * shouldAdd
     * shouldNotAdd
