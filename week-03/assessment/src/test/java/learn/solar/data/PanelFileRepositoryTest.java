@@ -207,7 +207,7 @@ class PanelFileRepositoryTest {
     }
 
     @Test
-    void shouldDeleteExistingPanel() throws DataAccessException {
+    void shouldDeleteExistingPanelById() throws DataAccessException {
         boolean actual = repository.deleteById(3);
         assertTrue(actual);
 
@@ -216,10 +216,25 @@ class PanelFileRepositoryTest {
     }
 
     @Test
-    void shouldNotDeleteMissing() throws DataAccessException {
+    void shouldNotDeleteMissingPanelById() throws DataAccessException {
         boolean actual = repository.deleteById(4121);
         assertFalse(actual);
     }
 
+    @Test
+    void shouldDeleteExistingPanelByPanel() throws DataAccessException {
+        boolean actual = repository.deleteByPanel("Camp Aaron", 8, 2);
+        assertTrue(actual);
+
+        Panel panel = repository.findById(3);
+        assertNull(panel);
+    }
+
+    @Test
+    void shouldNotDeleteMissingPanelByPanel() throws DataAccessException {
+        boolean actual = repository.deleteByPanel("Camp Aaron", 91, 21);
+
+        assertFalse(actual);
+    }
 
 }

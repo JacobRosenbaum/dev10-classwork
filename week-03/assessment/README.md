@@ -88,6 +88,7 @@ I tend to take a bit longer to figure out my code, so I'm allotting an entire da
 
 ### Data Layer - Estimated completion time: 8 hours
 #### Actual time: 3 Hours (pre revision)
+##### Added 1.5 hours to dive into delimiters
 
 * [x] Create the PanelRepository Interface to include the following methods (subject to change)
     * CRUD Methods

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class PanelFileRepository implements PanelRepository {
     private static final String DELIMITER = ",";
-//    private static final String DELIMITER_REPLACEMENT = "~~~";
+    //    private static final String DELIMITER_REPLACEMENT = "~~~";
     private static final String HEADER = "Panel_ID,Section,Row,Column,Material,Year_Installed,Is_Tracking";
     private String filePath;
 
@@ -116,7 +116,21 @@ public class PanelFileRepository implements PanelRepository {
             }
         }
         return false;
+    }
 
+    @Override
+    public boolean deleteByPanel(String section, int row, int column) throws DataAccessException {
+        List<Panel> all = findAll();
+        for (int i = 0; i < all.size(); i++) {
+            if (row == all.get(i).getRow() &&
+                    column == all.get(i).getColumn() &&
+                    section.equals(all.get(i).getSection())) {
+                all.remove(i);
+                writeToFile(all);
+                return true;
+            }
+        }
+        return false;
     }
 
     private int getNextId(List<Panel> panels) {

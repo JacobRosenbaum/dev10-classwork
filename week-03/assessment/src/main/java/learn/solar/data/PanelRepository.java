@@ -23,5 +23,7 @@ public interface PanelRepository {
 
     boolean deleteById(int panelId) throws DataAccessException;
 
+    boolean deleteByPanel(String section, int row, int column) throws DataAccessException;
+
 
 }
