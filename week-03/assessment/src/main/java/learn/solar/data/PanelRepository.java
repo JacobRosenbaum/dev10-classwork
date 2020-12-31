@@ -9,15 +9,19 @@ public interface PanelRepository {
 
     List<Panel> findAll() throws DataAccessException;
 
-    List<Panel> findByType(PanelMaterial type);
+    List<Panel> findByMaterial(PanelMaterial material) throws DataAccessException;
 
-    Panel findById(int panelId);
+    List<Panel> findBySection(String section) throws DataAccessException;
 
-    Panel add(Panel panel);
+    List<Panel> findTrackable(boolean trackable) throws DataAccessException;
 
-    boolean update(Panel panel);
+    Panel findById(int panelId) throws DataAccessException;
 
-    boolean deleteById(int panelId);
+    Panel add(Panel panel) throws DataAccessException;
+
+    boolean update(Panel panel) throws DataAccessException;
+
+    boolean deleteById(int panelId) throws DataAccessException;
 
 
 }

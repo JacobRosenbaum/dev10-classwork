@@ -10,7 +10,7 @@ import java.util.List;
 public class PanelFileRepository implements PanelRepository {
     private static final String DELIMITER = ",";
     private static final String DELIMITER_REPLACEMENT = "~~~";
-    private static final String HEADER = "panel_id,section,row,column,material,year_installed,is_tracking";
+    private static final String HEADER = "Panel_ID,Section,Row,Column,Material,Year_Installed,Is_Tracking";
     private String filePath;
 
     public PanelFileRepository(String filePath) {
@@ -38,28 +38,119 @@ public class PanelFileRepository implements PanelRepository {
     }
 
     @Override
-    public List<Panel> findByType(PanelMaterial type) {
+    public List<Panel> findByMaterial(PanelMaterial material) throws DataAccessException {
+        ArrayList<Panel> result = new ArrayList<>();
+
+        for (Panel panel : findAll()) {
+            if (panel.getMaterial().getMaterialName() == material.getMaterialName()) {
+                result.add(panel);
+            }
+        }
+        return result;
+    }
+
+
+    @Override
+    public List<Panel> findBySection(String section) throws DataAccessException {
+        ArrayList<Panel> result = new ArrayList<>();
+
+        for (Panel panel : findAll()) {
+            if (panel.getSection() == section) {
+                result.add(panel);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public List<Panel> findTrackable(boolean trackable) throws DataAccessException {
+        List<Panel> all = findAll();
+        ArrayList<Panel> result = new ArrayList<>();
+        for (Panel panel : all) {
+            if (panel.isTracking() == trackable) {
+                result.add(panel);
+            }
+        }
+        return result;
+    }
+
+
+    @Override
+    public Panel findById(int panelId) throws DataAccessException {
+        for (Panel panel : findAll()) {
+            if (panel.getPanelId() == panelId) {
+                return panel;
+            }
+        }
         return null;
     }
 
     @Override
-    public Panel findById(int panelId) {
-        return null;
+    public Panel add(Panel panel) throws DataAccessException {
+        List<Panel> all = findAll();
+        panel.setPanelId(getNextId(all));
+        all.add(panel);
+        writeToFile(all);
+        return panel;
     }
 
     @Override
-    public Panel add(Panel panel) {
-        return null;
-    }
-
-    @Override
-    public boolean update(Panel panel) {
+    public boolean update(Panel panel) throws DataAccessException {
+        List<Panel> all = findAll();
+        for (int i = 0; i < all.size(); i++) {
+            if (all.get(i).getPanelId() == panel.getPanelId()) {
+                all.set(i, panel);
+                writeToFile(all);
+                return true;
+            }
+        }
         return false;
     }
 
     @Override
-    public boolean deleteById(int panelId) {
+    public boolean deleteById(int panelId) throws DataAccessException {
+        List<Panel> all = findAll();
+        for (int i = 0; i < all.size(); i++) {
+            if (all.get(i).getPanelId() == panelId) {
+                all.remove(i);
+                writeToFile(all);
+                return true;
+            }
+        }
         return false;
+
+    }
+
+    private int getNextId(List<Panel> panels) {
+        int maxPanelId = 0;
+        for (Panel panel : panels) {
+            if (maxPanelId < panel.getPanelId()) {
+                maxPanelId = panel.getPanelId();
+            }
+        }
+        return maxPanelId + 1;
+    }
+
+    private void writeToFile(List<Panel> panels) throws DataAccessException {
+        try (PrintWriter writer = new PrintWriter(filePath)) {
+            writer.println(HEADER);
+            for (Panel panel : panels) {
+                writer.println(serialize(panel));
+            }
+        } catch (IOException ex) {
+            throw new DataAccessException(ex.getMessage(), ex);
+        }
+    }
+
+    private String serialize(Panel panel) {
+        return String.format("%s,%s,%s,%s,%s,%s,%s",
+                panel.getPanelId(),
+                cleanField(panel.getSection()),
+                panel.getRow(),
+                panel.getColumn(),
+                panel.getMaterial(),
+                panel.getYearInstalled(),
+                panel.isTracking());
     }
 
     private Panel deserialize(String line) {

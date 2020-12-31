@@ -1,5 +1,7 @@
 package learn.solar.models;
 
+import java.util.Objects;
+
 public class Panel {
 
     private int panelId;
@@ -79,5 +81,15 @@ public class Panel {
 
     public void setTracking(boolean tracking) {
         isTracking = tracking;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Panel panel = (Panel) o;
+        return Objects.equals(section, panel.section) &&
+                row == panel.row &&
+                column == panel.column;
     }
 }
