@@ -38,30 +38,42 @@ public class PanelService {
 
     public PanelResult add(Panel panel) throws DataAccessException {
         PanelResult result = validate(panel);
+        List<Panel> all = repository.findAll();
 
-        if (result.isSuccess()) {
-            if (panel.getPanelId() > 0) {
-                result.addErrorMessage("Result ID should not be set");
+        if (!result.isSuccess()) {
+            return result;
+        }
+        for (int i = 0; i < all.size(); i++) {
+            if (panel.getPanelId() == all.get(i).getPanelId()) {
+                result.addErrorMessage("Cannot enter duplicate Panel ID: " + panel.getPanelId());
                 return result;
             }
-            panel = repository.add(panel);
-            result.setPanel(panel);
+            if (panel.getRow() == all.get(i).getRow() &&
+                    panel.getColumn() == all.get(i).getColumn() &&
+                    panel.getSection().equals(all.get(i).getSection())) {
+                result.addErrorMessage("Cannot enter duplicate Panel with same Section, Row, and Column");
+                return result;
+            }
         }
+
+        panel = repository.add(panel);
+        result.setPanel(panel);
+
         return result;
     }
 
     public PanelResult update(Panel panel) throws DataAccessException {
         PanelResult result = validate(panel);
 
-        if (panel.getPanelId() <= 0) {
-            result.addErrorMessage("Panel ID is required");
+        if (!result.isSuccess()) {
+            return result;
         }
 
         if (result.isSuccess()) {
             if (repository.update(panel)) {
                 result.setPanel(panel);
             } else {
-                String message = String.format("Memory ID: %s was not found", panel.getPanelId());
+                String message = String.format("Panel ID: %s was not found", panel.getPanelId());
                 result.addErrorMessage(message);
             }
         }
@@ -73,17 +85,17 @@ public class PanelService {
         PanelResult result = new PanelResult();
 
         if (!repository.deleteById(panelId)) {
-            String message = String.format("Memory ID: %s was not found", panelId);
+            String message = String.format("Panel ID: %s was not found", panelId);
             result.addErrorMessage(message);
         }
         return result;
     }
 
-    public PanelResult deleteByPanel(int panelId) throws DataAccessException {
+    public PanelResult deleteByPanel(String section, int row, int column) throws DataAccessException {
         PanelResult result = new PanelResult();
 
-        if (!repository.deleteById(panelId)) {
-            String message = String.format("Memory ID: %s was not found", panelId);
+        if (!repository.deleteByPanel(section, row, column)) {
+            String message = String.format("There is no Panel %s-%s-%s", section, row, column);
             result.addErrorMessage(message);
         }
         return result;
@@ -95,6 +107,11 @@ public class PanelService {
 
         if (panel == null) {
             result.addErrorMessage("Panel cannot be null");
+            return result;
+        }
+
+        if (panel.getPanelId() <= 0) {
+            result.addErrorMessage("Panel ID needs to be a positive number");
             return result;
         }
 
@@ -118,14 +135,6 @@ public class PanelService {
             result.addErrorMessage("Material is required");
         }
 
-        for (int i = 0; i < all.size(); i++) {
-            if (panel.getRow() == all.get(i).getRow() &&
-                    panel.getColumn() == all.get(i).getColumn() &&
-                    panel.getSection().equals(all.get(i).getSection())) {
-                result.addErrorMessage("Cannot enter duplicate Panel with same Section, Row, and Column");
-            }
-
-        }
         return result;
     }
 
