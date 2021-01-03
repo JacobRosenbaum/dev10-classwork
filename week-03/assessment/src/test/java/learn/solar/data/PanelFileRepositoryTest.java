@@ -57,7 +57,7 @@ class PanelFileRepositoryTest {
 
         assertNotNull(cigs);
         assertEquals(1, cigs.size());
-        assertTrue("CIGS".equals(cigs.get(0).getMaterial().getMaterialName()));
+        assertTrue("CIGS   ".equals(cigs.get(0).getMaterial().getShortHandName()));
     }
 
     @Test

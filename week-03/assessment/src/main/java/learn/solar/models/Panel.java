@@ -16,7 +16,6 @@ public class Panel {
 
     }
 
-
     public Panel(int panelId, String section, int row, int column, PanelMaterial material, int yearInstalled, boolean isTracking) {
         this.panelId = panelId;
         this.section = section;

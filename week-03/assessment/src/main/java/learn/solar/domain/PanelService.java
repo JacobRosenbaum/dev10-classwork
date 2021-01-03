@@ -110,10 +110,10 @@ public class PanelService {
             return result;
         }
 
-        if (panel.getPanelId() <= 0) {
-            result.addErrorMessage("Panel ID needs to be a positive number");
-            return result;
-        }
+//        if (panel.getPanelId() <= 0) {
+//            result.addErrorMessage("Panel ID needs to be a positive number");
+//            return result;
+//        }
 
         if (panel.getSection() == null || panel.getSection().trim().length() == 0) {
             result.addErrorMessage("Section cannot be blank");

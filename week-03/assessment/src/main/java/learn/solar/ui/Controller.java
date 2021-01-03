@@ -1,12 +1,12 @@
 package learn.solar.ui;
 
 import learn.solar.data.DataAccessException;
+import learn.solar.domain.PanelResult;
 import learn.solar.domain.PanelService;
 import learn.solar.models.Panel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class Controller {
 
@@ -19,12 +19,14 @@ public class Controller {
     }
 
     public void run() {
+        view.printHeader("Welcome To The Solar Farm.");
+
         try {
             runMenu();
         } catch (DataAccessException ex) {
             view.printHeader("Fatal error " + ex);
         }
-        view.printHeader("Goodbye");
+        view.printHeader("Good day to you sir.");
     }
 
     private void runMenu() throws DataAccessException {
@@ -35,7 +37,7 @@ public class Controller {
 
             switch (option) {
                 case DISPLAY_BY_SECTION:
-                    displayPanels();
+                    displayBySection();
                     break;
                 case ADD_PANEL:
                     addPanel();
@@ -47,7 +49,6 @@ public class Controller {
                     deletePanel();
                     break;
                 case EXIT:
-                    view.printHeader("Good day to you sir...");
                     break;
             }
 
@@ -55,39 +56,54 @@ public class Controller {
 
     }
 
-    private void displayPanels() throws DataAccessException {
+    private void displayBySection() throws DataAccessException {
         view.printHeader(MenuOption.DISPLAY_BY_SECTION.getOption());
         displayAllSectionTitles();
     }
 
-    private void addPanel() {
+    private void addPanel() throws DataAccessException {
+        view.printHeader(MenuOption.ADD_PANEL.getOption());
+        Panel panel = view.buildPanel();
+        PanelResult result = service.add(panel);
+        view.printResult(result, "\nPanel ID: %s was successfully added to Section: %s. Cheers%n");
     }
 
-    private void updatePanel() {
+    private void updatePanel() throws DataAccessException {
+        view.printHeader(MenuOption.UPDATE_PANEL.getOption());
+        view.printMessage("Which Section would like to Update?");
+
+        String sectionName = displayAllSectionTitles();
+        Panel selectedPanel = view.selectPanel(service.findBySection(sectionName));
+
+        Panel panel = view.updatePanel(selectedPanel);
+        if (panel != null) {
+            PanelResult result = service.update(panel);
+            view.printResult(result, "\nPanel ID: %s was successfully updated in Section: %s. Cheers%n");
+        }
     }
 
     private void deletePanel() {
     }
 
-    private void displayAllPanels() throws DataAccessException {
+    private String displayAllSectionTitles() throws DataAccessException {
         List<Panel> all = service.findAll();
-//        view.printAllPanels(panels);
-    }
-
-    private void displayAllSectionTitles() throws DataAccessException {
-        List<Panel> all = service.findAll();
-//        ArrayList<Panel> panels = new ArrayList();
         ArrayList<String> section = new ArrayList<>();
+        String sectionName;
+        List<Panel> panel = new ArrayList<>();
+
         for (int i = 0; i < all.size(); i++) {
             String sectionTitle = all.get(i).getSection();
-            if(!section.contains(sectionTitle))
+            if (!section.contains(sectionTitle))
                 section.add(sectionTitle);
-//            section.add(all.get(i).getSection());
-//            for (int j = 0; j < section.size(); j++) {
-//                if (all.get(j).getSection().equals(section.get(j)))
-//                    section.remove(all.get(j).getSection());
-//            }
         }
-        view.printAllSectionTitles(section);
+        sectionName = view.printAllSectionTitles(section);
+
+        for (int j = 0; j < section.size(); j++) {
+            if (sectionName.equals(section.get(j))) {
+                panel = service.findBySection(sectionName);
+            }
+        }
+        view.printAllPanelsBySection(panel);
+        return sectionName;
     }
 }
