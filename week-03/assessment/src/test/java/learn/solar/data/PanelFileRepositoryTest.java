@@ -52,22 +52,6 @@ class PanelFileRepositoryTest {
     }
 
     @Test
-    void shouldFindByMaterial() throws DataAccessException {
-        List<Panel> cigs = repository.findByMaterial(PanelMaterial.COPPER_INDIUM_GALLIUM_SELENIDE);
-
-        assertNotNull(cigs);
-        assertEquals(1, cigs.size());
-        assertTrue("CIGS   ".equals(cigs.get(0).getMaterial().getShortHandName()));
-    }
-
-    @Test
-    void shouldNotFindMissingMaterial() throws DataAccessException {
-        List<Panel> monoCry = repository.findByMaterial(PanelMaterial.MONOCRYSTALLINE_SILICON);
-
-        assertEquals(0, monoCry.size());
-    }
-
-    @Test
     void shouldFindBySection() throws DataAccessException {
         List<Panel> campJacob = repository.findBySection("Camp Jacob");
 
@@ -80,20 +64,6 @@ class PanelFileRepositoryTest {
         List<Panel> campDavid = repository.findBySection("Camp David");
 
         assertEquals(0, campDavid.size());
-    }
-
-    @Test
-    void shouldFindTrackable() throws DataAccessException {
-        List<Panel> isTracking = repository.findTrackable(true);
-
-        assertEquals(2, isTracking.size());
-    }
-
-    @Test
-    void shouldFindNotTrackable() throws DataAccessException {
-        List<Panel> isNotTracking = repository.findTrackable(false);
-
-        assertEquals(1, isNotTracking.size());
     }
 
     @Test

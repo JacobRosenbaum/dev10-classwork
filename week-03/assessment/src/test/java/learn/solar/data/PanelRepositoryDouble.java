@@ -25,11 +25,6 @@ public class PanelRepositoryDouble implements PanelRepository {
     }
 
     @Override
-    public List<Panel> findByMaterial(PanelMaterial material) throws DataAccessException {
-        return null;
-    }
-
-    @Override
     public List<Panel> findBySection(String section) throws DataAccessException {
         ArrayList<Panel> result = new ArrayList<>();
 
@@ -39,11 +34,6 @@ public class PanelRepositoryDouble implements PanelRepository {
             }
         }
         return result;
-    }
-
-    @Override
-    public List<Panel> findTrackable(boolean trackable) throws DataAccessException {
-        return null;
     }
 
     @Override

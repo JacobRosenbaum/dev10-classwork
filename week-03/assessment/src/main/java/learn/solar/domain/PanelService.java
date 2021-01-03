@@ -20,16 +20,8 @@ public class PanelService {
         return repository.findAll();
     }
 
-    public List<Panel> findByMaterial(PanelMaterial material) throws DataAccessException {
-        return repository.findByMaterial(material);
-    }
-
     public List<Panel> findBySection(String section) throws DataAccessException {
         return repository.findBySection(section);
-    }
-
-    public List<Panel> findTrackable(boolean trackable) throws DataAccessException {
-        return repository.findTrackable(trackable);
     }
 
     public Panel findById(int panelId) throws DataAccessException {
@@ -50,12 +42,11 @@ public class PanelService {
             }
             if (panel.getRow() == all.get(i).getRow() &&
                     panel.getColumn() == all.get(i).getColumn() &&
-                    panel.getSection().equals(all.get(i).getSection())) {
+                    panel.getSection().equalsIgnoreCase(all.get(i).getSection())) {
                 result.addErrorMessage("Cannot enter duplicate Panel with same Section, Row, and Column");
                 return result;
             }
         }
-
         panel = repository.add(panel);
         result.setPanel(panel);
 
@@ -64,9 +55,20 @@ public class PanelService {
 
     public PanelResult update(Panel panel) throws DataAccessException {
         PanelResult result = validate(panel);
+        List<Panel> all = repository.findAll();
 
         if (!result.isSuccess()) {
             return result;
+        }
+
+        for (int i = 0; i < all.size(); i++) {
+            if (panel.getPanelId() != all.get(i).getPanelId() &&
+                    panel.getRow() == all.get(i).getRow() &&
+                    panel.getColumn() == all.get(i).getColumn() &&
+                    panel.getSection().equalsIgnoreCase(all.get(i).getSection())) {
+                result.addErrorMessage("Cannot enter duplicate Panel with same Section, Row, and Column");
+                return result;
+            }
         }
 
         if (result.isSuccess()) {
@@ -83,6 +85,13 @@ public class PanelService {
 
     public PanelResult deleteById(int panelId) throws DataAccessException {
         PanelResult result = new PanelResult();
+
+        Panel panel = repository.findById(panelId);
+
+        if (panel == null) {
+            result.addErrorMessage("Panel does not exist");
+            return result;
+        }
 
         if (!repository.deleteById(panelId)) {
             String message = String.format("Panel ID: %s was not found", panelId);
@@ -109,11 +118,6 @@ public class PanelService {
             result.addErrorMessage("Panel cannot be null");
             return result;
         }
-
-//        if (panel.getPanelId() <= 0) {
-//            result.addErrorMessage("Panel ID needs to be a positive number");
-//            return result;
-//        }
 
         if (panel.getSection() == null || panel.getSection().trim().length() == 0) {
             result.addErrorMessage("Section cannot be blank");

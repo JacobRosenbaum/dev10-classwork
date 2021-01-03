@@ -21,17 +21,24 @@ public class View {
     }
 
     public String printAllSectionTitles(List<String> section) {
-        for (int i = 0; i < section.size(); i++) {
-            System.out.printf("%s. %s%n", i + 1, section.get(i));
+        if (section.size() > 0) {
+            for (int i = 0; i < section.size(); i++) {
+                System.out.printf("%s. %s%n", i + 1, section.get(i));
+            }
+            int index = readInt("\nSelect an Section [1-" + section.size() + "]: ", 1, section.size());
+            return section.get(index - 1);
         }
-        int index = readInt("\nSelect an Section [1-" + section.size() + "]: ", 1, section.size());
-        return section.get(index - 1);
+        return null;
     }
 
     public void printAllPanelsBySection(List<Panel> panels) {
-        System.out.println(printSectionGraphHeader(panels));
-        for (int i = 0; i < panels.size(); i++) {
-            System.out.println(panelToGraph(panels.get(i)));
+        if (panels.size() != 0) {
+            System.out.println(printSectionGraphHeader(panels));
+            for (int i = 0; i < panels.size(); i++) {
+                System.out.println(panelToGraph(panels.get(i)));
+            }
+        } else {
+            System.out.println("\nThere are currently no Solar Panels in the Solar Farm.\nReturning to Main Menu.");
         }
     }
 
@@ -45,32 +52,36 @@ public class View {
         panel.setSection(readRequiredString("Section: "));
         panel.setRow(readRequiredRowOrCol("Row: "));
         panel.setColumn(readRequiredRowOrCol("Column: "));
-        panel.setMaterial(readMaterial());
+        panel.setMaterial(readMaterial("Select Panel Material [1-%s]: "));
         panel.setYearInstalled(readRequiredInstallationYear("Installation Year: "));
         panel.setTracking(readRequiredTrackable("Tracked [y/n]: "));
         return panel;
     }
 
-    public Panel selectPanel(List<Panel> panels) {
+    public Panel selectPanel(List<Panel> panels, String id, String prompt, String enter) {
         boolean isValid = false;
         Panel selectedPanel = null;
-        do {
-            int panelId = readInt("\nTo update a Panel, enter a Panel ID: ");
-            for (Panel panel : panels) {
+        if (panels.size() != 0) {
+            do {
+                int panelId = readInt(id);
+                for (Panel panel : panels) {
 
-                if (panel.getPanelId() == panelId) {
-                    selectedPanel = panel;
-                    System.out.printf("%nEditing Panel ID: %s, in %s%n", panel.getPanelId(), panel.getSection());
-                    System.out.println("Press [Enter] to keep original value\n");
-                    isValid = true;
-                    break;
+                    if (panel.getPanelId() == panelId) {
+                        selectedPanel = panel;
+                        System.out.printf(prompt, panel.getPanelId(), panel.getSection());
+                        System.out.println(enter);
+                        isValid = true;
+                        break;
+                    }
                 }
-            }
-            if (selectedPanel == null) {
-                printMessage("Panel ID " + panelId + " was not found");
-            }
-        } while (!isValid);
-        return selectedPanel;
+                if (selectedPanel == null) {
+                    printMessage("Panel ID " + panelId + " was not found");
+                }
+            } while (!isValid);
+            return selectedPanel;
+        } else {
+            return null;
+        }
     }
 
     public Panel updatePanel(Panel panel) {
@@ -90,7 +101,7 @@ public class View {
         }
 
         System.out.println("Material (" + panel.getMaterial().getMaterialName() + "): \n");
-        panel.setMaterial(readMaterial());
+        panel.setMaterial(readMaterial("%n*NOTE* Must enter a material to confirm%nSelect Panel Material [1-%s]: "));
 
         int year = readInstallationYear("Installation Year (" + panel.getYearInstalled() + "): ");
         if (year != 0) {
@@ -113,7 +124,7 @@ public class View {
                 System.out.printf(successMessage, result.getPanel().getPanelId(), result.getPanel().getSection());
             }
         } else {
-            printHeader("Errors!");
+            printHeader("Error!");
             for (String errorMessage : result.getMessages()) {
                 System.out.printf("- %s%n", errorMessage);
             }
@@ -121,52 +132,53 @@ public class View {
     }
 
     public void printMessage(String message) {
-        System.out.println();
         System.out.println(message);
     }
 
 
     private String panelToGraph(Panel panel) {
-        String tracking;
-        if (panel.isTracking()) {
-            tracking = "yes";
-        } else {
-            tracking = "no";
-        }
+        if (panel != null) {
+            String tracking;
+            if (panel.isTracking()) {
+                tracking = "yes";
+            } else {
+                tracking = "no";
+            }
 
-        String id = null;
-        if (String.valueOf(panel.getPanelId()).length() == 1) {
-            id = String.format("%s   ", panel.getPanelId());
-        } else if ((String.valueOf(panel.getPanelId()).length() == 2)) {
-            id = String.format("%s  ", panel.getPanelId());
-        }
+            String id = null;
+            if (String.valueOf(panel.getPanelId()).length() == 1) {
+                id = String.format("%s   ", panel.getPanelId());
+            } else if ((String.valueOf(panel.getPanelId()).length() == 2)) {
+                id = String.format("%s  ", panel.getPanelId());
+            }
 
-        String row = null;
-        if (String.valueOf(panel.getRow()).length() == 1) {
-            row = String.format("%s    ", panel.getRow());
-        } else if ((String.valueOf(panel.getRow()).length() == 2)) {
-            row = String.format("%s   ", panel.getRow());
-        } else if ((String.valueOf(panel.getRow()).length() == 3)) {
-            row = String.format("%s  ", panel.getRow());
-        }
+            String row = null;
+            if (String.valueOf(panel.getRow()).length() == 1) {
+                row = String.format("%s    ", panel.getRow());
+            } else if ((String.valueOf(panel.getRow()).length() == 2)) {
+                row = String.format("%s   ", panel.getRow());
+            } else if ((String.valueOf(panel.getRow()).length() == 3)) {
+                row = String.format("%s  ", panel.getRow());
+            }
 
-        String column = null;
-        if (String.valueOf(panel.getColumn()).length() == 1) {
-            column = String.format("%s    ", panel.getColumn());
-        } else if ((String.valueOf(panel.getColumn()).length() == 2)) {
-            column = String.format("%s   ", panel.getColumn());
-        } else if ((String.valueOf(panel.getColumn()).length() == 3)) {
-            column = String.format("%s  ", panel.getColumn());
-        }
+            String column = null;
+            if (String.valueOf(panel.getColumn()).length() == 1) {
+                column = String.format("%s    ", panel.getColumn());
+            } else if ((String.valueOf(panel.getColumn()).length() == 2)) {
+                column = String.format("%s   ", panel.getColumn());
+            } else if ((String.valueOf(panel.getColumn()).length() == 3)) {
+                column = String.format("%s  ", panel.getColumn());
+            }
 
-        return String.format("%s%s%s   %s   %s    %s",
-                id,
-                row,
-                column,
-                panel.getMaterial().getShortHandName(),
-                panel.getYearInstalled(),
-                tracking
-        );
+            return String.format("%s%s%s   %s   %s    %s",
+                    id,
+                    row,
+                    column,
+                    panel.getMaterial().getShortHandName(),
+                    panel.getYearInstalled(),
+                    tracking
+            );
+        } else return null;
     }
 
     private String printSectionGraphHeader(List<Panel> panel) {
@@ -298,13 +310,13 @@ public class View {
         return year;
     }
 
-    public PanelMaterial readMaterial() {
+    public PanelMaterial readMaterial(String selectMaterial) {
         int index = 1;
         for (PanelMaterial material : PanelMaterial.values()) {
             System.out.printf("%s. %s%n", index++, material.getMaterialName());
         }
         index--;
-        String prompt = String.format("Select Panel Material [1-%s]: ", index);
+        String prompt = String.format(selectMaterial, index);
         return PanelMaterial.values()[readInt(prompt, 1, index) - 1];
     }
 

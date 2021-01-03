@@ -65,24 +65,37 @@ public class Controller {
         view.printHeader(MenuOption.ADD_PANEL.getOption());
         Panel panel = view.buildPanel();
         PanelResult result = service.add(panel);
-        view.printResult(result, "\nPanel ID: %s was successfully added to Section: %s. Cheers%n");
+        view.printResult(result, "\nPanel ID: %s was successfully added to Section: %s. Cheers\n");
     }
 
     private void updatePanel() throws DataAccessException {
         view.printHeader(MenuOption.UPDATE_PANEL.getOption());
-        view.printMessage("Which Section would like to Update?");
+        view.printMessage("\nWhich Section would like to Update a Panel?");
 
         String sectionName = displayAllSectionTitles();
-        Panel selectedPanel = view.selectPanel(service.findBySection(sectionName));
+        Panel selectedPanel = view.selectPanel(service.findBySection(sectionName), "\nTo update a Panel, enter a Panel ID: ", "%nEditing Panel ID: %s, in %s%n", "Press [Enter] to keep original value\n");
 
-        Panel panel = view.updatePanel(selectedPanel);
-        if (panel != null) {
+        if (selectedPanel != null) {
+            Panel panel = view.updatePanel(selectedPanel);
             PanelResult result = service.update(panel);
-            view.printResult(result, "\nPanel ID: %s was successfully updated in Section: %s. Cheers%n");
+            view.printResult(result, "\nPanel ID: %s was successfully updated in Section: %s. Cheers\n");
         }
     }
 
-    private void deletePanel() {
+    private void deletePanel() throws DataAccessException {
+        view.printHeader(MenuOption.DELETE_PANEL.getOption());
+        view.printMessage("\nWhich Section would like to delete a Panel?");
+
+        String sectionName = displayAllSectionTitles();
+        Panel selectedPanel = view.selectPanel(service.findBySection(sectionName), "\nTo delete a Panel, enter a Panel ID: ", "%nDeleting Panel ID: %s, in %s...%n", "");
+        if (selectedPanel == null) {
+            return;
+        }
+        if (service.deleteById(selectedPanel.getPanelId()).isSuccess()) {
+            view.printMessage("Panel ID: " + selectedPanel.getPanelId() + " was  successfully deleted. Cheers.");
+        } else {
+            view.printMessage("Panel ID: " + selectedPanel.getPanelId() + " was not found.\n");
+        }
     }
 
     private String displayAllSectionTitles() throws DataAccessException {

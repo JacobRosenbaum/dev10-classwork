@@ -38,35 +38,11 @@ public class PanelFileRepository implements PanelRepository {
     }
 
     @Override
-    public List<Panel> findByMaterial(PanelMaterial material) throws DataAccessException {
-        ArrayList<Panel> result = new ArrayList<>();
-
-        for (Panel panel : findAll()) {
-            if (panel.getMaterial().getMaterialName() == material.getMaterialName()) {
-                result.add(panel);
-            }
-        }
-        return result;
-    }
-
-    @Override
     public List<Panel> findBySection(String section) throws DataAccessException {
         ArrayList<Panel> result = new ArrayList<>();
 
         for (Panel panel : findAll()) {
             if (panel.getSection().equals(section)) {
-                result.add(panel);
-            }
-        }
-        return result;
-    }
-
-    @Override
-    public List<Panel> findTrackable(boolean trackable) throws DataAccessException {
-        List<Panel> all = findAll();
-        ArrayList<Panel> result = new ArrayList<>();
-        for (Panel panel : all) {
-            if (panel.isTracking() == trackable) {
                 result.add(panel);
             }
         }
@@ -189,9 +165,5 @@ public class PanelFileRepository implements PanelRepository {
                 .replace("/n", "");
 
     }
-
-//    private String restoreField(String value) {
-//        return value.replace(DELIMITER_REPLACEMENT, DELIMITER);
-//    }
 
 }

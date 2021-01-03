@@ -134,16 +134,6 @@ class PanelServiceTest {
     }
 
     @Test
-    void shouldNotAddNegativeId() throws DataAccessException {
-        Panel panel = new Panel(-12, "Camp jake", 1, 2,
-                PanelMaterial.MONOCRYSTALLINE_SILICON, 2013, false);
-
-        PanelResult expected = makeResult("Panel ID needs to be a positive number");
-        PanelResult actual = service.add(panel);
-        assertEquals(expected, actual);
-    }
-
-    @Test
     void shouldNotAddNullMaterial() throws DataAccessException {
         Panel panel = new Panel(11, "Test", 1, 2,
                 null, 2013, false);
@@ -214,9 +204,8 @@ class PanelServiceTest {
     }
 
     @Test
-    void shouldUpdateValidPanel() throws DataAccessException{
-        Panel panel = new Panel();
-        panel.setPanelId(3);
+    void shouldUpdateValidPanel() throws DataAccessException {
+        Panel panel = service.findById(3);
         panel.setSection("Camp Jacob");
         panel.setRow(6);
         panel.setColumn(6);
@@ -231,7 +220,23 @@ class PanelServiceTest {
     }
 
     @Test
-    void shouldNotUpdateInvalidId() throws DataAccessException{
+    void shouldUpdatePanelWithSameIdEvenIfRowColSectionAreSame() throws DataAccessException {
+        Panel panel = service.findById(3);
+        panel.setSection("Camp Aaron");
+        panel.setRow(8);
+        panel.setColumn(2);
+        panel.setMaterial(PanelMaterial.MONOCRYSTALLINE_SILICON);
+        panel.setYearInstalled(2008);
+        panel.setTracking(false);
+
+        PanelResult expected = new PanelResult();
+        expected.setPanel(panel);
+        PanelResult actual = service.update(panel);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void shouldNotUpdateInvalidId() throws DataAccessException {
         Panel panel = new Panel();
         panel.setPanelId(33333);
         panel.setSection("Camp Jacob");
@@ -248,12 +253,30 @@ class PanelServiceTest {
     }
 
     @Test
-    void shouldNotUpdateNullPanel() throws DataAccessException{
+    void shouldNotUpdateNullPanel() throws DataAccessException {
         PanelResult result = service.update(null);
 
         assertEquals(1, result.getMessages().size());
         assertTrue("Panel cannot be null".equals(result.getMessages().get(0)));
     }
+
+    @Test
+    void shouldNotUpdateDuplicatePanel() throws DataAccessException {
+        Panel panel = new Panel();
+        panel.setPanelId(3);
+        panel.setSection("Camp Jacob");
+        panel.setRow(2);
+        panel.setColumn(4);
+        panel.setMaterial(PanelMaterial.MONOCRYSTALLINE_SILICON);
+        panel.setYearInstalled(2013);
+        panel.setTracking(true);
+
+        PanelResult expected = makeResult("Cannot enter duplicate Panel with same Section, Row, and Column");
+
+        PanelResult actual = service.update(panel);
+        assertEquals(expected, actual);
+    }
+
 
     @Test
     void shouldDeleteById() throws DataAccessException {
@@ -264,13 +287,13 @@ class PanelServiceTest {
     }
 
     @Test
-    void shouldNotDeleteInvalidId() throws DataAccessException {
-        PanelResult expected = makeResult("Panel ID: 33333 was not found");
-        PanelResult actual = service.deleteById(33333);
-
+    void shouldNotDeleteNullId() throws DataAccessException {
+        PanelResult expected = makeResult("Panel does not exist");
+        PanelResult actual = service.deleteById(0);
 
         assertEquals(expected, actual);
     }
+
 
     @Test
     void shouldDeleteByPanel() throws DataAccessException {
