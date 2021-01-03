@@ -70,15 +70,45 @@ public class Controller {
 
     private void updatePanel() throws DataAccessException {
         view.printHeader(MenuOption.UPDATE_PANEL.getOption());
-        view.printMessage("\nWhich Section would like to Update a Panel?");
+        view.printMessage("\nWhich Section would like to update a Panel?");
 
         String sectionName = displayAllSectionTitles();
         Panel selectedPanel = view.selectPanel(service.findBySection(sectionName), "\nTo update a Panel, enter a Panel ID: ", "%nEditing Panel ID: %s, in %s%n", "Press [Enter] to keep original value\n");
+        PanelResult result = new PanelResult();
 
         if (selectedPanel != null) {
             Panel panel = view.updatePanel(selectedPanel);
-            PanelResult result = service.update(panel);
-            view.printResult(result, "\nPanel ID: %s was successfully updated in Section: %s. Cheers\n");
+            result = service.update(panel);
+            do {
+                if (!result.isSuccess()) {
+                    view.printResult(result, "\nPanel ID: %s was successfully " +
+                            "updated in Section: %s. Cheers\n");
+                    String prompt;
+                    do {
+                        prompt = view.readString("Here are your options:\n1. Re-type entire Panel\n" +
+                                "2. Re-type only Section, Row, or Column\n\n" +
+                                "Select [1-2]: ");
+                        if (prompt.equals("1")) {
+                            view.updatePanel(selectedPanel);
+                            result = service.update(panel);
+                            view.printResult(result, "\nPanel ID: %s was successfully " +
+                                    "updated in Section: %s. Cheers\n");
+                            break;
+                        } else if (prompt.equals("2")) {
+                            view.updateDuplicatePanel(selectedPanel);
+                            result = service.update(panel);
+                            view.printResult(result, "\nPanel ID: %s was successfully " +
+                                    "updated in Section: %s. Cheers\n");
+                            break;
+                        } else {
+                            System.out.println("Value needs to either be 1 or 2\n");
+                        }
+                    } while (true);
+
+                } else {
+                    view.printResult(result, "\nPanel ID: %s was successfully updated in Section: %s. Cheers\n");
+                }
+            } while (!result.isSuccess());
         }
     }
 

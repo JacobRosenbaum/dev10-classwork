@@ -66,7 +66,7 @@ public class PanelService {
                     panel.getRow() == all.get(i).getRow() &&
                     panel.getColumn() == all.get(i).getColumn() &&
                     panel.getSection().equalsIgnoreCase(all.get(i).getSection())) {
-                result.addErrorMessage("Cannot enter duplicate Panel with same Section, Row, and Column");
+                result.addErrorMessage("Cannot enter duplicate Panel with same Section, Row, and Column\n");
                 return result;
             }
         }

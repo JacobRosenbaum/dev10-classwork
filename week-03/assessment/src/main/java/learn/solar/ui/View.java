@@ -118,6 +118,25 @@ public class View {
         return panel;
     }
 
+    public Panel updateDuplicatePanel(Panel panel) {
+        String section = readString("Section (" + panel.getSection() + "): ");
+        if (section.trim().length() > 0) {
+            panel.setSection(section);
+        }
+
+        int row = readRowOrCol("Row (" + panel.getRow() + "): ");
+        if (row != 0) {
+            panel.setRow(row);
+        }
+
+        int col = readRowOrCol("Column (" + panel.getColumn() + "): ");
+        if (col != 0) {
+            panel.setColumn(col);
+        }
+
+        return panel;
+    }
+
     public void printResult(PanelResult result, String successMessage) {
         if (result.isSuccess()) {
             if (result.getPanel() != null) {
@@ -134,7 +153,6 @@ public class View {
     public void printMessage(String message) {
         System.out.println(message);
     }
-
 
     private String panelToGraph(Panel panel) {
         if (panel != null) {
@@ -192,7 +210,7 @@ public class View {
                 "Tracking");
     }
 
-    private String readString(String message) {
+    public String readString(String message) {
         System.out.print(message);
         return console.nextLine();
     }
