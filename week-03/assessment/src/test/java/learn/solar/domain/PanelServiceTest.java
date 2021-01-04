@@ -271,7 +271,7 @@ class PanelServiceTest {
         panel.setYearInstalled(2013);
         panel.setTracking(true);
 
-        PanelResult expected = makeResult("Cannot enter duplicate Panel with same Section, Row, and Column");
+        PanelResult expected = makeResult("Cannot enter duplicate Panel with same Section, Row, and Column\n");
 
         PanelResult actual = service.update(panel);
         assertEquals(expected, actual);

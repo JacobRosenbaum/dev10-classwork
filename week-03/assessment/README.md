@@ -72,7 +72,7 @@ I tend to take a bit longer to figure out my code, so I'm allotting an entire da
 ## Tasks
 
 ### Models - Estimated completion time: 1 hour
-#### Actual time: 20 minutes (pre revision)
+#### Actual time: 20 minutes 
 
 * [x] Create private fields containing the info we need to know about each panel including the following
     - int Id
@@ -87,7 +87,7 @@ I tend to take a bit longer to figure out my code, so I'm allotting an entire da
 * [x] Create a stateful Enum for each type of material
 
 ### Data Layer - Estimated completion time: 8 hours
-#### Actual time: 3 Hours (pre revision)
+#### Actual time: 3 Hours 
 ##### Added 1.5 hours to dive into delimiters
 
 * [x] Create the PanelRepository Interface to include the following methods (subject to change)
@@ -121,16 +121,17 @@ I tend to take a bit longer to figure out my code, so I'm allotting an entire da
     * shouldNotDelete
 
 ### Domain Layer - Estimated Completion time: 8 hours
+#### Actual time: 6 Hours 
 
-* [ ] Create PanelResult initial fields
+* [x] Create PanelResult initial fields
     * ArrayList<String> messages
     * Panel panel
 
-* [ ] Create getters and setters for fields
-* [ ] Write isSuccess and addErrorMessages methods
-* [ ] In the PanelService class, write a PanelRepository repository field
-* [ ] Inject that field into a constructor
-* [ ] Write both pass-through and logic-intensive CRUD methods taking into account the following rules:
+* [x] Create getters and setters for fields
+* [x] Write isSuccess and addErrorMessages methods
+* [x] In the PanelService class, write a PanelRepository repository field
+* [x] Inject that field into a constructor
+* [x] Write both pass-through and logic-intensive CRUD methods taking into account the following rules:
     * Section is required and cannot be blank.
     * Row is a positive number less than or equal to 250.
     * Column is a positive number less than or equal to 250.
@@ -139,9 +140,9 @@ I tend to take a bit longer to figure out my code, so I'm allotting an entire da
     * Is Tracking is required.
     * The combined values of Section, Row, and Column may not be duplicated.
 
-* [ ] Write a validation helper method (and potentially more helper methods - subject tp change)
-* [ ] Create a double with the bare minimum logic to assist with testing(update double as I write unit tests)
-* [ ] Write unit tests to ensure the service works when it's supposed to and does not work when it's not supposed to
+* [x] Write a validation helper method (and potentially more helper methods - subject tp change)
+* [x] Create a double with the bare minimum logic to assist with testing(update double as I write unit tests)
+* [x] Write unit tests to ensure the service works when it's supposed to and does not work when it's not supposed to
   including the following (subject to a lot of change):
     * shouldAdd
     * shouldNotAdd
@@ -153,21 +154,22 @@ I tend to take a bit longer to figure out my code, so I'm allotting an entire da
     * shouldDelete
     * shouldNotDelete
 ### UI Layer - Estimated Completion time: 8 hours
+#### Actual time: 8 Hours 
 
-* [ ] Create Controller class, View class, and stateful MenuOption Enum
-* [ ] In the Controller file, write the following fields
+* [x] Create Controller class, View class, and stateful MenuOption Enum
+* [x] In the Controller file, write the following fields
     * PanelService service
     * View view
 
-* [ ] Write a constructor passing in the fields
-* [ ] Write a runMenu while loop that switches on the Enum user input and run until they press 0 to exit
-* [ ] In the View File, create the following core methods (subject to change)
+* [x] Write a constructor passing in the fields
+* [x] Write a runMenu while loop that switches on the Enum user input and run until they press 0 to exit
+* [x] In the View File, create the following core methods (subject to change)
     * displayMenuOption
     * printAllPanels
     * createPanel
     * printResult
 
-* [ ] Also, write the following helper methods (subject to change)
+* [x] Also, write the following helper methods (subject to change)
     * printHeader
     * readString
     * readRequiredString
@@ -175,7 +177,7 @@ I tend to take a bit longer to figure out my code, so I'm allotting an entire da
     * overloaded readInt
     * readType
 
-* [ ] In the controller file, write the following methods to pass the service data along to the view class and print to
+* [x] In the controller file, write the following methods to pass the service data along to the view class and print to
   the viewer(subject to change)
     * displayAllPanels
     * displayByType
@@ -184,11 +186,11 @@ I tend to take a bit longer to figure out my code, so I'm allotting an entire da
     * updatePanel
     * deletePanel
 
-* [ ]  Write a run method (finally catching my DataAccessException)
-* [ ]  Create an App class
-* [ ]  Pass the FileRepository into the service
-* [ ]  Pass the service and view into the controller
-* [ ]  Run the controller
+* [x]  Write a run method (finally catching my DataAccessException)
+* [x]  Create an App class
+* [x]  Pass the FileRepository into the service
+* [x]  Pass the service and view into the controller
+* [x]  Run the controller
     
 
     
