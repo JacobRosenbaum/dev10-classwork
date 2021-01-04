@@ -82,7 +82,7 @@ public class Controller {
             do {
                 if (!result.isSuccess()) {
                     view.printResult(result, "\nPanel ID: %s was successfully " +
-                            "updated in Section: %s. Cheers\n");
+                            "updated in Section: %s. Cheers.\n");
                     String prompt;
                     do {
                         prompt = view.readString("Here are your options:\n1. Re-type entire Panel\n" +
@@ -92,13 +92,13 @@ public class Controller {
                             view.updatePanel(selectedPanel);
                             result = service.update(panel);
                             view.printResult(result, "\nPanel ID: %s was successfully " +
-                                    "updated in Section: %s. Cheers\n");
+                                    "updated in Section: %s. Cheers.\n");
                             break;
                         } else if (prompt.equals("2")) {
                             view.updateDuplicatePanel(selectedPanel);
                             result = service.update(panel);
                             view.printResult(result, "\nPanel ID: %s was successfully " +
-                                    "updated in Section: %s. Cheers\n");
+                                    "updated in Section: %s. Cheers.\n");
                             break;
                         } else {
                             System.out.println("Value needs to either be 1 or 2\n");
@@ -106,7 +106,7 @@ public class Controller {
                     } while (true);
 
                 } else {
-                    view.printResult(result, "\nPanel ID: %s was successfully updated in Section: %s. Cheers\n");
+                    view.printResult(result, "\nPanel ID: %s was successfully updated in Section: %s. Cheers.\n");
                 }
             } while (!result.isSuccess());
         }
@@ -122,7 +122,7 @@ public class Controller {
             return;
         }
         if (service.deleteById(selectedPanel.getPanelId()).isSuccess()) {
-            view.printMessage("Panel ID: " + selectedPanel.getPanelId() + " was  successfully deleted. Cheers.");
+            view.printMessage("Panel ID: " + selectedPanel.getPanelId() + " was successfully deleted. Cheers.");
         } else {
             view.printMessage("Panel ID: " + selectedPanel.getPanelId() + " was not found.\n");
         }
