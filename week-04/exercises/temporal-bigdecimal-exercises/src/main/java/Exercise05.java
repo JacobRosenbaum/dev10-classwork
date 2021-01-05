@@ -12,6 +12,9 @@ public class Exercise05 {
     // Payments start on the first Friday of the year.
     // Given a date, calculate payments expected from that date until the end of the year.
     BigDecimal calculateGiftsTilEndOfYear(LocalDate date) {
+        BigDecimal payment = new BigDecimal(10);
+
+
         return null;
     }
 
