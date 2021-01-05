@@ -1,0 +1,4 @@
+Panel_ID,Section,Row,Column,Material,Year_Installed,Is_Tracking
+1,Camp Jacob,2,4,AMORPHOUS_SILICON,2018,true
+2,Camp Rosenbaum,4,6,COPPER_INDIUM_GALLIUM_SELENIDE,2011,false
+3,Camp Aaron,8,2,MULTICRYSTALLINE_SILICON,2005,true
