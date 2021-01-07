@@ -17,6 +17,15 @@ public class Student extends Object {
     private String major;
     private double iq;
     private List<Registration> registrations;
+//    private List<StudentSummary> summaries;
+
+//    public List<StudentSummary> getSummary() {
+//        return summaries;
+//    }
+//
+//    public void setSummary(List<StudentSummary> summaries) {
+//        this.summaries = summaries;
+//    }
 
     public int getId() {
         return id;
