@@ -297,3 +297,4 @@
 * [ ] Test new feature
 * [ ] Write "Category Value Report" feature
 * [ ] Test new feature
+* [ ] Re-Factor App class, and all components, services, and repositories to include Spring DI Annotations
