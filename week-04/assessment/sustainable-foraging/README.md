@@ -85,55 +85,85 @@
 * Missing Feature!
     - View Foragers is missing!
         * Is there existing code that I can use?
-            * [ ] Yes
+            * [x] Yes
             * [ ] No
+        - findAll methods in ForagerService & ForagerRepositories
   
 * Tests:
     - ForagerFileRepository
         - Failed tests?
             * [ ] Yes
-            * [ ] No
+            * [x] No
         - Missing tests?
-          * [ ] Yes
+          * [x] Yes
           * [ ] No
+            - Missing tests include:
+                - findAllShouldReturnCorrectNumberOfForagers
+                - findAllShouldReturnCorrectForager
+                - shouldFindById
+                - shouldNotFindMissingId
+                - shouldFindByState
+                - shouldNotFindMissingState
   - ForageFileRepository
       - Failed tests?
           * [ ] Yes
-          * [ ] No
+          * [x] No
       - Missing tests?
-          * [ ] Yes
+          * [x] Yes
           * [ ] No
+            - Missing tests include:
+                - shouldNotFindMissingDate
+                - shouldNotAdd
     - ItemFileRepository
         - Failed tests?
             * [ ] Yes
-            * [ ] No
+            * [x] No
         - Missing tests?
-            * [ ] Yes
+            * [x] Yes
             * [ ] No
-    - ForagerService
+            Missing tests include:
+                - shouldNotFindMissingId
+    - ForageService
         - Failed tests?
             * [ ] Yes
-            * [ ] No
+            * [x] No
         - Missing tests?
-            * [ ] Yes
+            * [x] Yes
             * [ ] No
+            Missing tests include
+                - shouldFindByDate
+                - shouldNotFindMissingDate
+                - shouldNotAddIfForagerIsNull
+                - shouldNotAddIfItemIsNull
+                - shouldNotAddIfDateIsNull
+                - shouldNotAddIfDateIsInFuture
+                - shouldNotAddIfKGOver250
+                - shouldNotAddIfKGUnder0
+                - shouldNotAddDuplicateForage
+        
     - ItemService
         - Failed tests?
             * [ ] Yes
-            * [ ] No
+            * [x] No
         - Missing tests?
-            * [ ] Yes
+            * [x] Yes
             * [ ] No
+            Missing tests include
+                - shouldFindByCategory
+                - shouldNotFindMissingCategory
+                - shouldNotAddNullCategory
+                - shouldNotAddDuplicateName
     
 * Missing test!
     - Forager Service test is missing!
-        TODO:
-            * [ ] Add positive and negative test cases for findByState
-            * [ ] Add positive and negative test cases for findByLastName
+        * TODO (at minimum):
+            - Add positive and negative test cases for findByState
+            - Add positive and negative test cases for findByLastName
       
 
 ### Code Execution
 #### Main package
+##### Add Features
 * Add a Forager - Time Estimate: 2 hours
     - TODO:
         * Add the following methods to ForagerRepository
@@ -178,11 +208,92 @@
         * Add the following methods to Controller
          * [ ] reportItemCategory
     
+* View Foragers - Time Estimate: 1 hour
+    * TODO:
+        * Add the following methods to ForagerService
+          * [ ] findAll
+       * Add the following methods to Controller
+          * [ ] viewForagers
+       * Add the following methods to View
+          * [ ] displayForagers
+    
+#### Test package
 
-* To implement the new features, what packages, classes, and methods will I write?
-* What unit tests do I need to write to ensure that my code behaves as expected?
-* Do I have to do any research?
-* Are there any unknowns? What do I need to do to get clarity?
-* What are my primary tasks?
-* How long do I estimate each of those tasks will take?
-* Are there any dependencies between tasks? What order do I need to complete the tasks in?
+* ForageFileRepositoryTest - Time Estimate: 15 minutes
+    * TODO:
+        * Add the following tests
+            * [ ] shouldNotFindMissingDate
+            * [ ] shouldNotAdd
+
+* ForagerFileRepositoryTest - Time Estimate: 1 hour
+    * TODO:
+        * Add the following tests
+          * [ ] findAllShouldReturnCorrectNumberOfForagers
+          * [ ] findAllShouldReturnCorrectForager
+          * [ ] shouldFindById
+          * [ ] shouldNotFindMissingId
+          * [ ] shouldFindByState
+          * [ ] shouldNotFindMissingState
+    
+
+* ItemFileRepositoryTest - Time Estimate: 45 minutes
+    * TODO:
+        * Add the following tests
+          * [ ] shouldFindByCategory
+          * [ ] shouldNotFindMissingCategory
+          * [ ] shouldNotAddNullCategory
+          * [ ] shouldNotAddDuplicateName
+
+* ForageServiceTest - Time Estimate: 2 hours
+    * TODO:
+        * Add the following tests
+          * [ ] shouldFindByDate
+          * [ ] shouldNotFindMissingDate
+          * [ ] shouldNotAddIfForagerIsNull
+          * [ ] shouldNotAddIfItemIsNull
+          * [ ] shouldNotAddIfDateIsNull
+          * [ ] shouldNotAddIfDateIsInFuture
+          * [ ] shouldNotAddIfKGOver250
+          * [ ] shouldNotAddIfKGUnder0
+          * [ ] shouldNotAddDuplicateForage
+            
+        * [ ] Ensure test double represents accurate information
+
+* ItemServiceTest - Time Estimate: 1 hour
+    * TODO:
+        * Add the following tests
+            * [ ] shouldFindByCategory
+          * [ ] shouldNotFindMissingCategory
+          * [ ] shouldNotAddNullCategory
+          * [ ] shouldNotAddDuplicateName
+
+        * [ ] Ensure test double represents accurate information
+
+* ForagerServiceTest - Time Estimate: 2 hours
+    * TODO:
+        * Add the following tests
+            * [ ] shouldFindByState
+            * [ ] shouldNotFindMissingState
+            * [ ] shouldFindByLastName
+            * [ ] shouldNotFindMissingLastName
+            * [ ] shouldAddForager
+            * [ ] shouldNotAddIfFirstNameIsNull
+            * [ ] shouldNotAddIfLastNameIsNull
+            * [ ] shouldNotAddDuplicateForager
+
+        * [ ] Ensure test double represents accurate information
+    
+
+### Order of Operations
+
+* [ ] Fix bug in "Add a Forage"
+* [ ] Write missing tests to ensure no other bugs are present in the given code
+    * [ ] Depending on outcome of missing tests, might have to fix some of the given code
+* [ ] Write "Add a Forager" feature
+* [ ] Test new feature
+* [ ] Write "View Foragers" feature
+* [ ] Test new feature
+* [ ] Write "KG Report" feature
+* [ ] Test new feature
+* [ ] Write "Category Value Report" feature
+* [ ] Test new feature
