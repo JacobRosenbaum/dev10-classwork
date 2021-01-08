@@ -90,16 +90,15 @@ public class Main {
 
 
         // 12. Print every course students are registered for, including repeats.
-//        students.stream()
-//                .flatMap(student -> student.getRegistrations().stream())
-//                .filter(registration -> !registration.getCourse().isEmpty())
+//       students.stream()
+//                .flatMap(i -> i.getRegistrations().stream())
+//                .map(i -> i.getCourse())
 //                .forEach(System.out::println);
 
         // 13. Print a distinct list of courses students are registered for.
-        //HELP
 //        students.stream()
-//                .flatMap(student -> student.getRegistrations().stream())
-//                .filter(registration -> !registration.getCourse().isEmpty())
+//                .flatMap(i -> i.getRegistrations().stream())
+//                .map(i -> i.getCourse())
 //                .distinct()
 //                .forEach(System.out::println);
         // 14. Print a distinct list of courses students are registered for, ordered by name.
