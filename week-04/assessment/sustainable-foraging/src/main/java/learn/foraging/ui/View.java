@@ -110,6 +110,14 @@ public class View {
         return forage;
     }
 
+    public Forager makeForager() {
+        Forager forager = new Forager();
+        forager.setFirstName(io.readRequiredString("First name: "));
+        forager.setLastName(io.readRequiredString("Last name: "));
+        forager.setState(io.readRequiredString("State (Abbr.): "));
+        return forager;
+    }
+
     public Item makeItem() {
         displayHeader(MainMenuOption.ADD_ITEM.getMessage());
         Item item = new Item();

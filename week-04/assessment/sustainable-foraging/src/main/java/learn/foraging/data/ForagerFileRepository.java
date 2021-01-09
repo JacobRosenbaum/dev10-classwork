@@ -1,17 +1,20 @@
 package learn.foraging.data;
 
 import learn.foraging.models.Forager;
+import org.junit.platform.commons.util.StringUtils;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOError;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class ForagerFileRepository implements ForagerRepository {
 
+    private static final String HEADER = "id,first_name,last_name,state";
+    private static final String DELIMITER = ",";
+    private static final String REPLACEMENT_DELIMITER = "$$$";
+    private static final String SPACE = "";
     private final String filePath;
 
     public ForagerFileRepository(String filePath) {
@@ -52,13 +55,68 @@ public class ForagerFileRepository implements ForagerRepository {
                 .filter(i -> i.getState().equalsIgnoreCase(stateAbbr))
                 .collect(Collectors.toList());
     }
-    
+
+    @Override
+    public Forager add(Forager forager) throws DataException {
+        List<Forager> all = findAll();
+        forager.setId(java.util.UUID.randomUUID().toString());
+        all.add(forager);
+        writeAll(all);
+        return forager;
+    }
+
+    protected void writeAll(List<Forager> foragers) throws DataException {
+        try (PrintWriter writer = new PrintWriter(filePath)) {
+
+            writer.println(HEADER);
+
+            if (foragers == null) {
+                return;
+            }
+
+            for (Forager forager : foragers) {
+                writer.println(serialize(forager));
+            }
+
+        } catch (FileNotFoundException ex) {
+            throw new DataException(ex);
+        }
+    }
+
+    private String serialize(Forager forager) {
+        String firstName = forager.getFirstName();
+        firstName = firstName.substring(0, 1).toUpperCase() +
+                firstName.substring(1).toLowerCase();
+
+        String lastName = forager.getLastName();
+        lastName = lastName.substring(0, 1).toUpperCase() +
+                lastName.substring(1).toLowerCase();
+
+        return String.format("%s,%s,%s,%s",
+                forager.getId(),
+                cleanField(firstName),
+                cleanField(lastName),
+                cleanField(forager.getState().toUpperCase(Locale.ROOT)));
+    }
+
     private Forager deserialize(String[] fields) {
         Forager result = new Forager();
         result.setId(fields[0]);
-        result.setFirstName(fields[1]);
-        result.setLastName(fields[2]);
-        result.setState(fields[3]);
+        result.setFirstName(restoreField(fields[1]));
+        result.setLastName(restoreField(fields[2]));
+        result.setState(restoreField(fields[3]));
         return result;
     }
+
+    private String cleanField(String value) {
+        return value.replace(DELIMITER, REPLACEMENT_DELIMITER)
+                .replace("/r", SPACE)
+                .replace("/n", SPACE);
+    }
+
+    private String restoreField(String value) {
+        return value.replace(REPLACEMENT_DELIMITER, DELIMITER);
+
+    }
+
 }

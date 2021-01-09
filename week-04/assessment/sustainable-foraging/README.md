@@ -38,6 +38,7 @@
             * Names do not appear in order
                 * [x] Solved by adding .sorted(Comparator.comparing(Forager::getLastName)) in ForagerService findByLastName method
             * Validation error! Program allows user to add a Forage with the same date, item, & Forager
+                * [x] Wrote a forageDuplicateValidation method to solve issue
                 
                 * TODO:
                     * [ ] Add validation method in ForageService to ensure user cannot enter duplicate Forages  
@@ -80,6 +81,8 @@
             * [x] Yes
             * [ ] No
         - ForageService findByDate method
+    - BUG!
+        * [ ] Deserialize does not remove delimiter
 
 
 * Missing Feature!
@@ -167,11 +170,11 @@
 * Add a Forager - Time Estimate: 2 hours
     - TODO:
         * Add the following methods to ForagerRepository
-            * [ ] add
+            * [x] add
         * Add the following methods to ForagerFileRepository
-            * [ ] add 
-            * [ ] writeAll
-            * [ ] serialize
+            * [x] add 
+            * [x] writeAll
+            * [x] serialize
           
         * Add the following methods to ForagerService
             * [ ] add
@@ -286,7 +289,7 @@
 
 ### Order of Operations
 
-* [ ] Fix bug in "Add a Forage"
+* [x] Fix bug in "Add a Forage"
 * [ ] Write missing tests to ensure no other bugs are present in the given code
     * [ ] Depending on outcome of missing tests, might have to fix some of the given code
 * [ ] Write "Add a Forager" feature

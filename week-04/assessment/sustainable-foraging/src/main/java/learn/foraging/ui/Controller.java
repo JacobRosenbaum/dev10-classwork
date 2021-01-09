@@ -52,8 +52,7 @@ public class Controller {
                     addForage();
                     break;
                 case ADD_FORAGER:
-                    view.displayStatus(false, "NOT IMPLEMENTED");
-                    view.enterToContinue();
+                    addForager();
                     break;
                 case ADD_ITEM:
                     addItem();
@@ -106,6 +105,19 @@ public class Controller {
             view.displayStatus(false, result.getErrorMessages());
         } else {
             String successMessage = String.format("Forage %s created.", result.getPayload().getId());
+            view.displayStatus(true, successMessage);
+        }
+    }
+
+    private void addForager() throws DataException {
+        view.displayHeader(MainMenuOption.ADD_FORAGER.getMessage());
+        Forager forager = view.makeForager();
+
+        Result<Forager> result = foragerService.add(forager);
+        if (!result.isSuccess()) {
+            view.displayStatus(false, result.getErrorMessages());
+        } else {
+            String successMessage = String.format("Forager %s %s added.", result.getPayload().getFirstName(), result.getPayload().getLastName());
             view.displayStatus(true, successMessage);
         }
     }
