@@ -25,7 +25,7 @@ public class ForagerService {
     public List<Forager> findByLastName(String prefix) {
         return repository.findAll().stream()
                 .filter(i -> i.getLastName().startsWith(prefix.toUpperCase(Locale.ROOT)))
-                .sorted(Comparator.comparing(Forager::getLastName))
+                .sorted(Comparator.comparing(Forager::getFirstName))
                 .collect(Collectors.toList());
     }
 
@@ -61,14 +61,14 @@ public class ForagerService {
             result.addErrorMessage("Forager state is required.");
         }
 
-        if (forager.getState().length() != 2){
+        if (forager.getState().length() != 2) {
             result.addErrorMessage("Forager state must be abbreviated");
         }
 
-        for (int i = 0; i < all.size(); i++){
+        for (int i = 0; i < all.size(); i++) {
             if (forager.getFirstName().equalsIgnoreCase(all.get(i).getFirstName()) &&
                     forager.getLastName().equalsIgnoreCase(all.get(i).getLastName()) &&
-                    forager.getState().equalsIgnoreCase(all.get(i).getState())){
+                    forager.getState().equalsIgnoreCase(all.get(i).getState())) {
                 result.addErrorMessage("Forager first name, last name, and state cannot be duplicated");
             }
         }

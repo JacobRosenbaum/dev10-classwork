@@ -68,6 +68,10 @@ public class View {
         return foragers.get(index - 1);
     }
 
+    public String getForagerState() {
+        return io.readRequiredString("Type in a State (Abbr.): ");
+    }
+
     public Category getItemCategory() {
         displayHeader("Item Categories");
         int index = 1;
@@ -172,6 +176,23 @@ public class View {
         displayHeader(success ? "Success" : "Error");
         for (String message : messages) {
             io.println(message);
+        }
+    }
+
+    public void displayForagers(List<Forager> foragers) {
+        int count = 1;
+        if (foragers == null || foragers.isEmpty()) {
+            io.println("No foragers found.");
+            return;
+        }
+
+        for (Forager forager : foragers) {
+            io.printf("%s. %s %s, %s%n",
+                    count,
+                    forager.getFirstName(),
+                    forager.getLastName(),
+                    forager.getState());
+            count++;
         }
     }
 

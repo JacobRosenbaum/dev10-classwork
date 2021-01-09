@@ -5,6 +5,7 @@ import org.junit.platform.commons.util.StringUtils;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -53,6 +54,7 @@ public class ForagerFileRepository implements ForagerRepository {
     public List<Forager> findByState(String stateAbbr) {
         return findAll().stream()
                 .filter(i -> i.getState().equalsIgnoreCase(stateAbbr))
+                .sorted(Comparator.comparing(Forager::getFirstName))
                 .collect(Collectors.toList());
     }
 

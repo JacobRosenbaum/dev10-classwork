@@ -177,18 +177,18 @@
             * [x] serialize
           
         * Add the following methods to ForagerService
-            * [ ] add
-            * [ ] validate by...
-                * [ ]  First name is required.
-                * [ ]  Last name is required. 
-                * [ ]  State is required.
-                * [ ]  The combination of first name, last name, and state cannot be duplicated.
-                * [ ]  Forager ID is a system-generated GUID (globally unique identifier).
+            * [x] add
+            * [x] validate by...
+                * [x]  First name is required.
+                * [x]  Last name is required. 
+                * [x]  State is required.
+                * [x]  The combination of first name, last name, and state cannot be duplicated.
+                * [x]  Forager ID is a system-generated GUID (globally unique identifier).
       * Add the following methods to View
-            * [ ] makeForager
+            * [x] makeForager
           
       * Add the following methods to Controller
-            * [ ] addForager
+            * [x] addForager
         
 * Kilogram report - Time Estimate: 3 hours
     * TODO:
@@ -290,9 +290,9 @@
 ### Order of Operations
 
 * [x] Fix bug in "Add a Forage"
-* [ ] Write missing tests to ensure no other bugs are present in the given code
+* [x] Write missing tests to ensure no other bugs are present in the given code
     * [ ] Depending on outcome of missing tests, might have to fix some of the given code
-* [ ] Write "Add a Forager" feature
+* [x] Write "Add a Forager" feature
 * [ ] Test new feature
 * [ ] Write "View Foragers" feature
 * [ ] Test new feature

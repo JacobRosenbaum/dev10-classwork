@@ -48,6 +48,9 @@ public class Controller {
                 case VIEW_ITEMS:
                     viewItems();
                     break;
+                case VIEW_FORAGERS:
+                    viewForagers();
+                    break;
                 case ADD_FORAGE:
                     addForage();
                     break;
@@ -77,6 +80,14 @@ public class Controller {
         LocalDate date = view.getForageDate();
         List<Forage> forages = forageService.findByDate(date);
         view.displayForages(forages);
+        view.enterToContinue();
+    }
+
+    private void viewForagers() {
+        view.displayHeader(MainMenuOption.VIEW_FORAGERS.getMessage());
+        String state = view.getForagerState();
+        List<Forager> foragers = foragerService.findByState(state);
+        view.displayForagers(foragers);
         view.enterToContinue();
     }
 
