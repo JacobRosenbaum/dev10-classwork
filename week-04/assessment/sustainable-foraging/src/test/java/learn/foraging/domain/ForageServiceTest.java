@@ -11,6 +11,7 @@ import learn.foraging.models.Item;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.sql.ResultSet;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -70,5 +71,19 @@ class ForageServiceTest {
         assertFalse(result.isSuccess());
     }
 
+    // New Test
+    @Test
+    void shouldNotAddDuplicateForage() throws DataException {
+
+        Forage forage = new Forage();
+        forage.setDate(LocalDate.of(2020, 6, 26));
+        forage.setForager(ForagerRepositoryDouble.FORAGER);
+        forage.setItem(ItemRepositoryDouble.ITEM);
+        forage.setKilograms(0.5);
+
+        Response actual = service.add(forage);
+        assertFalse(actual.isSuccess());
+        assertTrue(actual.getErrorMessages().get(0).equals("Cannot enter duplicate Forage with same Date, Item, and Forager"));
+    }
 
 }

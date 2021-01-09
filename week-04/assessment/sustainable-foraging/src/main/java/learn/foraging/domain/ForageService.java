@@ -98,6 +98,8 @@ public class ForageService {
 
         validateChildrenExist(forage, result);
 
+        validateForageNotDuplicate(forage, result);
+
         return result;
     }
 
@@ -145,4 +147,17 @@ public class ForageService {
             result.addErrorMessage("Item does not exist.");
         }
     }
+
+    private void validateForageNotDuplicate(Forage forage, Result<Forage> result) {
+        List<Forage> forageDate = forageRepository.findByDate(forage.getDate());
+
+        for (int i = 0; i < forageDate.size(); i++) {
+            if (forage.getForager().getId().equals(forageDate.get(i).getForager().getId()) &&
+                    forage.getItem().getId() == forageDate.get(i).getItem().getId()) {
+                result.addErrorMessage("Cannot enter duplicate Forage with same Date, Item, and Forager");
+            }
+        }
+    }
 }
+
+
