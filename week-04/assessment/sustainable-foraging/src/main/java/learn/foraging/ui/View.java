@@ -6,9 +6,15 @@ import learn.foraging.models.Forager;
 import learn.foraging.models.Item;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.util.DoubleSummaryStatistics;
+import java.util.IntSummaryStatistics;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class View {
 
@@ -35,8 +41,7 @@ public class View {
     }
 
     public LocalDate getForageDate() {
-        displayHeader(MainMenuOption.VIEW_FORAGES_BY_DATE.getMessage());
-        return io.readLocalDate("Select a date [MM/dd/yyyy]: ");
+        return io.readLocalDate("Select a date [MM/DD/YYYY]: ");
     }
 
     public String getForagerNamePrefix() {
@@ -222,4 +227,41 @@ public class View {
             io.printf("%s: %s, %s, %.2f $/kg%n", item.getId(), item.getName(), item.getCategory(), item.getDollarPerKilogram());
         }
     }
+
+    public void displayItemKGReport(Map<Item, Double> forages) {
+        DecimalFormat df2 = new DecimalFormat("#.##");
+
+        if (forages.size() == 0) {
+            io.println("No forages found");
+            return;
+        }
+
+        for (Map.Entry<Item, Double> forage : forages.entrySet()) {
+            io.printf("%s: %s KG%n", forage.getKey().getName(), df2.format(forage.getValue()));
+        }
+    }
+
+    public void displayNumbersReport(Map<Category, BigDecimal> totalValues) {
+//        DecimalFormat df2 = new DecimalFormat("#.##");
+
+        if (totalValues == null) {
+            io.println("No forages found");
+            return;
+        }
+
+        for (Map.Entry<Category, BigDecimal> value : totalValues.entrySet()) {
+            io.printf("%s: $%s%n", value.getKey(), value.getValue().setScale(2, RoundingMode.HALF_UP));
+        }
+
+
+
+//        io.printf("EDIBLE: $%s%n" +
+//                        "MEDICINAL: $%s%n",
+//                totalValues.get(0) == null ? "$0.00"
+//                        : totalValues.get(0).setScale(2, RoundingMode.HALF_UP),
+//                totalValues.get(1) == null ? "$0.00"
+//                        : totalValues.get(1).setScale(2, RoundingMode.HALF_UP));
+
+    }
 }
+

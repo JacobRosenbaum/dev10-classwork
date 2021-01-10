@@ -294,7 +294,7 @@
     * [ ] Depending on outcome of missing tests, might have to fix some of the given code
 * [x] Write "Add a Forager" feature
 * [ ] Test new feature
-* [ ] Write "View Foragers" feature
+* [x] Write "View Foragers" feature
 * [ ] Test new feature
 * [ ] Write "KG Report" feature
 * [ ] Test new feature

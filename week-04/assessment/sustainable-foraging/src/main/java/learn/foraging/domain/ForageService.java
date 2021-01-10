@@ -4,16 +4,14 @@ import learn.foraging.data.DataException;
 import learn.foraging.data.ForageRepository;
 import learn.foraging.data.ForagerRepository;
 import learn.foraging.data.ItemRepository;
-import learn.foraging.models.Forage;
-import learn.foraging.models.Forager;
-import learn.foraging.models.Item;
+import learn.foraging.models.*;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ForageService {
 
@@ -82,6 +80,42 @@ public class ForageService {
         }
 
         return count;
+    }
+
+    public Map<Item, Double> createItemKGReport(LocalDate date) {
+        List<Forage> forages = findByDate(date);
+
+        return forages.stream()
+                .collect(Collectors.groupingBy(
+                        //key
+                        Forage::getItem,
+                        //value
+                        Collectors.summingDouble(Forage::getKilograms)));
+    }
+
+    public Map<Category, BigDecimal> createCategoryValueReport(LocalDate date) {
+        List<Forage> forages = findByDate(date);
+        HashMap<Category, BigDecimal> valueMap = new HashMap();
+
+        if (forages.size() > 0) {
+
+            BigDecimal edible = forages.stream()
+                    .filter(f -> f.getItem().getCategory() == Category.EDIBLE)
+                    .map(Forage::getValue)
+                    .filter(Objects::nonNull)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+            valueMap.put(Category.EDIBLE, edible);
+
+            BigDecimal medicinal = forages.stream()
+                    .filter(f -> f.getItem().getCategory() == Category.MEDICINAL)
+                    .map(Forage::getValue)
+                    .filter(Objects::nonNull)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+            valueMap.put(Category.MEDICINAL, medicinal);
+
+            return valueMap;
+        }
+        return null;
     }
 
     private Result<Forage> validate(Forage forage) {

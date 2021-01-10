@@ -61,12 +61,10 @@ public class Controller {
                     addItem();
                     break;
                 case REPORT_KG_PER_ITEM:
-                    view.displayStatus(false, "NOT IMPLEMENTED");
-                    view.enterToContinue();
+                    getItemKGReport();
                     break;
                 case REPORT_CATEGORY_VALUE:
-                    view.displayStatus(false, "NOT IMPLEMENTED");
-                    view.enterToContinue();
+                    getCategoryValueReport();
                     break;
                 case GENERATE:
                     generate();
@@ -77,6 +75,7 @@ public class Controller {
 
     // top level menu
     private void viewByDate() {
+        view.displayHeader(MainMenuOption.VIEW_FORAGES_BY_DATE.getMessage());
         LocalDate date = view.getForageDate();
         List<Forage> forages = forageService.findByDate(date);
         view.displayForages(forages);
@@ -142,6 +141,22 @@ public class Controller {
             String successMessage = String.format("Item %s created.", result.getPayload().getId());
             view.displayStatus(true, successMessage);
         }
+    }
+
+    private void getItemKGReport() {
+        view.displayHeader("KG of Item Report");
+        LocalDate date = view.getForageDate();
+//        view.displayHeader("Items for the Forage on: " + date);
+        view.displayItemKGReport(forageService.createItemKGReport(date));
+        view.enterToContinue();
+    }
+
+    private void getCategoryValueReport() {
+        view.displayHeader("Category Value Report");
+        LocalDate date = view.getForageDate();
+//        view.displayHeader("Categories for the Forage on: " + date);
+        view.displayNumbersReport(forageService.createCategoryValueReport(date));
+        view.enterToContinue();
     }
 
     private void generate() throws DataException {

@@ -1,12 +1,18 @@
 package learn.foraging.domain;
 
 import learn.foraging.data.DataException;
+import learn.foraging.data.ForageFileRepository;
+import learn.foraging.data.ForageRepository;
 import learn.foraging.data.ItemRepository;
 import learn.foraging.models.Category;
+import learn.foraging.models.Forage;
 import learn.foraging.models.Item;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ItemService {
@@ -53,4 +59,6 @@ public class ItemService {
 
         return result;
     }
+
+
 }
