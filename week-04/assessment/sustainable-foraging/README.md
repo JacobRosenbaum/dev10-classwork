@@ -264,32 +264,32 @@
 
         * [ ] Ensure test double represents accurate information
 
-* ForagerServiceTest - Time Estimate: 2 hours
+* ForagerServiceTest - Time Estimate: 2 hours - Actual: 30 mins
     * TODO:
         * Add the following tests
-            * [ ] shouldFindByState
-            * [ ] shouldNotFindMissingState
-            * [ ] shouldFindByLastName
-            * [ ] shouldNotFindMissingLastName
-            * [ ] shouldAddForager
-            * [ ] shouldNotAddIfFirstNameIsNull
-            * [ ] shouldNotAddIfLastNameIsNull
-            * [ ] shouldNotAddDuplicateForager
+            * [x] shouldFindByState
+            * [x] shouldNotFindMissingState
+            * [x] shouldFindByLastName
+            * [x] shouldNotFindMissingLastName
+            * [x] shouldAddForager
+            * [x] shouldNotAddIfFirstNameIsNull
+            * [x] shouldNotAddIfLastNameIsNull
+            * [x] shouldNotAddDuplicateForager
 
-        * [ ] Ensure test double represents accurate information
+        * [x] Ensure test double represents accurate information
     
 
 ### Order of Operations
 
 * [x] Fix bug in "Add a Forage"
 * [x] Write missing tests to ensure no other bugs are present in the given code
-    * [ ] Depending on outcome of missing tests, might have to fix some of the given code
+    * [x] Depending on outcome of missing tests, might have to fix some of the given code
 * [x] Write "Add a Forager" feature
-* [ ] Test new feature
+* [x] Test new feature
 * [x] Write "View Foragers" feature
-* [ ] Test new feature
+* [x] Test new feature
 * [x] Write "KG Report" feature
-* [ ] Test new feature
+* [x] Test new feature
 * [x] Write "Category Value Report" feature
-* [ ] Test new feature
+* [x] Test new feature
 * [x] Re-Factor App class, and all components, services, and repositories to include Spring DI Annotations

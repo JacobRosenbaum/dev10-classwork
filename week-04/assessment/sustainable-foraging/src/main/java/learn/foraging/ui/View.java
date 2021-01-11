@@ -47,7 +47,7 @@ public class View {
     }
 
     public String getForagerNamePrefix() {
-        return io.readRequiredString("Forager last name starts with: ");
+            return io.readRequiredString("Forager last name starts with: ");
     }
 
     public Forager chooseForager(List<Forager> foragers) {
@@ -58,7 +58,7 @@ public class View {
 
         int index = 1;
         for (Forager forager : foragers.stream().limit(25).collect(Collectors.toList())) {
-            io.printf("%s: %s %s%n", index++, forager.getFirstName(), forager.getLastName());
+                io.printf("%s: %s %s%n", index++, forager.getFirstName(), forager.getLastName());
         }
         index--;
 
@@ -244,8 +244,6 @@ public class View {
     }
 
     public void displayNumbersReport(Map<Category, BigDecimal> totalValues) {
-//        DecimalFormat df2 = new DecimalFormat("#.##");
-
         if (totalValues == null) {
             io.println("No forages found");
             return;
@@ -254,16 +252,6 @@ public class View {
         for (Map.Entry<Category, BigDecimal> value : totalValues.entrySet()) {
             io.printf("%s: $%s%n", value.getKey(), value.getValue().setScale(2, RoundingMode.HALF_UP));
         }
-
-
-
-//        io.printf("EDIBLE: $%s%n" +
-//                        "MEDICINAL: $%s%n",
-//                totalValues.get(0) == null ? "$0.00"
-//                        : totalValues.get(0).setScale(2, RoundingMode.HALF_UP),
-//                totalValues.get(1) == null ? "$0.00"
-//                        : totalValues.get(1).setScale(2, RoundingMode.HALF_UP));
-
     }
 }
 

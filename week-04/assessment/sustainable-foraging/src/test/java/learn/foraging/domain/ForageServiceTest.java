@@ -77,12 +77,31 @@ class ForageServiceTest {
     //NEW
     @Test
     void shouldNotAddNullForager() throws DataException {
+        Forager forager = null;
+
+        Forage forage = new Forage();
+        forage.setDate(LocalDate.now());
+        forage.setForager(forager);
+        forage.setItem(ItemRepositoryDouble.ITEM);
+        forage.setKilograms(0.5);
+
+        Result<Forage> result = service.add(forage);
+        assertEquals(result.getErrorMessages().get(0), "Forager is required.");
+
+    }
+
+    //NEW
+    @Test
+    void shouldNotAddNullForage() throws DataException {
         Forage forage = null;
 
         Result<Forage> result = service.add(forage);
         assertEquals(result.getErrorMessages().get(0), "Nothing to save.");
 
     }
+
+
+
 
     @Test
     void shouldNotAddWhenItemNotFound() throws DataException {
