@@ -192,60 +192,52 @@
         
 * Kilogram report - Time Estimate: 3 hours
     * TODO:
-      * [ ] Add a ReportService class to the domain with the following methods
-            * [ ] findByItem (helper method)
-            * [ ] getSumOfKGPerItem
+      * Add the following methods to ForageService
+            * [x] getSumOfKGPerItem
         * Add the following methods to View
-            * [ ] displayKilogramByForageReport
+            * [x] displayKilogramByForageReport
       * Add the following methods to Controller
-          * [ ] reportKG
+          * [x] reportKG
 
 * Item Category Value report - Time Estimate: 3 hours
     * TODO:
-        * Add the following methods to ReportService
-          * [ ] findByCategory (helper method)
-          * [ ] getSumOfCategoryValue
+        * Add the following methods to ForageService
+          * [x] createItemKGReport
             
        * Add the following methods to View
-         * [ ] displayItemCategoryReport
+         * [x] displayItemCategoryReport
         * Add the following methods to Controller
-         * [ ] reportItemCategory
+         * [x] reportItemCategory
     
 * View Foragers - Time Estimate: 1 hour
     * TODO:
         * Add the following methods to ForagerService
-          * [ ] findAll
+          * [x] findAll
        * Add the following methods to Controller
-          * [ ] viewForagers
+          * [x] viewForagers
        * Add the following methods to View
-          * [ ] displayForagers
+          * [x] displayForagers
     
 #### Test package
 
 * ForageFileRepositoryTest - Time Estimate: 15 minutes
     * TODO:
         * Add the following tests
-            * [ ] shouldNotFindMissingDate
-            * [ ] shouldNotAdd
+            * [x] shouldNotFindMissingDate
 
 * ForagerFileRepositoryTest - Time Estimate: 1 hour
     * TODO:
         * Add the following tests
-          * [ ] findAllShouldReturnCorrectNumberOfForagers
-          * [ ] findAllShouldReturnCorrectForager
-          * [ ] shouldFindById
-          * [ ] shouldNotFindMissingId
-          * [ ] shouldFindByState
-          * [ ] shouldNotFindMissingState
+          * [x] findAllShouldReturnCorrectNumberOfForagers
+          * [x] findAllShouldReturnCorrectForager
+          * [x] shouldFindById
+          * [x] shouldNotFindMissingId
+          * [x] shouldFindByState
+          * [x] shouldNotFindMissingState
     
 
 * ItemFileRepositoryTest - Time Estimate: 45 minutes
-    * TODO:
-        * Add the following tests
-          * [ ] shouldFindByCategory
-          * [ ] shouldNotFindMissingCategory
-          * [ ] shouldNotAddNullCategory
-          * [ ] shouldNotAddDuplicateName
+    * COMPLETE
 
 * ForageServiceTest - Time Estimate: 2 hours
     * TODO:
@@ -296,8 +288,8 @@
 * [ ] Test new feature
 * [x] Write "View Foragers" feature
 * [ ] Test new feature
-* [ ] Write "KG Report" feature
+* [x] Write "KG Report" feature
 * [ ] Test new feature
-* [ ] Write "Category Value Report" feature
+* [x] Write "Category Value Report" feature
 * [ ] Test new feature
-* [ ] Re-Factor App class, and all components, services, and repositories to include Spring DI Annotations
+* [x] Re-Factor App class, and all components, services, and repositories to include Spring DI Annotations

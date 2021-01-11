@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,6 +24,22 @@ class ForageServiceTest {
             new ForageRepositoryDouble(),
             new ForagerRepositoryDouble(),
             new ItemRepositoryDouble());
+
+    //NEW
+    @Test
+    void shouldFindByDate() throws DataException {
+        List<Forage> all = service.findByDate(LocalDate.of(2020, 6, 26));
+
+        assertEquals(all.get(0).getKilograms(), 1.25);
+    }
+
+    //NEW
+    @Test
+    void shouldNotFindMissingDate() throws DataException {
+        List<Forage> all = service.findByDate(LocalDate.of(2020, 7, 22));
+
+        assertEquals(0, all.size());
+    }
 
     @Test
     void shouldAdd() throws DataException {
@@ -56,6 +74,16 @@ class ForageServiceTest {
         assertFalse(result.isSuccess());
     }
 
+    //NEW
+    @Test
+    void shouldNotAddNullForager() throws DataException {
+        Forage forage = null;
+
+        Result<Forage> result = service.add(forage);
+        assertEquals(result.getErrorMessages().get(0), "Nothing to save.");
+
+    }
+
     @Test
     void shouldNotAddWhenItemNotFound() throws DataException {
 
@@ -71,6 +99,85 @@ class ForageServiceTest {
         assertFalse(result.isSuccess());
     }
 
+
+    //NEW
+    @Test
+    void shouldNotAddNullItem() throws DataException {
+
+        Forage forage = new Forage();
+        forage.setDate(LocalDate.now());
+        forage.setForager(ForagerRepositoryDouble.FORAGER);
+        forage.setItem(null);
+        forage.setKilograms(0.5);
+
+        Result<Forage> result = service.add(forage);
+        assertEquals(result.getErrorMessages().get(0), "Item is required.");
+    }
+
+    //NEW
+    @Test
+    void shouldNotAddNullDate() throws DataException {
+        Item item = new Item(11, "Dandelion", Category.EDIBLE, new BigDecimal("0.05"));
+
+
+        Forage forage = new Forage();
+        forage.setDate(null);
+        forage.setForager(ForagerRepositoryDouble.FORAGER);
+        forage.setItem(item);
+        forage.setKilograms(0.5);
+
+        Result<Forage> result = service.add(forage);
+        assertEquals(result.getErrorMessages().get(0), "Forage date is required.");
+    }
+
+    //NEW
+    @Test
+    void shouldNotAddFutureDate() throws DataException {
+        Item item = new Item(11, "Dandelion", Category.EDIBLE, new BigDecimal("0.05"));
+
+
+        Forage forage = new Forage();
+        forage.setDate(LocalDate.of(2025, 12, 12));
+        forage.setForager(ForagerRepositoryDouble.FORAGER);
+        forage.setItem(item);
+        forage.setKilograms(0.5);
+
+        Result<Forage> result = service.add(forage);
+        assertEquals(result.getErrorMessages().get(0), "Forage date cannot be in the future.");
+    }
+
+    //NEW
+    @Test
+    void shouldNotAddIfKGOver250() throws DataException {
+        Item item = new Item(11, "Dandelion", Category.EDIBLE, new BigDecimal("0.05"));
+
+
+        Forage forage = new Forage();
+        forage.setDate(LocalDate.of(2018, 12, 12));
+        forage.setForager(ForagerRepositoryDouble.FORAGER);
+        forage.setItem(item);
+        forage.setKilograms(251);
+
+        Result<Forage> result = service.add(forage);
+        assertEquals(result.getErrorMessages().get(0), "Kilograms must be a positive number less than 250.0");
+    }
+
+    //NEW
+    @Test
+    void shouldNotAddIfKGEqualORLessThan0() throws DataException {
+        Item item = new Item(11, "Dandelion", Category.EDIBLE, new BigDecimal("0.05"));
+
+
+        Forage forage = new Forage();
+        forage.setDate(LocalDate.of(2018, 12, 12));
+        forage.setForager(ForagerRepositoryDouble.FORAGER);
+        forage.setItem(item);
+        forage.setKilograms(0);
+
+        Result<Forage> result = service.add(forage);
+        assertEquals(result.getErrorMessages().get(0), "Kilograms must be a positive number less than 250.0");
+    }
+
     // New Test
     @Test
     void shouldNotAddDuplicateForage() throws DataException {
@@ -84,6 +191,41 @@ class ForageServiceTest {
         Response actual = service.add(forage);
         assertFalse(actual.isSuccess());
         assertTrue(actual.getErrorMessages().get(0).equals("Cannot enter duplicate Forage with same Date, Item, and Forager"));
+    }
+    //NEW
+    @Test
+    void createKGReportShouldReturnCorrectTotalKG() throws DataException {
+        Map<Item, Double> map = service.createItemKGReport(
+                (LocalDate.of(2020, 6, 26)));
+
+        assertTrue(map.containsValue(1.25));
+    }
+    //NEW
+    @Test
+    void createKGReportShouldNotReturnInCorrectTotalKG() throws DataException {
+        Map<Item, Double> map = service.createItemKGReport(
+                (LocalDate.of(2020, 6, 26)));
+
+        assertFalse(map.containsValue(2.25));
+    }
+
+    //NEW
+    @Test
+    void createCategoryValueShouldReturnCorrectValue() throws DataException {
+        Map<Category, BigDecimal> map = service.createCategoryValueReport(
+                (LocalDate.of(2020, 6, 26)));
+        BigDecimal expected = new BigDecimal("12.487500");
+
+        assertTrue(map.containsValue(expected));
+    }
+
+    //NEW
+    @Test
+    void createCategoryValueShouldReturnNullIfForageNotFound() throws DataException {
+        Map<Category, BigDecimal> map = service.createCategoryValueReport(
+                (LocalDate.of(2020, 7, 26)));
+
+        assertNull(map);
     }
 
 }

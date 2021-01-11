@@ -50,11 +50,6 @@ public class ItemFileRepository implements ItemRepository {
     }
 
     public Item add(Item item) throws DataException {
-
-        if (item == null) {
-            return null;
-        }
-
         List<Item> all = findAll();
 
         int nextId = all.stream()

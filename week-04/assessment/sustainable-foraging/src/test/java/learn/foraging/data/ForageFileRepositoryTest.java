@@ -13,8 +13,10 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.ForkJoinPool;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class ForageFileRepositoryTest {
 
@@ -39,6 +41,14 @@ class ForageFileRepositoryTest {
         List<Forage> forages = repository.findByDate(date);
         assertEquals(FORAGE_COUNT, forages.size());
     }
+    //NEW
+    @Test
+    void shouldNotFindMissingDate() throws DataException{
+        List<Forage> forages = repository.findByDate(LocalDate.of(2013,07,9));
+        assertEquals(0, forages.size());
+
+    }
+
 
     @Test
     void shouldAdd() throws DataException {

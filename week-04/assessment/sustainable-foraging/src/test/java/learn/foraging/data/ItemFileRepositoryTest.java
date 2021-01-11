@@ -36,13 +36,21 @@ class ItemFileRepositoryTest {
     }
 
     @Test
-    void shouldFindPapaw() {
+    void shouldFindById() {
         Item papaw = repository.findById(6);
         assertNotNull(papaw);
         assertEquals("Papaw", papaw.getName());
         assertEquals(Category.EDIBLE, papaw.getCategory());
         assertEquals(new BigDecimal("9.99"), papaw.getDollarPerKilogram());
     }
+
+    //NEW
+    @Test
+    void shouldNotFindMissingId(){
+        Item item = repository.findById(34543);
+        assertNull(item);
+    }
+
 
     @Test
     void shouldAdd() throws DataException {
@@ -63,6 +71,7 @@ class ItemFileRepositoryTest {
         assertEquals(expected, actual);
     }
 
+
     @Test
     void shouldCreateNewFile() throws DataException {
         String path = "./data/items-new.txt";
@@ -79,6 +88,5 @@ class ItemFileRepositoryTest {
         assertEquals(1, item.getId());
         assertEquals(1, repository.findAll().size());
     }
-
 
 }
