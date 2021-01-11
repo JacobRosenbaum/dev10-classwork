@@ -40,6 +40,74 @@
          * getters and setters for each field - 'the getter for total will include a calc'
          * constructor that takes in each field
          * contains the following methods
-            * getDays - retrieves the amount of days per reservation
-            * getTotal - calculates the total amount of money per reservation
+            * getDays - retrieves the amount of days per reservation - private
+            * getTotal - calculates the total amount of money per reservation - public
+     
+* #### data: package
+   * HostRepository: interface
+         * holds the following methods as a contract for manipulating host data
+            * findAll
+            * findById
+            * findByEmail
+            * add
+            * update
+            * delete
+     
+   * HostFileRepository: class - implements HostRepository
+         * holds the following methods
+            * findAll
+            * findById
+            * findByEmail - public
+            * add - public
+            * update - public
+            * delete - public
+            * writeAll - private
+            * serialize - private 
+            * deserialize - private
+            * cleanField - private
+            * restoreField - private
+     
+   * GuestRepository: interface
+         * holds the following methods as a contract for manipulating host data
+           * findAll
+           * findById
+           * findByEmail
+           * add
+           * update
+           * delete
+
+  * GuestFileRepository: class - implements GuestRepository
+         * holds the following methods
+          * findAll
+          * findById
+          * findByEmail - public
+          * add - public
+          * update - public
+          * delete - public
+          * writeAll - private
+          * serialize - private
+          * deserialize - private
+          * cleanField - private
+          * restoreField - private
+
+  * ReservationRepository: interface
+      * holds the following methods as a contract for manipulating reservation data
+          * findByHostId
+          * add
+          * update
+          * delete
+
+  * ReservationFileRepository: class - implements GuestRepository
+      * holds the following methods
+          * findByHostId - public
+          * add - public
+          * update - public
+          * delete - public
+          * writeAll - private
+          * getFilePath
+          * serialize - private
+          * deserialize - private
+          * cleanField - private
+          * restoreField - private
+                  
       
