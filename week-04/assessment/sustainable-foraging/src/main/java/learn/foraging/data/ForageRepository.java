@@ -11,4 +11,5 @@ public interface ForageRepository {
     Forage add(Forage forage) throws DataException;
 
     boolean update(Forage forage) throws DataException;
+
 }

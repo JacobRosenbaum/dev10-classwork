@@ -2,6 +2,8 @@ package learn.foraging.data;
 
 import learn.foraging.models.Forager;
 import org.junit.platform.commons.util.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
+@Repository
 public class ForagerFileRepository implements ForagerRepository {
 
     private static final String HEADER = "id,first_name,last_name,state";
@@ -18,7 +21,7 @@ public class ForagerFileRepository implements ForagerRepository {
     private static final String SPACE = "";
     private final String filePath;
 
-    public ForagerFileRepository(String filePath) {
+    public ForagerFileRepository(@Value("${foragerFilePath}")String filePath) {
         this.filePath = filePath;
     }
 

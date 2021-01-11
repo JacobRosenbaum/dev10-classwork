@@ -4,6 +4,7 @@ import learn.foraging.models.Category;
 import learn.foraging.models.Forage;
 import learn.foraging.models.Forager;
 import learn.foraging.models.Item;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -16,6 +17,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Component
 public class View {
 
     private final ConsoleIO io;
@@ -207,12 +209,12 @@ public class View {
             return;
         }
         for (Forage forage : forages) {
-            io.printf("%s %s - %s:%s - Value: $%.2f%n",
+            io.printf("%s %s - %s: %s - Value: $%s%n",
                     forage.getForager().getFirstName(),
                     forage.getForager().getLastName(),
                     forage.getItem().getName(),
                     forage.getItem().getCategory(),
-                    forage.getValue()
+                    forage.getValue().setScale(2, RoundingMode.HALF_UP)
             );
         }
     }

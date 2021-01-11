@@ -5,6 +5,7 @@ import learn.foraging.data.ForageRepository;
 import learn.foraging.data.ForagerRepository;
 import learn.foraging.data.ItemRepository;
 import learn.foraging.models.*;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -13,6 +14,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Service
 public class ForageService {
 
     private final ForageRepository forageRepository;
