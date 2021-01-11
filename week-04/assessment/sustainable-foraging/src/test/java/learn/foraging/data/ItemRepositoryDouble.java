@@ -6,6 +6,7 @@ import learn.foraging.models.Item;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ItemRepositoryDouble implements ItemRepository {
 
@@ -20,6 +21,7 @@ public class ItemRepositoryDouble implements ItemRepository {
     public List<Item> findAll() {
         return new ArrayList<>(items);
     }
+
 
     @Override
     public Item findById(int id) {
@@ -42,5 +44,11 @@ public class ItemRepositoryDouble implements ItemRepository {
 
         all.add(item);
         return item;
+    }
+
+    public List<Item> findByCategory(Category category) {
+        return findAll().stream()
+                .filter(i -> i.getCategory() == category)
+                .collect(Collectors.toList());
     }
 }

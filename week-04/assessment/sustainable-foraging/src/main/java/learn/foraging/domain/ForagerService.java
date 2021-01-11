@@ -51,15 +51,15 @@ public class ForagerService {
             return result;
         }
 
-        if (forager.getFirstName().isEmpty() || forager.getFirstName().isBlank()) {
+        if (forager.getFirstName() == null || forager.getFirstName().trim().length() == 0) {
             result.addErrorMessage("Forager first name is required.");
         }
 
-        if (forager.getLastName().isEmpty() || forager.getLastName().isBlank()) {
+        if (forager.getLastName() == null || forager.getLastName().trim().length() == 0) {
             result.addErrorMessage("Forager last name is required.");
         }
 
-        if (forager.getState().isEmpty() || forager.getState().isBlank()) {
+        if (forager.getState() == null || forager.getState().trim().length() == 0) {
             result.addErrorMessage("Forager state is required.");
         }
 

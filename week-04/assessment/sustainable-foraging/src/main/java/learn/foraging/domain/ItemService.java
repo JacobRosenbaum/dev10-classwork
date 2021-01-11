@@ -53,6 +53,10 @@ public class ItemService {
             result.addErrorMessage("%/Kg must be between 0.00 and 7500.00.");
         }
 
+        if (item.getCategory() == null) {
+            result.addErrorMessage("Category is required.");
+        }
+
         if (!result.isSuccess()) {
             return result;
         }

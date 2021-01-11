@@ -4,7 +4,7 @@
 
 ### Code Review:
 
-* Review provided code: time estimate - 3 hours
+* Review provided code: time estimate - 3 hours - Actual: 4 hours
     - Test each of the following features in the console
         * [x] View Forages By Date
           - Initial testing:
@@ -167,7 +167,7 @@
 ### Code Execution
 #### Main package
 ##### Add Features
-* Add a Forager - Time Estimate: 2 hours
+* Add a Forager - Time Estimate: 2 hours - Actual: 2.5 hours
     - TODO:
         * Add the following methods to ForagerRepository
             * [x] add
@@ -190,7 +190,7 @@
       * Add the following methods to Controller
             * [x] addForager
         
-* Kilogram report - Time Estimate: 3 hours
+* Kilogram report - Time Estimate: 3 hours - Actual: 3 hours
     * TODO:
       * Add the following methods to ForageService
             * [x] getSumOfKGPerItem
@@ -199,7 +199,7 @@
       * Add the following methods to Controller
           * [x] reportKG
 
-* Item Category Value report - Time Estimate: 3 hours
+* Item Category Value report - Time Estimate: 3 hours - Actual: 4 hours
     * TODO:
         * Add the following methods to ForageService
           * [x] createItemKGReport
@@ -209,7 +209,7 @@
         * Add the following methods to Controller
          * [x] reportItemCategory
     
-* View Foragers - Time Estimate: 1 hour
+* View Foragers - Time Estimate: 1 hour - Actual:  1.5 hours
     * TODO:
         * Add the following methods to ForagerService
           * [x] findAll
@@ -220,12 +220,12 @@
     
 #### Test package
 
-* ForageFileRepositoryTest - Time Estimate: 15 minutes
+* ForageFileRepositoryTest - Time Estimate: 15 minutes - Actual: 10 mins
     * TODO:
         * Add the following tests
             * [x] shouldNotFindMissingDate
 
-* ForagerFileRepositoryTest - Time Estimate: 1 hour
+* ForagerFileRepositoryTest - Time Estimate: 1 hour - Actual: 20 mins
     * TODO:
         * Add the following tests
           * [x] findAllShouldReturnCorrectNumberOfForagers
@@ -236,31 +236,31 @@
           * [x] shouldNotFindMissingState
     
 
-* ItemFileRepositoryTest - Time Estimate: 45 minutes
+* ItemFileRepositoryTest - Time Estimate: 45 minutes  - Actual: 10 mins
     * COMPLETE
 
-* ForageServiceTest - Time Estimate: 2 hours
+* ForageServiceTest - Time Estimate: 2 hours - Actual: 30 mins
     * TODO:
         * Add the following tests
-          * [ ] shouldFindByDate
-          * [ ] shouldNotFindMissingDate
-          * [ ] shouldNotAddIfForagerIsNull
-          * [ ] shouldNotAddIfItemIsNull
-          * [ ] shouldNotAddIfDateIsNull
-          * [ ] shouldNotAddIfDateIsInFuture
-          * [ ] shouldNotAddIfKGOver250
-          * [ ] shouldNotAddIfKGUnder0
-          * [ ] shouldNotAddDuplicateForage
+          * [x] shouldFindByDate
+          * [x] shouldNotFindMissingDate
+          * [x] shouldNotAddIfForagerIsNull
+          * [x] shouldNotAddIfItemIsNull
+          * [x] shouldNotAddIfDateIsNull
+          * [x] shouldNotAddIfDateIsInFuture
+          * [x] shouldNotAddIfKGOver250
+          * [x] shouldNotAddIfKGUnder0
+          * [x] shouldNotAddDuplicateForage
             
-        * [ ] Ensure test double represents accurate information
+        * [x] Ensure test double represents accurate information
 
-* ItemServiceTest - Time Estimate: 1 hour
+* ItemServiceTest - Time Estimate: 1 hour - Actual: 30 mins
     * TODO:
         * Add the following tests
-            * [ ] shouldFindByCategory
-          * [ ] shouldNotFindMissingCategory
-          * [ ] shouldNotAddNullCategory
-          * [ ] shouldNotAddDuplicateName
+            * [x] shouldFindByCategory
+          * [x] shouldNotFindMissingCategory
+          * [x] shouldNotAddNullCategory
+          * [x] shouldNotAddDuplicateName
 
         * [ ] Ensure test double represents accurate information
 

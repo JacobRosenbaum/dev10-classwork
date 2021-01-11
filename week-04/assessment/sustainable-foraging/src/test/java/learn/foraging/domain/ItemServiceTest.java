@@ -7,6 +7,7 @@ import learn.foraging.models.Item;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,6 +25,13 @@ class ItemServiceTest {
     @Test
     void shouldNotSaveBlankName() throws DataException {
         Item item = new Item(0, "   \t\n", Category.EDIBLE, new BigDecimal("5.00"));
+        Result<Item> result = service.add(item);
+        assertFalse(result.isSuccess());
+    }
+    //NEW
+    @Test
+    void shouldNotSaveNullCategory() throws DataException {
+        Item item = new Item(0, "Test Item", null, new BigDecimal("5.00"));
         Result<Item> result = service.add(item);
         assertFalse(result.isSuccess());
     }
@@ -50,6 +58,20 @@ class ItemServiceTest {
     }
 
     @Test
+    void shouldNotSaveTooDuplicateName() throws DataException {
+        Item item = new Item(0, "Chanterelle", Category.EDIBLE, new BigDecimal("9.00"));
+        Result<Item> result = service.add(item);
+        assertFalse(result.isSuccess());
+    }
+
+    @Test
+    void shouldNotSaveNullItem() throws DataException {
+        Item item = null;
+        Result<Item> result = service.add(item);
+        assertEquals(result.getErrorMessages().get(0), "Item must not be null.");
+    }
+
+    @Test
     void shouldSave() throws DataException {
         Item item = new Item(0, "Test Item", Category.EDIBLE, new BigDecimal("5.00"));
 
@@ -57,6 +79,22 @@ class ItemServiceTest {
 
         assertNotNull(result.getPayload());
         assertEquals(2, result.getPayload().getId());
+    }
+
+    //NEW
+    @Test
+    void shouldFindByCategory() throws DataException {
+        List<Item> items = service.findByCategory(Category.EDIBLE);
+
+        assertTrue(items.get(0).getName().equals("Chanterelle"));
+    }
+
+    //NEW
+    @Test
+    void shouldNotFindMissingCategory() throws DataException {
+        List<Item> items = service.findByCategory(Category.INEDIBLE);
+
+        assertEquals(items.size(), 0);
     }
 
 }
