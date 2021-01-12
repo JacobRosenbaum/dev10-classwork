@@ -271,6 +271,7 @@
           * shouldNotDeleteIfReservationNotInPast
     
 ## Ordered List of Tasks
+### Total Completion Time Estimate: 26 hours, 40 mins
 
 1. Create the models - Estimated Completion Time: 40 mins
     * [ ] Host
