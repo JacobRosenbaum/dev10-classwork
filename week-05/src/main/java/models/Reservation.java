@@ -57,6 +57,10 @@ public class Reservation {
     }
 
     public BigDecimal getTotal() {
+        if (startDate == null || endDate == null){
+            return BigDecimal.ZERO;
+        }
+
         BigDecimal weekDays = new BigDecimal(getWeekDays());
         BigDecimal weekEndDays = new BigDecimal(getWeekEndDays());
 

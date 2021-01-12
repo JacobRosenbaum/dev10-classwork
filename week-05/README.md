@@ -274,9 +274,10 @@
 ### Total Completion Time Estimate: 26 hours, 40 mins
 
 1. Create the models - Estimated Completion Time: 40 mins
-    * [ ] Host
-    * [ ] Guest
-    * [ ] Reservation
+   Actual Time: 1.5 hours (pre-revision)
+    * [x] Host
+    * [x] Guest
+    * [x] Reservation
     
 2. Create the interfaces - Estimated Completion Time: 40 mins
     * [ ] HostRepository
