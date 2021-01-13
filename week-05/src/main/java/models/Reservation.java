@@ -57,7 +57,21 @@ public class Reservation {
     }
 
     public BigDecimal getTotal() {
-        if (startDate == null || endDate == null){
+        // total exists, so we just grab it from database
+        if (total != null) {
+            return total;
+        }
+        // total does not exist, so we are adding it, and must calulate it first
+        total = calculateTotal();
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
+
+    public BigDecimal calculateTotal() {
+        if (startDate == null || endDate == null) {
             return BigDecimal.ZERO;
         }
 
@@ -67,11 +81,9 @@ public class Reservation {
         BigDecimal weekDayTotal = weekDays.multiply(host.getStandardRate());
         BigDecimal weekEndTotal = weekEndDays.multiply(host.getWeekendRate());
 
-        return weekDayTotal.add(weekEndTotal).setScale(2, RoundingMode.HALF_UP);
-    }
+        total = weekDayTotal.add(weekEndTotal).setScale(2, RoundingMode.HALF_UP);
 
-    public void setTotal(BigDecimal total) {
-        this.total = total;
+        return total;
     }
 
     private Long getWeekDays() {

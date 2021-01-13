@@ -6,8 +6,6 @@ import java.util.List;
 
 public interface ReservationRepository {
 
-//    String findByHostEmail(String hostEmail) throws DataAccessException;
-
     List<Reservation> findByHostEmail(String hostEmail) throws DataAccessException;
 
     Reservation add(Reservation reservation) throws DataAccessException;
