@@ -1,7 +1,6 @@
 package data;
 
 import models.Guest;
-import models.Host;
 import models.Reservation;
 
 import java.io.*;
@@ -15,23 +14,22 @@ public class ReservationFileRepository implements ReservationRepository {
 
     private static final String HEADER = "id,start_date,end_date,guest_id,total";
     private final String directory;
-    private final HostFileRepository hostFileRepository;
 
-    public ReservationFileRepository(String directory, HostFileRepository hostFileRepository) {
+    public ReservationFileRepository(String directory) {
         this.directory = directory;
-        this.hostFileRepository = hostFileRepository;
     }
 
     @Override
-    public List<Reservation> findByHostEmail(String hostEmail) throws DataAccessException {
+    public List<Reservation> findByHostId(String hostId) throws DataAccessException {
         ArrayList<Reservation> result = new ArrayList<>();
-        String hostId;
-        Host host = hostFileRepository.findByEmail(hostEmail);
-        if (host == null) {
-            return result;
-        } else {
-            hostId = host.getHostId();
-        }
+//        String hostId;
+//        Host host = hostFileRepository.findByEmail(hostEmail);
+//        if (host == null) {
+//            return result;
+//        } else {
+//            hostId = host.getHostId();
+//        }
+
         try (BufferedReader reader = new BufferedReader(new FileReader(getFilePath(hostId)))) {
 
             reader.readLine(); // read header
@@ -51,20 +49,20 @@ public class ReservationFileRepository implements ReservationRepository {
 
     @Override
     public Reservation add(Reservation reservation) throws DataAccessException {
-        List<Reservation> all = this.findByHostEmail(reservation.getHost().getHostEmail());
+        List<Reservation> all = this.findByHostId(reservation.getHost().getHostId());
         reservation.setReservationId(getNextId(all));
         all.add(reservation);
-        writeAll(all, reservation.getHost().getHostId(), true);
+        writeAll(all, reservation.getHost().getHostId());
         return reservation;
     }
 
     @Override
     public boolean update(Reservation reservation) throws DataAccessException {
-        List<Reservation> all = this.findByHostEmail(reservation.getHost().getHostId());
+        List<Reservation> all = this.findByHostId(reservation.getHost().getHostId());
         for (int i = 0; i < all.size(); i++) {
             if (all.get(i).getReservationId() == (reservation.getReservationId())) {
                 all.set(i, reservation);
-                writeAll(all, reservation.getHost().getHostId(), false);
+                writeAll(all, reservation.getHost().getHostId());
                 return true;
             }
         }
@@ -73,11 +71,11 @@ public class ReservationFileRepository implements ReservationRepository {
 
     @Override
     public boolean delete(Reservation reservation) throws DataAccessException {
-        List<Reservation> all = this.findByHostEmail(reservation.getHost().getHostId());
+        List<Reservation> all = this.findByHostId(reservation.getHost().getHostId());
         for (int i = 0; i < all.size(); i++) {
             if (all.get(i).getReservationId() == (reservation.getReservationId())) {
                 all.remove(i);
-                writeAll(all, reservation.getHost().getHostId(), true);
+                writeAll(all, reservation.getHost().getHostId());
                 return true;
             }
         }
@@ -98,37 +96,35 @@ public class ReservationFileRepository implements ReservationRepository {
         return Paths.get(directory, hostId + ".csv").toString();
     }
 
-    private void writeAll(List<Reservation> reservations, String hostId, boolean add) throws DataAccessException {
+    private void writeAll(List<Reservation> reservations, String hostId) throws DataAccessException {
         try (PrintWriter writer = new PrintWriter(getFilePath(hostId))) {
 
             writer.println(HEADER);
 
             for (Reservation reservation : reservations) {
-                if (add) {
-                    writer.println(serialize(reservation, true));
-                } else {
-                    writer.println(serialize(reservation, false));
-                }
+
+                    writer.println(serialize(reservation));
+
             }
         } catch (FileNotFoundException ex) {
             throw new DataAccessException(ex.getMessage(), ex);
         }
     }
 
-    private String serialize(Reservation reservation, boolean add) {
-        BigDecimal total;
-        if (add) {
-            total = reservation.getTotal();
-        } else {
-            total = reservation.calculateTotal();
-        }
+    private String serialize(Reservation reservation) {
+//        BigDecimal total;
+//        if (add) {
+//            total = reservation.getTotal();
+//        } else {
+//            total = reservation.calculateTotal();
+//        }
 
         return String.format("%s,%s,%s,%s,%s",
                 reservation.getReservationId(),
                 reservation.getStartDate(),
                 reservation.getEndDate(),
                 reservation.getGuest().getGuestId(),
-                total);
+                reservation.getTotal());
     }
 
     private Reservation deserialize(String[] fields) {

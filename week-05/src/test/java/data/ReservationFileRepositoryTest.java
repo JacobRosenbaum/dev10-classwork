@@ -5,6 +5,7 @@ import models.Host;
 import models.Reservation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.cglib.core.Local;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -20,16 +21,14 @@ class ReservationFileRepositoryTest {
     static final String SEED_FILE_PATH = "./data/reservation-seed-2e25f6f7-3ef0-4f38-8a1a-2b5eea81409c.csv";
     static final String TEST_FILE_PATH = "./data/reservation_data_test/2e25f6f7-3ef0-4f38-8a1a-2b5eea81409c.csv";
     static final String TEST_DIR_PATH = "./data/reservation_data_test";
-    static final String HOST_SEED_FILE_PATH = "./data/hosts-seed.csv";
-    private final HostFileRepository hostFileRepository = new HostFileRepository(HOST_SEED_FILE_PATH);
-    private final String hostEmail = "irosenkranc8w@reverbnation.com";
+
+    private final String hostId = "2e25f6f7-3ef0-4f38-8a1a-2b5eea81409c";
     private final LocalDate startDate = LocalDate.of(2020, 7, 11);
     private final LocalDate endDate = LocalDate.of(2020, 8, 1);
     private final BigDecimal standardRate = new BigDecimal("180");
     private final BigDecimal weekendRate = new BigDecimal("225");
 
-
-    ReservationFileRepository repository = new ReservationFileRepository(TEST_DIR_PATH, hostFileRepository);
+    ReservationFileRepository repository = new ReservationFileRepository(TEST_DIR_PATH);
 
     @BeforeEach
     void setUp() throws IOException {
@@ -40,25 +39,27 @@ class ReservationFileRepositoryTest {
     }
 
     @Test
-    void findByHostEmailShouldReturnCorrectReservationFile() throws DataAccessException {
-        List<Reservation> all = repository.findByHostEmail(hostEmail);
+    void findByHostIdShouldReturnCorrectReservationFile() throws DataAccessException {
+        List<Reservation> all = repository.findByHostId(hostId);
 
         assertEquals(13, all.size());
 
     }
 
     @Test
-    void findByHostEmailShouldReturnCorrectReservationData() throws DataAccessException {
-        List<Reservation> all = repository.findByHostEmail(hostEmail);
+    void findByHostIdShouldReturnCorrectReservationData() throws DataAccessException {
+        List<Reservation> all = repository.findByHostId(hostId);
 
         assertEquals(all.get(0).getGuest().getGuestId(), 643);
     }
 
     @Test
-    void findByHostEmailShouldNotReturnMissingReservationFile() throws DataAccessException {
-        List<Reservation> all = repository.findByHostEmail("jacobrosenbaum95@gmail.com");
+    void shouldThrowDataAccessExceptionIfIdNotValid() throws DataAccessException {
+        Exception exception = assertThrows(DataAccessException.class, () -> {
+            repository.findByHostId("1234");
+        });
 
-        assertEquals(0, all.size());
+        assertEquals("./data/reservation_data_test/1234.csv (No such file or directory)", exception.getMessage());
 
     }
 
@@ -66,13 +67,32 @@ class ReservationFileRepositoryTest {
     void shouldAddReservation() throws DataAccessException {
         Host host = new Host();
 
-        host.setHostEmail(hostEmail);
-        host.setLastName("Rosenkranc");
-        host.setPhoneNumber("(970) 7391162");
-        host.setAddress("7 Kennedy Plaza");
-        host.setCity("Greeley");
-        host.setState("CO");
-        host.setPostalCode(80638);
+        host.setHostId(hostId);
+        host.setStandardRate(standardRate);
+        host.setWeekendRate(weekendRate);
+
+        Reservation reservation = new Reservation();
+
+        Guest guest = new Guest();
+        guest.setGuestId(9);
+
+        reservation.setStartDate(startDate);
+        reservation.setEndDate(endDate);
+        reservation.setGuest(guest);
+        reservation.setHost(host);
+        reservation.setTotal(reservation.getTotal());
+
+        repository.add(reservation);
+        List<Reservation> all = repository.findByHostId(hostId);
+
+        assertEquals(14, all.size());
+    }
+
+    @Test
+    void shouldAddReturnsCorrectId() throws DataAccessException {
+        Host host = new Host();
+
+        host.setHostId(hostId);
         host.setHostId("2e25f6f7-3ef0-4f38-8a1a-2b5eea81409c");
         host.setStandardRate(standardRate);
         host.setWeekendRate(weekendRate);
@@ -86,56 +106,103 @@ class ReservationFileRepositoryTest {
         reservation.setEndDate(endDate);
         reservation.setGuest(guest);
         reservation.setHost(host);
+        reservation.setTotal(reservation.getTotal());
+
 
         repository.add(reservation);
-        List<Reservation> all = repository.findByHostEmail(hostEmail);
+        List<Reservation> all = repository.findByHostId(hostId);
 
         assertEquals(14, all.size());
     }
 
 
     @Test
-    void shouldAddReturnsCorrectId() throws DataAccessException {
+    void shouldUpdateReservation() throws DataAccessException {
         Host host = new Host();
-
-        host.setHostEmail(hostEmail);
-        host.setLastName("Rosenkranc");
-        host.setPhoneNumber("(970) 7391162");
-        host.setAddress("7 Kennedy Plaza");
-        host.setCity("Greeley");
-        host.setState("CO");
-        host.setPostalCode(80638);
-        host.setHostId("2e25f6f7-3ef0-4f38-8a1a-2b5eea81409c");
-        host.setStandardRate(standardRate);
-        host.setWeekendRate(weekendRate);
+        host.setHostId(hostId);
 
         Reservation reservation = new Reservation();
 
         Guest guest = new Guest();
         guest.setGuestId(9);
 
+        reservation.setReservationId(2);
         reservation.setStartDate(startDate);
-        reservation.setEndDate(endDate);
+        reservation.setEndDate(LocalDate.of(2021, 7, 21));
+        reservation.setGuest(guest);
+        reservation.setHost(host);
+        reservation.setTotal(new BigDecimal("1000"));
+        boolean success = repository.update(reservation);
+
+        assertTrue(success);
+    }
+
+    @Test
+    void shouldNotUpdateMissingReservationId() throws DataAccessException {
+        Host host = new Host();
+        host.setHostId(hostId);
+
+        Reservation reservation = new Reservation();
+
+        Guest guest = new Guest();
+        guest.setGuestId(9);
+
+        reservation.setReservationId(2222);
+        reservation.setStartDate(startDate);
+        reservation.setEndDate(LocalDate.of(2021, 7, 21));
+        reservation.setGuest(guest);
+        reservation.setHost(host);
+        reservation.setTotal(new BigDecimal("1000"));
+        boolean success = repository.update(reservation);
+
+        assertFalse(success);
+    }
+
+    @Test
+    void shouldDeleteReservation() throws DataAccessException {
+        Host host = new Host();
+        host.setHostId(hostId);
+
+        Reservation reservation = new Reservation();
+
+        Guest guest = new Guest();
+        guest.setGuestId(9);
+
+        reservation.setReservationId(2);
         reservation.setGuest(guest);
         reservation.setHost(host);
 
-        reservation = repository.add(reservation);
+        boolean success = repository.delete(reservation);
 
-        assertEquals(14, reservation.getReservationId());
+        assertTrue(success);
     }
+
+    @Test
+    void shouldNotDeleteReservationId() throws DataAccessException {
+        Host host = new Host();
+        host.setHostId(hostId);
+
+        Reservation reservation = new Reservation();
+
+        Guest guest = new Guest();
+        guest.setGuestId(9);
+
+        reservation.setReservationId(22222);
+        reservation.setGuest(guest);
+        reservation.setHost(host);
+
+        boolean success = repository.delete(reservation);
+
+        assertFalse(success);
+    }
+
+
 
     @Test
     void serializeCalculatesCorrectTotalIfNull() throws DataAccessException {
         Host host = new Host();
 
-        host.setHostEmail(hostEmail);
-        host.setLastName("Rosenkranc");
-        host.setPhoneNumber("(970) 7391162");
-        host.setAddress("7 Kennedy Plaza");
-        host.setCity("Greeley");
-        host.setState("CO");
-        host.setPostalCode(80638);
-        host.setHostId("2e25f6f7-3ef0-4f38-8a1a-2b5eea81409c");
+        host.setHostId(hostId);
         host.setStandardRate(standardRate);
         host.setWeekendRate(weekendRate);
 
@@ -156,7 +223,7 @@ class ReservationFileRepositoryTest {
 
     @Test
     void serializeGetsCorrectExistingTotal() throws DataAccessException {
-        List<Reservation> all = repository.findByHostEmail(hostEmail);
+        List<Reservation> all = repository.findByHostId(hostId);
 
         assertEquals(540, all.get(4).getTotal().doubleValue());
     }
