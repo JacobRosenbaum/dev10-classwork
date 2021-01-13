@@ -22,13 +22,6 @@ public class ReservationFileRepository implements ReservationRepository {
     @Override
     public List<Reservation> findByHostId(String hostId) throws DataAccessException {
         ArrayList<Reservation> result = new ArrayList<>();
-//        String hostId;
-//        Host host = hostFileRepository.findByEmail(hostEmail);
-//        if (host == null) {
-//            return result;
-//        } else {
-//            hostId = host.getHostId();
-//        }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(getFilePath(hostId)))) {
 
