@@ -3,11 +3,13 @@ package domain;
 import data.*;
 import models.Host;
 import models.Reservation;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final HostRepository hostRepository;

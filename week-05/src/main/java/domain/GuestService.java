@@ -3,9 +3,11 @@ package domain;
 import data.DataAccessException;
 import data.GuestRepository;
 import models.Guest;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class GuestService {
     private final GuestRepository repository;
 

@@ -5,9 +5,11 @@ import data.GuestRepository;
 import data.HostRepository;
 import models.Guest;
 import models.Host;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class HostService {
     private final HostRepository repository;
 

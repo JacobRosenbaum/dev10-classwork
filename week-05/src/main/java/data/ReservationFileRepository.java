@@ -2,6 +2,8 @@ package data;
 
 import models.Guest;
 import models.Reservation;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.math.BigDecimal;
@@ -10,12 +12,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class ReservationFileRepository implements ReservationRepository {
 
     private static final String HEADER = "id,start_date,end_date,guest_id,total";
     private final String directory;
 
-    public ReservationFileRepository(String directory) {
+    public ReservationFileRepository(@Value("${reservationFilePath}")String directory) {
         this.directory = directory;
     }
 
