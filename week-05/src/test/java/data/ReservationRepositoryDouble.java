@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 
 public class ReservationRepositoryDouble implements ReservationRepository {
 
-    private final LocalDate startDate  = LocalDate.of(2020,7,11);
-    private final LocalDate endDate  = LocalDate.of(2020,7,27);
+    private final LocalDate startDate = LocalDate.of(2020, 7, 11);
+    private final LocalDate endDate = LocalDate.of(2020, 7, 27);
 
 
     private final ArrayList<Reservation> reservations = new ArrayList<>();
@@ -46,11 +46,11 @@ public class ReservationRepositoryDouble implements ReservationRepository {
 
     @Override
     public boolean update(Reservation reservation) throws DataAccessException {
-        return false;
+        return reservation.getTotal().intValue() == 12345;
     }
 
     @Override
     public boolean delete(Reservation reservation) throws DataAccessException {
-        return false;
+        return reservations.remove(reservation);
     }
 }

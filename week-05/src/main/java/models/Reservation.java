@@ -87,14 +87,14 @@ public class Reservation {
     }
 
     private Long getWeekDays() {
-        Set<DayOfWeek> weekend = EnumSet.of(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY);
+        Set<DayOfWeek> weekend = EnumSet.of(DayOfWeek.FRIDAY, DayOfWeek.SATURDAY);
         return startDate.datesUntil(endDate)
                 .filter(d -> !weekend.contains(d.getDayOfWeek()))
                 .count();
     }
 
     private Long getWeekEndDays() {
-        Set<DayOfWeek> weekend = EnumSet.of(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY);
+        Set<DayOfWeek> weekend = EnumSet.of(DayOfWeek.FRIDAY, DayOfWeek.SATURDAY);
         return startDate.datesUntil(endDate)
                 .filter(d -> weekend.contains(d.getDayOfWeek()))
                 .count();

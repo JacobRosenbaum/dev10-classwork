@@ -121,19 +121,11 @@ public class ReservationFileRepository implements ReservationRepository {
     }
 
     private Reservation deserialize(String[] fields) {
-        int startYear = Integer.parseInt(fields[1].substring(0, 4));
-        int startMonth = Integer.parseInt(fields[1].substring(5, 7));
-        int startDay = Integer.parseInt(fields[1].substring(8, 10));
-
-        int endYear = Integer.parseInt(fields[2].substring(0, 4));
-        int endMonth = Integer.parseInt(fields[2].substring(5, 7));
-        int endDay = Integer.parseInt(fields[2].substring(8, 10));
-
         Reservation result = new Reservation();
 
         result.setReservationId(Integer.parseInt(fields[0]));
-        result.setStartDate(LocalDate.of(startYear, startMonth, startDay));
-        result.setEndDate(LocalDate.of(endYear, endMonth, endDay));
+        result.setStartDate(LocalDate.parse(fields[1]));
+        result.setEndDate(LocalDate.parse(fields[2]));
 
         Guest guest = new Guest();
         guest.setGuestId(Integer.parseInt(fields[3]));
