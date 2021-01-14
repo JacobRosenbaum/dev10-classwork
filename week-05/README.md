@@ -42,10 +42,10 @@
             * getDays - retrieves the amount of days per reservation - private
             * getTotal - calculates the total amount of money per reservation - public
      
-* #### data: package
+* #### learn.house.data: package
    * HostRepository: interface
      
-     * holds the following methods as a contract for finding host data
+     * holds the following methods as a contract for finding host learn.house.data
        
         * findAll
         * findById
@@ -61,7 +61,7 @@
 
      
    * GuestRepository: interface
-     * holds the following methods as a contract for finding guest data
+     * holds the following methods as a contract for finding guest learn.house.data
        * findAll
        * findByGuestId
        * findByGuestEmail
@@ -73,7 +73,7 @@
       * findByGuestEmail - public
 
   * ReservationRepository: interface
-      * holds the following methods as a contract for manipulating reservation data
+      * holds the following methods as a contract for manipulating reservation learn.house.data
           * findByHostId
           * add
           * update
@@ -92,7 +92,7 @@
           * cleanField - private
           * restoreField - private
    
-* #### domain: package
+* #### learn.house.domain: package
    * HostService: class
      * holds the following pass through methods
        * findAll - public
@@ -105,7 +105,7 @@
           * findById - public
           * findByEmail - public
    * ReservationService: class
-      * holds the following methods ensuring correct, and accurate manipulation of reservation data
+      * holds the following methods ensuring correct, and accurate manipulation of reservation learn.house.data
          * findByEmail - public
          * add - public
          * update - public
@@ -131,7 +131,7 @@
             * getErrorMessages
             * addErrorMessage
    
-* #### ui: package
+* #### learn.house.ui: package
    * ConsoleIO: class
       * holds the following public helper methods for interacting with the console
          * print
@@ -172,16 +172,16 @@
          * makeReservation
          * updateReservation
          * deleteReservation
-   * App: class
+   * learn.house.App: class
          * runs the app using XML annotations
      
 * #### resources: package
-   * data.properties: file 
+   * learn.house.data.properties: file 
       * contains the file path for each repo
    
    
-### data
-* holds the csv files for the production and test data including the following:
+### learn.house.data
+* holds the csv files for the production and test learn.house.data including the following:
     * reservations: package
          * GUID-based reservations
          * guests.csv
@@ -192,7 +192,7 @@
          * hosts-test.csv
   
 ### test
-* #### data
+* #### learn.house.data
   * HostFileRepositoryTest
       * contains the following tests
          * shouldFindAll
@@ -223,15 +223,15 @@
         * userInputDelimiterShouldNotRuinData
      
   * HostRepositoryDouble: implements HostRepository interface
-     * contains the methods inside the HostRepository to re-create data testable by the service
+     * contains the methods inside the HostRepository to re-create learn.house.data testable by the service
     
   * GuestsRepositoryDouble: implements GuestsRepository interface
-     * contains the methods inside the ReservationRepository to re-create data testable by the service   
+     * contains the methods inside the ReservationRepository to re-create learn.house.data testable by the service   
       
   * ReservationRepositoryDouble: implements HostRepository interface
-    * contains the methods inside the HostRepository to re-create data testable by the service     
+    * contains the methods inside the HostRepository to re-create learn.house.data testable by the service     
     
-* #### domain
+* #### learn.house.domain
   * HostServiceTest
       * contains the following tests
           * shouldFindAll
@@ -307,7 +307,7 @@
     * [ ] Write pass through methods
 
 10. Create HostRepositoryDouble class in test package - Estimated Completion Time: 15 minutes
-    * [ ] Write pass through methods mimicking data in HostFileRepository
+    * [ ] Write pass through methods mimicking learn.house.data in HostFileRepository
 
 11. Create HostServiceTest class in test package - Estimated Completion Time: 15 minutes
     * [ ] Write all tests displayed above in the File Structure
@@ -316,7 +316,7 @@
     * [ ] Write pass through methods
 
 13. Create GuestRepositoryDouble class in test package - Estimated Completion Time: 15 minutes
-    * [ ] Write pass through methods mimicking data in GuestFileRepository
+    * [ ] Write pass through methods mimicking learn.house.data in GuestFileRepository
 
 14. Create GuestServiceTest class in test package - Estimated Completion Time: 15 minutes
     * [ ] Write all tests displayed above in the File Structure
@@ -327,7 +327,7 @@
     * [ ] Write helper methods
 
 16. Create ReservationRepositoryDouble class in test package - Estimated Completion Time: 1 hour
-    * [ ] Write methods mimicking data in ReservationFileRepository
+    * [ ] Write methods mimicking learn.house.data in ReservationFileRepository
 
 17. Create ReservationServiceTest class in test package - Estimated Completion Time: 1.5 hours
     * [ ] Write all tests displayed above in the File Structure
@@ -338,7 +338,7 @@
 19. Create ConsoleIO class - Estimated Completion Time: 1 hour
     * [ ] Write methods displayed above in File Structure
     
-20. Create data.properties file - Estimated Completion Time: 15 minutes
+20. Create learn.house.data.properties file - Estimated Completion Time: 15 minutes
     * [ ] Write file paths displayed above in file structure
 
 21. Go back and annotate files - Estimated Completion Time: 15 mins
@@ -346,7 +346,7 @@
     * [ ] Services
     * [ ] Repositories
 
-22. Create App class - Estimated Completion Time: 15 mins
+22. Create learn.house.App class - Estimated Completion Time: 15 mins
     * [ ] Write main method with proper Spring DI syntax
 
 23. Create View class - Estimated Completion Time: 1 hour
