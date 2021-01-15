@@ -196,16 +196,14 @@ public class ReservationService {
             }
         }
     }
-//
-//    private Result<Reservation> validateEmail(String hostEmail, String guestEmail) throws DataAccessException {
-//        Result<Reservation> result = new Result<>();
-//        if (guestEmail == null) {
-//            result.addErrorMessage("Guest Email cannot be null.");
-//            return result;
-//        } else if (hostEmail == null) {
-//            result.addErrorMessage("Host Email cannot be null.");
-//            return result;
-//        }
-//        return result;
-//    }
+
+    private Result<Reservation> validateEmail(String hostEmail) throws DataAccessException {
+        Result<Reservation> result = new Result<>();
+
+        if (hostEmail == null) {
+            result.addErrorMessage("Host Email cannot be null.");
+            return result;
+        }
+        return result;
+    }
 }

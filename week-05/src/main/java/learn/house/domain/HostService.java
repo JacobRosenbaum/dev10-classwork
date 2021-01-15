@@ -11,7 +11,7 @@ import java.util.List;
 public class HostService {
     private final HostRepository repository;
 
-    public HostService(HostRepository repository) throws DataAccessException {
+    public HostService(HostRepository repository) {
         this.repository = repository;
     }
 

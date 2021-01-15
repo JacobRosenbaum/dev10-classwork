@@ -46,14 +46,6 @@ public class GuestFileRepository implements GuestRepository{
                 .orElse(null);
     }
 
-    @Override
-    public Guest findById(int id) throws DataAccessException {
-        return findAll().stream()
-                .filter(i -> i.getGuestId() == id)
-                .findFirst()
-                .orElse(null);
-    }
-
     private Guest deserialize(String[] fields) {
         Guest result = new Guest();
         result.setGuestId(Integer.parseInt(fields[0]));

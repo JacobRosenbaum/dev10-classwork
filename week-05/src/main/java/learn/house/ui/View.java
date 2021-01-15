@@ -1,6 +1,7 @@
 package learn.house.ui;
 
 import learn.house.models.Guest;
+import learn.house.models.Host;
 import learn.house.models.Reservation;
 import org.springframework.stereotype.Component;
 
@@ -37,7 +38,6 @@ public class View {
         io.readString("Press [Enter] to continue.");
     }
 
-
     public String getHostEmail() {
         return io.readEmail("Host Email: ");
     }
@@ -46,9 +46,9 @@ public class View {
         return io.readEmail("Guest Email: ");
     }
 
-    public void displayReservationsByHost(List<Reservation> reservations) {
-        if (reservations == null || reservations.isEmpty()) {
-            io.println("No reservations found.");
+    public void displayReservationsByHost(List<Reservation> reservations, Host host) {
+        if (host == null) {
+            io.println("Host does exist in the database. ");
             return;
         }
 
@@ -104,4 +104,7 @@ public class View {
         io.println("Returning to Main Menu...");
     }
 
+    public void NoReservationsFound(String hostEmail) {
+        io.println(hostEmail + " does not have any reservations.");
+    }
 }

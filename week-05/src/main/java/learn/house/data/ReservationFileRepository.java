@@ -109,12 +109,6 @@ public class ReservationFileRepository implements ReservationRepository {
     }
 
     private String serialize(Reservation reservation) {
-//        BigDecimal total;
-//        if (add) {
-//            total = reservation.getTotal();
-//        } else {
-//            total = reservation.calculateTotal();
-//        }
 
         return String.format("%s,%s,%s,%s,%s",
                 reservation.getReservationId(),

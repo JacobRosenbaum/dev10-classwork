@@ -9,6 +9,4 @@ public interface GuestRepository {
 
     Guest findByEmail(String guestEmail) throws DataAccessException;
 
-    Guest findById(int id) throws DataAccessException;
-
 }

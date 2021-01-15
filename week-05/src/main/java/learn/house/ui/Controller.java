@@ -67,8 +67,11 @@ public class Controller {
     private void viewReservationsByHost() throws DataAccessException {
         view.displayHeader(MainMenuOption.VIEW_RESERVATIONS_BY_HOST.getOption());
         String hostEmail = view.getHostEmail();
-        List<Reservation> reservations = reservationService.findReservationListByHostEmail(hostEmail);
-        view.displayReservationsByHost(reservations);
+        List<Reservation> reservations = getReservationList(hostEmail);
+        if (reservations != null) {
+            Host host = hostService.findByEmail(hostEmail);
+            view.displayReservationsByHost(reservations, host);
+        }
         view.enterToContinue();
     }
 
@@ -79,15 +82,15 @@ public class Controller {
         if (guest == null) {
             return;
         }
-
         Host host = getHost();
         if (host == null) {
             return;
         }
 
         List<Reservation> reservations = reservationService.findReservationListByHostEmail(host.getHostEmail());
-        view.displayReservationsByHost(reservations);
+        view.displayReservationsByHost(reservations, host);
         boolean correct = true;
+
         while (correct) {
             LocalDate startDate = view.getStartDate();
             LocalDate endDate = view.getEndDate();
@@ -143,6 +146,15 @@ public class Controller {
 
     private BigDecimal getTotal(LocalDate startDate, LocalDate endDate, Host host) {
         return reservationService.calculateTotal(startDate, endDate, host);
+    }
+
+    private List<Reservation> getReservationList(String hostEmail) {
+        try {
+            return reservationService.findReservationListByHostEmail(hostEmail);
+        } catch (DataAccessException ex) {
+            view.NoReservationsFound(hostEmail);
+            return null;
+        }
     }
 
 }

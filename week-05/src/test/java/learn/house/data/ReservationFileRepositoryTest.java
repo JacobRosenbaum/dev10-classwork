@@ -79,7 +79,7 @@ class ReservationFileRepositoryTest {
         reservation.setEndDate(endDate);
         reservation.setGuest(guest);
         reservation.setHost(host);
-        reservation.setTotal(reservation.getTotal());
+        reservation.setTotal(new BigDecimal("1000"));
 
         repository.add(reservation);
         List<Reservation> all = repository.findByHostId(hostId);
@@ -105,7 +105,7 @@ class ReservationFileRepositoryTest {
         reservation.setEndDate(endDate);
         reservation.setGuest(guest);
         reservation.setHost(host);
-        reservation.setTotal(reservation.getTotal());
+        reservation.setTotal(new BigDecimal("1000"));
 
 
         repository.add(reservation);
@@ -193,31 +193,6 @@ class ReservationFileRepositoryTest {
         boolean success = repository.delete(reservation);
 
         assertFalse(success);
-    }
-
-
-
-    @Test
-    void serializeCalculatesCorrectTotalIfNull() throws DataAccessException {
-        Host host = new Host();
-
-        host.setHostId(hostId);
-        host.setStandardRate(standardRate);
-        host.setWeekendRate(weekendRate);
-
-        Reservation reservation = new Reservation();
-
-        Guest guest = new Guest();
-        guest.setGuestId(9);
-
-        reservation.setStartDate(startDate);
-        reservation.setEndDate(endDate);
-        reservation.setGuest(guest);
-        reservation.setHost(host);
-
-        reservation = repository.add(reservation);
-
-        assertEquals(4050.00, reservation.getTotal().doubleValue());
     }
 
     @Test
