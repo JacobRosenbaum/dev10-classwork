@@ -6,6 +6,9 @@ import learn.house.models.Guest;
 import learn.house.models.Reservation;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,10 +30,9 @@ public class ReservationService {
     public List<Reservation> findReservationListByHostEmail(String hostEmail) throws DataAccessException {
         Map<Integer, Guest> guestMap = guestRepository.findAll()
                 .stream()
-                .collect(Collectors.toMap(i -> i.getGuestId(), i -> i));
+                .collect(Collectors.toMap(Guest::getGuestId, i -> i));
 
         Host host = hostRepository.findByEmail(hostEmail);
-
         List<Reservation> reservations = new ArrayList<>();
 
         String hostId;
@@ -72,7 +74,6 @@ public class ReservationService {
         }
 
         result.setPayload(reservationRepository.add(reservation));
-
         return result;
     }
 
@@ -112,6 +113,35 @@ public class ReservationService {
         }
 
         return result;
+    }
+
+    public BigDecimal calculateTotal(LocalDate startDate, LocalDate endDate, Host host) {
+        if (startDate == null || endDate == null || host == null) {
+            return BigDecimal.ZERO;
+        }
+
+        BigDecimal weekDays = new BigDecimal(getWeekDays(startDate, endDate));
+        BigDecimal weekEndDays = new BigDecimal(getWeekEndDays(startDate, endDate));
+
+        BigDecimal weekDayTotal = weekDays.multiply(host.getStandardRate());
+        BigDecimal weekEndTotal = weekEndDays.multiply(host.getWeekendRate());
+
+        return weekDayTotal.add(weekEndTotal).setScale(2, RoundingMode.HALF_UP);
+
+    }
+
+    private Long getWeekDays(LocalDate startDate, LocalDate endDate) {
+        Set<DayOfWeek> weekend = EnumSet.of(DayOfWeek.FRIDAY, DayOfWeek.SATURDAY);
+        return startDate.datesUntil(endDate)
+                .filter(d -> !weekend.contains(d.getDayOfWeek()))
+                .count();
+    }
+
+    private Long getWeekEndDays(LocalDate startDate, LocalDate endDate) {
+        Set<DayOfWeek> weekend = EnumSet.of(DayOfWeek.FRIDAY, DayOfWeek.SATURDAY);
+        return startDate.datesUntil(endDate)
+                .filter(d -> weekend.contains(d.getDayOfWeek()))
+                .count();
     }
 
     private Result<Reservation> validate(Reservation reservation) throws DataAccessException {

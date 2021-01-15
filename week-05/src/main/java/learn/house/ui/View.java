@@ -1,8 +1,11 @@
 package learn.house.ui;
 
+import learn.house.models.Guest;
 import learn.house.models.Reservation;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -65,4 +68,40 @@ public class View {
                     reservation.getGuest().getGuestEmail());
         }
     }
+
+    public LocalDate getStartDate() {
+        return io.readLocalDate("Start (MM/dd/yyyy): ");
+    }
+
+    public LocalDate getEndDate() {
+        return io.readLocalDate("End (MM/dd/yyyy): ");
+    }
+
+    public boolean displaySummary(LocalDate startDate, LocalDate endDate, BigDecimal total) {
+        displayHeader("Summary");
+        System.out.println("Start: " + startDate);
+        System.out.println("Start: " + endDate);
+        System.out.println("Total: " + total);
+        return io.readBoolean("Is this ok? [y/n]: ");
+    }
+
+    public void displayStatus(boolean success, String message) {
+        displayStatus(success, List.of(message));
+    }
+
+    public void displayStatus(boolean success, List<String> messages) {
+        displayHeader(success ? "Success" : "Error");
+        for (String message : messages) {
+            io.println(message);
+        }
+    }
+
+    public boolean displayTryAgain() {
+        return io.readBoolean("\nOK,would you like to try again? [y/n]: ");
+    }
+
+    public void returnToMainMenu() {
+        io.println("Returning to Main Menu...");
+    }
+
 }

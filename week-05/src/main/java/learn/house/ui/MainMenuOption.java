@@ -3,9 +3,9 @@ package learn.house.ui;
 public enum MainMenuOption {
     EXIT("Exit"),
     VIEW_RESERVATIONS_BY_HOST("View Reservations By Host"),
-    ADD_RESERVATION("Add a Reservation"),
-    UPDATE_RESERVATION("Update a Reservation"),
-    DELETE_RESERVATION("Delete a Reservation");
+    ADD_RESERVATION("Make a Reservation"),
+    UPDATE_RESERVATION("Edit a Reservation"),
+    DELETE_RESERVATION("Cancel a Reservation");
 
     private String option;
 

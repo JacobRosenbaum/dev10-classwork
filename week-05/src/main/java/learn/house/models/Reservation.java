@@ -58,11 +58,11 @@ public class Reservation {
 
     public BigDecimal getTotal() {
         //total exists, so we just grab it from database
-        if (total != null) {
-            return total;
-        }
-        // total does not exist, so we are adding it, and must calculate it first
-        total = calculateTotal();
+//        if (total != null) {
+//            return total;
+//        }
+//        // total does not exist, so we are adding it, and must calculate it first
+//        total = calculateTotal();
         return total;
     }
 
