@@ -54,23 +54,30 @@ public class View {
         displayHeader(header);
 
         for (Reservation reservation : reservations) {
-            io.printf("ID: %s, %s - %s, Guest: %s, %s, Email: %s, Total: $%s%n",
-                    reservation.getReservationId(),
-                    reservation.getStartDate(),
-                    reservation.getEndDate(),
-                    reservation.getGuest().getLastName(),
-                    reservation.getGuest().getFirstName(),
-                    reservation.getGuest().getGuestEmail(),
-                    reservation.getTotal());
+            displayReservation(reservation);
         }
     }
 
+    public Reservation update(Reservation reservation) {
+        LocalDate startDate = io.readLocalDate("Start (" + reservation.getStartDate() + "): ", false);
+        if (startDate != null) {
+            reservation.setStartDate(startDate);
+        }
+
+        LocalDate endDate = io.readLocalDate("End (" + reservation.getEndDate() + "): ", false);
+        if (endDate != null) {
+            reservation.setEndDate(endDate);
+        }
+
+        return reservation;
+    }
+
     public LocalDate getStartDate() {
-        return io.readLocalDate("Start (MM/dd/yyyy): ");
+        return io.readLocalDate("Start (MM/dd/yyyy): ", true);
     }
 
     public LocalDate getEndDate() {
-        return io.readLocalDate("End (MM/dd/yyyy): ");
+        return io.readLocalDate("End (MM/dd/yyyy): ", true);
     }
 
     public boolean displaySummary(LocalDate startDate, LocalDate endDate, BigDecimal total) {
@@ -110,5 +117,30 @@ public class View {
 
     public void displayHostDoesNotExist() {
         io.println("Host does not exist in database. Please try again.");
+    }
+
+    public void displayReservation(Reservation reservation) {
+        io.printf("ID: %s, %s - %s, Guest: %s, %s, Email: %s, Total: $%s%n",
+                reservation.getReservationId(),
+                reservation.getStartDate(),
+                reservation.getEndDate(),
+                reservation.getGuest().getLastName(),
+                reservation.getGuest().getFirstName(),
+                reservation.getGuest().getGuestEmail(),
+                reservation.getTotal());
+    }
+
+    public void displayReservationHeader(Reservation reservation) {
+        String header = String.format("%s: %s, %s",
+                reservation.getHost().getLastName(),
+                reservation.getHost().getCity(),
+                reservation.getHost().getState());
+        displayHeader(header);
+    }
+
+    public void displayEditHeader(Reservation reservation) {
+        String header = String.format("Editing Reservation %s",
+                reservation.getReservationId());
+        displayHeader(header);
     }
 }

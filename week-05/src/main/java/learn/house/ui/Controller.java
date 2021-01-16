@@ -11,6 +11,7 @@ import learn.house.models.Reservation;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -54,7 +55,9 @@ public class Controller {
                     break;
                 case ADD_RESERVATION:
                     addReservation();
+                    break;
                 case UPDATE_RESERVATION:
+                    updateReservation();
                     break;
                 case DELETE_RESERVATION:
                     break;
@@ -93,13 +96,13 @@ public class Controller {
             boolean success = view.displaySummary(startDate, endDate, total);
 
             if (success) {
-                Reservation reservation = makeReservation(startDate, endDate, host, guest, total);
+                Reservation reservation = makeReservation(0, startDate, endDate, host, guest, total);
                 Result<Reservation> result = reservationService.add(reservation);
                 if (!result.isSuccess()) {
                     view.displayStatus(false, result.getErrorMessages());
 
                 } else {
-                    String successMessage = String.format("Reservation ID: %s created. Cheers!", result.getPayload().getReservationId());
+                    String successMessage = String.format("Reservation ID: %s has been booked. Cheers!", result.getPayload().getReservationId());
                     view.displayStatus(true, successMessage);
                 }
                 correct = false;
@@ -115,10 +118,55 @@ public class Controller {
         }
     }
 
-    public Reservation makeReservation(LocalDate startDate, LocalDate endDate, Host host,
-                                       Guest guest, BigDecimal total) {
+    private void updateReservation() throws DataAccessException {
+        view.displayHeader(MainMenuOption.UPDATE_RESERVATION.getOption());
+        Guest guest = getGuest();
+        Host host = getHost();
+        Reservation reservation = getReservation(guest, host);
+
+        if (reservation != null) {
+            view.displayReservationHeader(reservation);
+            view.displayReservation(reservation);
+            view.displayEditHeader(reservation);
+            boolean correct = true;
+
+            while (correct) {
+                view.update(reservation);
+                BigDecimal total = getTotal(reservation.getStartDate(), reservation.getEndDate(), host);
+                boolean success = view.displaySummary(reservation.getStartDate(), reservation.getEndDate(), total);
+
+                if (success) {
+                    reservation = makeReservation(reservation.getReservationId(), reservation.getStartDate(), reservation.getEndDate(),
+                            host, guest, total);
+                    Result<Reservation> result = reservationService.update(reservation);
+                    if (!result.isSuccess()) {
+                        view.displayStatus(false, result.getErrorMessages());
+
+                    } else {
+                        String successMessage = String.format("Reservation ID: %s has been updated. Cheers!", result.getPayload().getReservationId());
+                        view.displayStatus(true, successMessage);
+                    }
+                    correct = false;
+                } else {
+                    boolean tryAgain = view.displayTryAgain();
+                    if (tryAgain) {
+                        correct = true;
+                    } else {
+                        view.returnToMainMenu();
+                        correct = false;
+                    }
+                }
+            }
+        }
+    }
+
+    private Reservation makeReservation(Integer id, LocalDate startDate, LocalDate endDate, Host host,
+                                        Guest guest, BigDecimal total) {
 
         Reservation reservation = new Reservation();
+        if (id != 0) {
+            reservation.setReservationId(id);
+        }
         reservation.setStartDate(startDate);
         reservation.setEndDate(endDate);
         reservation.setHost(host);
@@ -175,4 +223,13 @@ public class Controller {
         }
     }
 
+    private Reservation getReservation(Guest guest, Host host) {
+        try {
+            return reservationService.findReservationByGuestAndHostEmail(guest.getGuestEmail(),
+                    host.getHostEmail());
+        } catch (DataAccessException ex) {
+            view.NoReservationsFound(host.getHostEmail());
+            return null;
+        }
+    }
 }

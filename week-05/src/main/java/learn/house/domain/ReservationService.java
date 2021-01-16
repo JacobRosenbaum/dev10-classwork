@@ -54,7 +54,7 @@ public class ReservationService {
                 .collect(Collectors.toList());
     }
 
-    public Reservation findReservationByGuestAndHostEmail(String hostEmail, String guestEmail) throws DataAccessException {
+    public Reservation findReservationByGuestAndHostEmail(String guestEmail, String hostEmail) throws DataAccessException {
         if (guestEmail != null || hostEmail != null) {
             List<Reservation> reservations = findReservationListByHostEmail(hostEmail);
 
