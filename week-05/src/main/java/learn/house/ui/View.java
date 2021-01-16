@@ -46,12 +46,7 @@ public class View {
         return io.readEmail("Guest Email: ");
     }
 
-    public void displayReservationsByHost(List<Reservation> reservations, Host host) {
-        if (host == null) {
-            io.println("Host does exist in the database. ");
-            return;
-        }
-
+    public void displayReservationsByHost(List<Reservation> reservations) {
         String header = String.format("%s: %s, %s",
                 reservations.get(0).getHost().getLastName(),
                 reservations.get(0).getHost().getCity(),
@@ -59,13 +54,14 @@ public class View {
         displayHeader(header);
 
         for (Reservation reservation : reservations) {
-            io.printf("ID: %s, %s - %s, Guest: %s, %s, Email: %s%n",
+            io.printf("ID: %s, %s - %s, Guest: %s, %s, Email: %s, Total: $%s%n",
                     reservation.getReservationId(),
                     reservation.getStartDate(),
                     reservation.getEndDate(),
                     reservation.getGuest().getLastName(),
                     reservation.getGuest().getFirstName(),
-                    reservation.getGuest().getGuestEmail());
+                    reservation.getGuest().getGuestEmail(),
+                    reservation.getTotal());
         }
     }
 
@@ -105,6 +101,14 @@ public class View {
     }
 
     public void NoReservationsFound(String hostEmail) {
-        io.println(hostEmail + " does not have any reservations.");
+        io.println(hostEmail + " does not have any reservations booked.");
+    }
+
+    public void displayGuestDoesNotExist() {
+        io.println("Guest does not exist in database. Please try again.");
+    }
+
+    public void displayHostDoesNotExist() {
+        io.println("Host does not exist in database. Please try again.");
     }
 }

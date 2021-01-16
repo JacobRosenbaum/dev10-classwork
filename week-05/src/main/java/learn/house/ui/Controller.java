@@ -66,31 +66,26 @@ public class Controller {
 
     private void viewReservationsByHost() throws DataAccessException {
         view.displayHeader(MainMenuOption.VIEW_RESERVATIONS_BY_HOST.getOption());
-        String hostEmail = view.getHostEmail();
-        List<Reservation> reservations = getReservationList(hostEmail);
+        Host host = getHost();
+        List<Reservation> reservations = getReservationList(host.getHostEmail());
         if (reservations != null) {
-            Host host = hostService.findByEmail(hostEmail);
-            view.displayReservationsByHost(reservations, host);
+            hostService.findByEmail(host.getHostEmail());
+            view.displayReservationsByHost(reservations);
         }
         view.enterToContinue();
     }
 
     private void addReservation() throws DataAccessException {
         view.displayHeader(MainMenuOption.ADD_RESERVATION.getOption());
-
         Guest guest = getGuest();
-        if (guest == null) {
-            return;
-        }
         Host host = getHost();
-        if (host == null) {
-            return;
+
+        List<Reservation> reservations = getReservationList(host.getHostEmail());
+        if (reservations != null) {
+            view.displayReservationsByHost(reservations);
         }
 
-        List<Reservation> reservations = reservationService.findReservationListByHostEmail(host.getHostEmail());
-        view.displayReservationsByHost(reservations, host);
         boolean correct = true;
-
         while (correct) {
             LocalDate startDate = view.getStartDate();
             LocalDate endDate = view.getEndDate();
@@ -118,7 +113,6 @@ public class Controller {
                 }
             }
         }
-
     }
 
     public Reservation makeReservation(LocalDate startDate, LocalDate endDate, Host host,
@@ -135,13 +129,37 @@ public class Controller {
     }
 
     private Host getHost() throws DataAccessException {
-        String hostEmail = view.getHostEmail();
-        return hostService.findByEmail(hostEmail);
+        boolean validateHost = true;
+        String hostEmail;
+        Host host = new Host();
+        while (validateHost) {
+            hostEmail = view.getHostEmail();
+            host = hostService.findByEmail(hostEmail);
+            if (host == null) {
+                view.displayHostDoesNotExist();
+            } else {
+                validateHost = false;
+            }
+        }
+
+        return host;
     }
 
     private Guest getGuest() throws DataAccessException {
-        String guestEmail = view.getGuestEmail();
-        return guestService.findByEmail(guestEmail);
+        boolean validateGuest = true;
+        String guestEmail;
+        Guest guest = new Guest();
+        while (validateGuest) {
+            guestEmail = view.getGuestEmail();
+            guest = guestService.findByEmail(guestEmail);
+            if (guest == null) {
+                view.displayGuestDoesNotExist();
+            } else {
+                validateGuest = false;
+            }
+        }
+
+        return guest;
     }
 
     private BigDecimal getTotal(LocalDate startDate, LocalDate endDate, Host host) {
