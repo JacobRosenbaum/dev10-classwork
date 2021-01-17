@@ -205,16 +205,18 @@ public class ReservationService {
     }
 
     private void validateDatesDoNotClash(Reservation reservation, Result<Reservation> result) throws DataAccessException {
-        List<Reservation> reservations = findReservationListByHostEmail(reservation.getHost().getHostEmail());
-        LocalDate startDate = reservation.getStartDate();
-        LocalDate endDate = reservation.getEndDate();
-        if (startDate != null && endDate != null) {
-            for (Reservation r : reservations) {
-                if ((startDate.isBefore(r.getEndDate())) &&
-                        (r.getStartDate().isBefore(endDate)) &&
-                        reservation.getReservationId() != r.getReservationId()) {
-                    result.addErrorMessage("Reservation cannot overlap existing reservation.");
-                    break;
+        if (reservation.getHost() != null) {
+            List<Reservation> reservations = findReservationListByHostEmail(reservation.getHost().getHostEmail());
+            LocalDate startDate = reservation.getStartDate();
+            LocalDate endDate = reservation.getEndDate();
+            if (startDate != null && endDate != null) {
+                for (Reservation r : reservations) {
+                    if ((startDate.isBefore(r.getEndDate())) &&
+                            (r.getStartDate().isBefore(endDate)) &&
+                            reservation.getReservationId() != r.getReservationId()) {
+                        result.addErrorMessage("Reservation cannot overlap existing reservation.");
+                        break;
+                    }
                 }
             }
         }

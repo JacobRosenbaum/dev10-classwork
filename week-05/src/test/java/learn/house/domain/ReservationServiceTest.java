@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -136,6 +137,19 @@ class ReservationServiceTest {
     }
 
     @Test
+    void shouldNotAddNullHost() throws DataAccessException {
+        Reservation reservation = new Reservation();
+        reservation.setStartDate(LocalDate.of(2021, 7, 10));
+        reservation.setEndDate(LocalDate.of(2021, 7, 21));
+        reservation.setHost(null);
+        reservation.setGuest(GuestRepositoryDouble.GUEST);
+        reservation.setTotal(BigDecimal.TEN);
+
+        Result<Reservation> result = service.add(reservation);
+        assertEquals(result.getErrorMessages().get(0), "Reservation host is required.");
+    }
+
+    @Test
     void shouldNotAddNullStartDate() throws DataAccessException {
         Reservation reservation = new Reservation();
         reservation.setStartDate(null);
@@ -159,6 +173,61 @@ class ReservationServiceTest {
 
         Result<Reservation> result = service.add(reservation);
         assertEquals(result.getErrorMessages().get(0), "Reservation end date is required.");
+    }
+
+    @Test
+    void shouldCalculateCorrectWeekDays() throws DataAccessException{
+        Reservation reservation = new Reservation();
+        reservation.setReservationId(2);
+        reservation.setStartDate(LocalDate.of(2021, 7, 11));
+        reservation.setEndDate(LocalDate.of(2021, 7, 15));
+        reservation.setHost(HostRepositoryDouble.HOST);
+        reservation.setGuest(GuestRepositoryDouble.GUEST);
+
+        BigDecimal total = service.calculateTotal(reservation.getStartDate(),
+                reservation.getEndDate(), reservation.getHost());
+//        standard rate = 340
+//        total days = 4
+//        weekdays = 4 ($1,360)
+//        total = $1,360
+        assertEquals(BigDecimal.valueOf(1360).setScale(2, RoundingMode.HALF_UP), total);
+    }
+    @Test
+    void shouldCalculateCorrectWeekEndDays() throws DataAccessException{
+        Reservation reservation = new Reservation();
+        reservation.setReservationId(2);
+        reservation.setStartDate(LocalDate.of(2021, 7, 9));
+        reservation.setEndDate(LocalDate.of(2021, 7, 11));
+        reservation.setHost(HostRepositoryDouble.HOST);
+        reservation.setGuest(GuestRepositoryDouble.GUEST);
+
+        BigDecimal total = service.calculateTotal(reservation.getStartDate(),
+                reservation.getEndDate(), reservation.getHost());
+//        weekend rate = 425
+//        total days = 2
+//        weekend days = 2 ($850)
+//        total = $850
+        assertEquals(BigDecimal.valueOf(850).setScale(2, RoundingMode.HALF_UP), total);
+    }
+
+    @Test
+    void shouldCalculateCorrectTotal() throws DataAccessException{
+        Reservation reservation = new Reservation();
+        reservation.setReservationId(2);
+        reservation.setStartDate(LocalDate.of(2021, 7, 10));
+        reservation.setEndDate(LocalDate.of(2021, 7, 21));
+        reservation.setHost(HostRepositoryDouble.HOST);
+        reservation.setGuest(GuestRepositoryDouble.GUEST);
+
+        BigDecimal total = service.calculateTotal(reservation.getStartDate(),
+                reservation.getEndDate(), reservation.getHost());
+//        standard rate = 340
+//        weekend rate = 425
+//        total days = 11
+//        weekdays = 8 ($2,720)
+//        weekendDays = 3 ($1,275)
+//        total = $3,995
+        assertEquals(BigDecimal.valueOf(3995).setScale(2, RoundingMode.HALF_UP), total);
     }
 
     @Test
@@ -215,6 +284,19 @@ class ReservationServiceTest {
     }
 
     @Test
+    void reservationStartDateCannotBeInPast() throws DataAccessException {
+        Reservation reservation = new Reservation();
+        reservation.setStartDate(LocalDate.of(2020, 7, 13));
+        reservation.setEndDate(LocalDate.of(2020, 7, 17));
+        reservation.setHost(HostRepositoryDouble.HOST);
+        reservation.setGuest(makeGuest());
+        reservation.setTotal(BigDecimal.TEN);
+
+        Result<Reservation> result = service.add(reservation);
+        assertEquals(result.getErrorMessages().get(0), "Reservation start date must be in the future.");
+    }
+
+    @Test
     void shouldUpdateReservation() throws DataAccessException {
         Reservation reservation = service.findReservationByGuestAndHostEmail("slomas0@mediafire.com",
                 "eyearnes0@sfgate.com");
@@ -260,6 +342,18 @@ class ReservationServiceTest {
         Result<Reservation> result = service.delete(reservation);
 
         assertEquals(result.getErrorMessages().get(0), "Cannot find reservation.");
+
+    }
+
+    @Test
+    void shouldNotDeleteReservationInPast() throws DataAccessException {
+        Reservation reservation = service.findReservationByGuestAndHostEmail("slomas0@mediafire.com",
+                "eyearnes0@sfgate.com");
+        reservation.setStartDate(LocalDate.of(2020, 8, 12));
+        reservation.setEndDate(LocalDate.of(2020, 8, 15));
+        Result<Reservation> result = service.delete(reservation);
+
+        assertEquals(result.getErrorMessages().get(0), "Cannot delete a reservation in the past.");
 
     }
 

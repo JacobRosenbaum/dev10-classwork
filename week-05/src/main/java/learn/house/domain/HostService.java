@@ -15,7 +15,7 @@ public class HostService {
         this.repository = repository;
     }
 
-    public List<Host> findAll(Host host) throws DataAccessException {
+    public List<Host> findAll() throws DataAccessException {
         return repository.findAll();
     }
 
