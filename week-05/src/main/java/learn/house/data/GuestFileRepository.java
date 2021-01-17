@@ -33,7 +33,7 @@ public class GuestFileRepository implements GuestRepository{
                 }
             }
         } catch (IOException ex) {
-            throw new DataAccessException(ex.getMessage(), ex);
+            // don't throw on read
         }
         return result;
     }

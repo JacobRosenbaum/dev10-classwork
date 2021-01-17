@@ -68,7 +68,7 @@ public class ReservationService {
     }
 
     public Result<Reservation> add(Reservation reservation) throws DataAccessException {
-        Result<Reservation> result = validate(reservation);
+        Result<Reservation> result = validate(reservation, false, true);
         if (!result.isSuccess()) {
             return result;
         }
@@ -78,7 +78,7 @@ public class ReservationService {
     }
 
     public Result<Reservation> update(Reservation reservation) throws DataAccessException {
-        Result<Reservation> result = validate(reservation);
+        Result<Reservation> result = validate(reservation, false, false);
 
         if (!result.isSuccess()) {
             return result;
@@ -97,7 +97,7 @@ public class ReservationService {
     }
 
     public Result<Reservation> delete(Reservation reservation) throws DataAccessException {
-        Result<Reservation> result = validate(reservation);
+        Result<Reservation> result = validate(reservation, true, false);
 
         if (!result.isSuccess()) {
             return result;
@@ -131,20 +131,28 @@ public class ReservationService {
     }
 
     private Long getWeekDays(LocalDate startDate, LocalDate endDate) {
-        Set<DayOfWeek> weekend = EnumSet.of(DayOfWeek.FRIDAY, DayOfWeek.SATURDAY);
-        return startDate.datesUntil(endDate)
-                .filter(d -> !weekend.contains(d.getDayOfWeek()))
-                .count();
+        if (startDate.isAfter(endDate) || startDate.equals(endDate)) {
+            return 0L;
+        } else {
+            Set<DayOfWeek> weekend = EnumSet.of(DayOfWeek.FRIDAY, DayOfWeek.SATURDAY);
+            return startDate.datesUntil(endDate)
+                    .filter(d -> !weekend.contains(d.getDayOfWeek()))
+                    .count();
+        }
     }
 
     private Long getWeekEndDays(LocalDate startDate, LocalDate endDate) {
-        Set<DayOfWeek> weekend = EnumSet.of(DayOfWeek.FRIDAY, DayOfWeek.SATURDAY);
-        return startDate.datesUntil(endDate)
-                .filter(d -> weekend.contains(d.getDayOfWeek()))
-                .count();
+        if (startDate.isAfter(endDate) || startDate.equals(endDate)) {
+            return 0L;
+        } else {
+            Set<DayOfWeek> weekend = EnumSet.of(DayOfWeek.FRIDAY, DayOfWeek.SATURDAY);
+            return startDate.datesUntil(endDate)
+                    .filter(d -> weekend.contains(d.getDayOfWeek()))
+                    .count();
+        }
     }
 
-    private Result<Reservation> validate(Reservation reservation) throws DataAccessException {
+    private Result<Reservation> validate(Reservation reservation, boolean delete, boolean add) throws DataAccessException {
         Result<Reservation> result = new Result<>();
 
         if (reservation == null) {
@@ -152,8 +160,17 @@ public class ReservationService {
             return result;
         }
 
+        if (delete) {
+            validateDelete(reservation, result);
+            return result;
+        }
+
         if (reservation.getGuest() == null) {
             result.addErrorMessage("Reservation guest is required.");
+        }
+
+        if (reservation.getHost() == null) {
+            result.addErrorMessage("Reservation host is required.");
         }
 
         if (reservation.getStartDate() == null) {
@@ -164,18 +181,23 @@ public class ReservationService {
             result.addErrorMessage("Reservation end date is required.");
         }
 
-        validateStartDateAfterEndDate(reservation, result);
+        validateStartDateBeforeEndDate(reservation, result);
+
+        if (add) {
+            validateAdd(reservation, result);
+        }
 
         validateDatesDoNotClash(reservation, result);
 
         return result;
     }
 
-    private void validateStartDateAfterEndDate(Reservation reservation, Result<Reservation> result) throws DataAccessException {
+    private void validateStartDateBeforeEndDate(Reservation reservation, Result<Reservation> result) {
         LocalDate startDate = reservation.getStartDate();
         LocalDate endDate = reservation.getEndDate();
         if (startDate != null && endDate != null) {
             if (endDate.isBefore(startDate) ||
+
                     endDate.equals(startDate)) {
                 result.addErrorMessage("Reservation start date must be before end date.");
             }
@@ -186,24 +208,30 @@ public class ReservationService {
         List<Reservation> reservations = findReservationListByHostEmail(reservation.getHost().getHostEmail());
         LocalDate startDate = reservation.getStartDate();
         LocalDate endDate = reservation.getEndDate();
+        boolean error = false;
         if (startDate != null && endDate != null) {
             for (Reservation r : reservations) {
                 if ((startDate.isBefore(r.getEndDate())) &&
                         (r.getStartDate().isBefore(endDate)) &&
                         reservation.getReservationId() != r.getReservationId()) {
                     result.addErrorMessage("Reservation cannot overlap existing reservation.");
+                    break;
                 }
             }
         }
     }
 
-    private Result<Reservation> validateEmail(String hostEmail) throws DataAccessException {
-        Result<Reservation> result = new Result<>();
-
-        if (hostEmail == null) {
-            result.addErrorMessage("Host Email cannot be null.");
-            return result;
+    private void validateAdd(Reservation reservation, Result<Reservation> result) {
+        LocalDate now = LocalDate.now();
+        if (reservation.getStartDate().isBefore(now)) {
+            result.addErrorMessage("Reservation start date must be in the future.");
         }
-        return result;
+    }
+
+    private void validateDelete(Reservation reservation, Result<Reservation> result) {
+        LocalDate now = LocalDate.now();
+        if (reservation.getEndDate().isBefore(now)) {
+            result.addErrorMessage("Cannot delete a reservation in the past.");
+        }
     }
 }

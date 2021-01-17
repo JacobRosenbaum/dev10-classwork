@@ -39,7 +39,7 @@ public class ReservationFileRepository implements ReservationRepository {
                 }
             }
         } catch (IOException ex) {
-            throw new DataAccessException(ex.getMessage(), ex);
+            // file not found, we need to create new file
         }
         return result;
     }

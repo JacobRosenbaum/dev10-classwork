@@ -29,13 +29,9 @@ public class View {
     }
 
     public void displayHeader(String message) {
-        System.out.println("");
+        System.out.println();
         System.out.println(message);
         System.out.println("=".repeat(message.length()));
-    }
-
-    public void enterToContinue() {
-        io.readString("Press [Enter] to continue.");
     }
 
     public String getHostEmail() {
@@ -84,7 +80,7 @@ public class View {
         displayHeader("Summary");
         System.out.println("Start: " + startDate);
         System.out.println("Start: " + endDate);
-        System.out.println("Total: " + total);
+        System.out.println("Total: $" + total);
         return io.readBoolean("Is this ok? [y/n]: ");
     }
 
@@ -95,8 +91,14 @@ public class View {
     public void displayStatus(boolean success, List<String> messages) {
         displayHeader(success ? "Success" : "Error");
         for (String message : messages) {
-            io.println(message);
+            io.print(cleanStatus(message));
         }
+    }
+
+    private String cleanStatus(String value) {
+        return value.replace("[", "")
+                .replace("]", "");
+
     }
 
     public boolean displayTryAgain() {
@@ -104,11 +106,27 @@ public class View {
     }
 
     public void returnToMainMenu() {
-        io.println("Returning to Main Menu...");
+        io.readString("\nPress [Enter] to continue.");
+        io.print("Returning to Main Menu..." + "\n");
     }
 
-    public void NoReservationsFound(String hostEmail) {
-        io.println(hostEmail + " does not have any reservations booked.");
+    public void reservationListNotFound(Host host) {
+        io.printf("%n%s (%s) in %s, %s does not have any reservations booked at this time.%n",
+                host.getLastName(), host.getHostEmail(), host.getCity(), host.getState());
+    }
+
+    public void noReservationFound(Guest guest, Host host) {
+        io.printf("%n%s, %s (%s) doest not have a reservation with %s (%s) in %s, %s" +
+                        " booked at this time.%n%n",
+                guest.getLastName(), guest.getFirstName(), guest.getGuestEmail(),
+                host.getLastName(), host.getHostEmail(), host.getCity(), host.getState());
+    }
+
+    public void reservationInPast(Guest guest, Reservation reservation) {
+        io.printf("%n%s, %s (%s) booked a reservation from %s - %s," +
+                        " you cannot delete a reservation in the past.%n",
+                guest.getLastName(), guest.getFirstName(), guest.getGuestEmail(),
+                reservation.getStartDate(), reservation.getEndDate());
     }
 
     public void displayGuestDoesNotExist() {
@@ -138,9 +156,15 @@ public class View {
         displayHeader(header);
     }
 
-    public void displayEditHeader(Reservation reservation) {
-        String header = String.format("Editing Reservation %s",
+    public void displayEditOrDeleteHeader(Reservation reservation, String message) {
+        String header = String.format(message,
                 reservation.getReservationId());
         displayHeader(header);
+    }
+
+    public boolean deleteReservation(Reservation reservation) {
+        return io.readBoolean("Would you like to delete Reservation ID: " +
+                reservation.getReservationId() +
+                " [y/n]: ");
     }
 }

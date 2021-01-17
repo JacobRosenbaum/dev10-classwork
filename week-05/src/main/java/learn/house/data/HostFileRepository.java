@@ -34,7 +34,7 @@ public class HostFileRepository implements HostRepository {
                 }
             }
         } catch (IOException ex) {
-            throw new DataAccessException(ex.getMessage(), ex);
+            // don't throw on read
         }
         return result;
     }
