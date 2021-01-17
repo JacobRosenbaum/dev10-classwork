@@ -15,7 +15,7 @@ public class GuestService {
         this.repository = repository;
     }
 
-    public List<Guest> findAll(Guest guest) throws DataAccessException {
+    public List<Guest> findAll() throws DataAccessException {
         return repository.findAll();
     }
 

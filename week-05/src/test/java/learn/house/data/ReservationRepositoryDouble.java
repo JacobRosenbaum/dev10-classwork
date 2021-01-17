@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 
 public class ReservationRepositoryDouble implements ReservationRepository {
 
-    private final LocalDate startDate = LocalDate.of(2020, 7, 11);
-    private final LocalDate endDate = LocalDate.of(2020, 7, 27);
+    private final LocalDate startDate = LocalDate.of(2021, 7, 11);
+    private final LocalDate endDate = LocalDate.of(2021, 7, 27);
 
 
     private final ArrayList<Reservation> reservations = new ArrayList<>();

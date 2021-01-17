@@ -208,7 +208,6 @@ public class ReservationService {
         List<Reservation> reservations = findReservationListByHostEmail(reservation.getHost().getHostEmail());
         LocalDate startDate = reservation.getStartDate();
         LocalDate endDate = reservation.getEndDate();
-        boolean error = false;
         if (startDate != null && endDate != null) {
             for (Reservation r : reservations) {
                 if ((startDate.isBefore(r.getEndDate())) &&
@@ -222,16 +221,20 @@ public class ReservationService {
     }
 
     private void validateAdd(Reservation reservation, Result<Reservation> result) {
-        LocalDate now = LocalDate.now();
-        if (reservation.getStartDate().isBefore(now)) {
-            result.addErrorMessage("Reservation start date must be in the future.");
+        if (reservation.getStartDate() != null && reservation.getEndDate() != null) {
+            LocalDate now = LocalDate.now();
+            if (reservation.getStartDate().isBefore(now)) {
+                result.addErrorMessage("Reservation start date must be in the future.");
+            }
         }
     }
 
     private void validateDelete(Reservation reservation, Result<Reservation> result) {
-        LocalDate now = LocalDate.now();
-        if (reservation.getEndDate().isBefore(now)) {
-            result.addErrorMessage("Cannot delete a reservation in the past.");
+        if (reservation.getStartDate() != null && reservation.getEndDate() != null) {
+            LocalDate now = LocalDate.now();
+            if (reservation.getEndDate().isBefore(now)) {
+                result.addErrorMessage("Cannot delete a reservation in the past.");
+            }
         }
     }
 }

@@ -53,13 +53,10 @@ class ReservationFileRepositoryTest {
     }
 
     @Test
-    void shouldThrowDataAccessExceptionIfIdNotValid() throws DataAccessException {
-        Exception exception = assertThrows(DataAccessException.class, () -> {
-            repository.findByHostId("1234");
-        });
+    void shouldNotFindMissingReservation() throws DataAccessException {
+        List<Reservation> all = repository.findByHostId("ea7g8gdv7gv7dgv");
 
-        assertEquals("./data/reservation_data_test/1234.csv (No such file or directory)", exception.getMessage());
-
+        assertEquals(0, all.size());
     }
 
     @Test

@@ -61,8 +61,8 @@ class ReservationServiceTest {
 
     @Test
     void shouldFindByGuestAndHostEmail() throws DataAccessException {
-        Reservation expected = service.findReservationByGuestAndHostEmail("eyearnes0@sfgate.com",
-                "slomas0@mediafire.com");
+        Reservation expected = service.findReservationByGuestAndHostEmail("slomas0@mediafire.com",
+                "eyearnes0@sfgate.com");
 
         assertEquals(expected.getTotal(), new BigDecimal("1000"));
 
@@ -70,32 +70,32 @@ class ReservationServiceTest {
 
     @Test
     void shouldNotFindMissingGuestEmail() throws DataAccessException {
-        Reservation expected = service.findReservationByGuestAndHostEmail("eyearnes0@sfgate.com",
-                "slomasssssss0@mediafire.com");
+        Reservation expected = service.findReservationByGuestAndHostEmail(" ",
+                "eyearnes0@ssssssssfgate.com");
 
         assertNull(expected);
     }
 
     @Test
     void shouldNotFindNullGuestEmail() throws DataAccessException {
-        Reservation expected = service.findReservationByGuestAndHostEmail("eyearnes0@sfgate.com",
-                null);
+        Reservation expected = service.findReservationByGuestAndHostEmail(null,
+                "eyearnes0@sfgate.com");
 
         assertNull(expected);
     }
 
     @Test
     void shouldNotFindMissingHostEmail() throws DataAccessException {
-        Reservation expected = service.findReservationByGuestAndHostEmail("eyearndddddes0@sfgate.com",
-                "slomas0@mediafire.com");
+        Reservation expected = service.findReservationByGuestAndHostEmail("slomas0@mediafire.com",
+                " ");
 
         assertNull(expected);
     }
 
     @Test
     void shouldNotFindNullHostEmail() throws DataAccessException {
-        Reservation expected = service.findReservationByGuestAndHostEmail(null,
-                "slomas0@mediafire.com");
+        Reservation expected = service.findReservationByGuestAndHostEmail("slomas0@mediafire.com",
+                null);
 
         assertNull(expected);
     }
@@ -103,8 +103,8 @@ class ReservationServiceTest {
     @Test
     void shouldAddReservation() throws DataAccessException {
         Reservation reservation = new Reservation();
-        reservation.setStartDate(LocalDate.of(2020, 6, 10));
-        reservation.setEndDate(LocalDate.of(2020, 6, 21));
+        reservation.setStartDate(LocalDate.of(2021, 6, 10));
+        reservation.setEndDate(LocalDate.of(2021, 6, 21));
         reservation.setHost(HostRepositoryDouble.HOST);
         reservation.setGuest(makeGuest());
         reservation.setTotal(BigDecimal.TEN);
@@ -125,8 +125,8 @@ class ReservationServiceTest {
     @Test
     void shouldNotAddNullGuest() throws DataAccessException {
         Reservation reservation = new Reservation();
-        reservation.setStartDate(LocalDate.of(2020, 7, 10));
-        reservation.setEndDate(LocalDate.of(2020, 7, 21));
+        reservation.setStartDate(LocalDate.of(2021, 7, 10));
+        reservation.setEndDate(LocalDate.of(2021, 7, 21));
         reservation.setHost(HostRepositoryDouble.HOST);
         reservation.setGuest(null);
         reservation.setTotal(BigDecimal.TEN);
@@ -139,7 +139,7 @@ class ReservationServiceTest {
     void shouldNotAddNullStartDate() throws DataAccessException {
         Reservation reservation = new Reservation();
         reservation.setStartDate(null);
-        reservation.setEndDate(LocalDate.of(2020, 7, 21));
+        reservation.setEndDate(LocalDate.of(2021, 7, 21));
         reservation.setHost(HostRepositoryDouble.HOST);
         reservation.setGuest(GuestRepositoryDouble.GUEST);
         reservation.setTotal(BigDecimal.TEN);
@@ -165,8 +165,8 @@ class ReservationServiceTest {
     void reservationDatesShouldNotClash() throws DataAccessException {
         Reservation reservation = new Reservation();
         reservation.setReservationId(2);
-        reservation.setStartDate(LocalDate.of(2020, 7, 10));
-        reservation.setEndDate(LocalDate.of(2020, 7, 21));
+        reservation.setStartDate(LocalDate.of(2021, 7, 10));
+        reservation.setEndDate(LocalDate.of(2021, 7, 21));
         reservation.setHost(HostRepositoryDouble.HOST);
         reservation.setGuest(makeGuest());
         reservation.setTotal(BigDecimal.TEN);
@@ -178,8 +178,8 @@ class ReservationServiceTest {
     @Test
     void reservationStartDateCanMatchPreviousEndDate() throws DataAccessException {
         Reservation reservation = new Reservation();
-        reservation.setStartDate(LocalDate.of(2020, 7, 27));
-        reservation.setEndDate(LocalDate.of(2020, 7, 31));
+        reservation.setStartDate(LocalDate.of(2021, 7, 27));
+        reservation.setEndDate(LocalDate.of(2021, 7, 31));
         reservation.setHost(HostRepositoryDouble.HOST);
         reservation.setGuest(makeGuest());
         reservation.setTotal(BigDecimal.TEN);
@@ -191,8 +191,8 @@ class ReservationServiceTest {
     @Test
     void reservationEndDateCanMatchPreviousStartDate() throws DataAccessException {
         Reservation reservation = new Reservation();
-        reservation.setStartDate(LocalDate.of(2020, 7, 3));
-        reservation.setEndDate(LocalDate.of(2020, 7, 11));
+        reservation.setStartDate(LocalDate.of(2021, 7, 3));
+        reservation.setEndDate(LocalDate.of(2021, 7, 11));
         reservation.setHost(HostRepositoryDouble.HOST);
         reservation.setGuest(makeGuest());
         reservation.setTotal(BigDecimal.TEN);
@@ -204,8 +204,8 @@ class ReservationServiceTest {
     @Test
     void reservationStartDateCannotBeAfterEndDate() throws DataAccessException {
         Reservation reservation = new Reservation();
-        reservation.setStartDate(LocalDate.of(2020, 7, 13));
-        reservation.setEndDate(LocalDate.of(2020, 7, 11));
+        reservation.setStartDate(LocalDate.of(2021, 7, 13));
+        reservation.setEndDate(LocalDate.of(2021, 7, 11));
         reservation.setHost(HostRepositoryDouble.HOST);
         reservation.setGuest(makeGuest());
         reservation.setTotal(BigDecimal.TEN);
@@ -216,10 +216,10 @@ class ReservationServiceTest {
 
     @Test
     void shouldUpdateReservation() throws DataAccessException {
-        Reservation reservation = service.findReservationByGuestAndHostEmail("eyearnes0@sfgate.com",
-                "slomas0@mediafire.com");
-        reservation.setStartDate(LocalDate.of(2020, 7, 13));
-        reservation.setEndDate(LocalDate.of(2020, 7, 24));
+        Reservation reservation = service.findReservationByGuestAndHostEmail("slomas0@mediafire.com",
+                "eyearnes0@sfgate.com");
+        reservation.setStartDate(LocalDate.of(2021, 7, 13));
+        reservation.setEndDate(LocalDate.of(2021, 7, 24));
         reservation.setHost(HostRepositoryDouble.HOST);
         reservation.setGuest(makeGuest());
         reservation.setTotal(new BigDecimal("12345"));
@@ -243,8 +243,8 @@ class ReservationServiceTest {
 
     @Test
     void shouldDeleteReservation() throws DataAccessException {
-        Reservation reservation = service.findReservationByGuestAndHostEmail("eyearnes0@sfgate.com",
-                "slomas0@mediafire.com");
+        Reservation reservation = service.findReservationByGuestAndHostEmail("slomas0@mediafire.com",
+                "eyearnes0@sfgate.com");
 
         Result<Reservation> result = service.delete(reservation);
 
