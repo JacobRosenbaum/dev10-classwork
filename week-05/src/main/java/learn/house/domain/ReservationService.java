@@ -56,7 +56,7 @@ public class ReservationService {
         List<Reservation> reservations = reservationRepository.findReservationsByPath();
 
         if (guest == null) {
-            return reservations;
+            return null;
         }
 
         List<Reservation> result = reservations.stream()

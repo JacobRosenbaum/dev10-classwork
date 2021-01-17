@@ -17,9 +17,9 @@ public class ConsoleIO {
             = "[INVALID] Enter a number between %s and %s.";
     private static final String REQUIRED
             = "[INVALID] Value is required.";
-    private static final String NEEDSATSYMBOL
+    private static final String NEEDS_AT_SYMBOL
             = "[INVALID] Email must contain an '@' symbol";
-    private static final String TWOCHARACTERS
+    private static final String TWO_CHARACTERS
             = "[INVALID] State must be abbreviated to 2 letters";
     private static final String INVALID_DATE
             = "[INVALID] Enter a date in MM/dd/yyyy format.";
@@ -64,7 +64,7 @@ public class ConsoleIO {
             if (result.isBlank()) {
                 println(REQUIRED);
             } else if (!result.contains("@")) {
-                println(NEEDSATSYMBOL);
+                println(NEEDS_AT_SYMBOL);
             } else {
                 return result;
             }
@@ -77,32 +77,12 @@ public class ConsoleIO {
             if (result.isBlank()) {
                 println(REQUIRED);
             } else if (result.length() != 2) {
-                println(TWOCHARACTERS);
+                println(TWO_CHARACTERS);
             } else if (!states.contains(result.toUpperCase(Locale.ROOT))) {
                 println("[INVALID] " + result.toUpperCase(Locale.ROOT) + " is not a state.");
             } else {
                 return result.toUpperCase(Locale.ROOT);
             }
-        }
-    }
-
-    public double readDouble(String prompt) {
-        while (true) {
-            try {
-                return Double.parseDouble(readRequiredString(prompt));
-            } catch (NumberFormatException ex) {
-                println(INVALID_NUMBER);
-            }
-        }
-    }
-
-    public double readDouble(String prompt, double min, double max) {
-        while (true) {
-            double result = readDouble(prompt);
-            if (result >= min && result <= max) {
-                return result;
-            }
-            println(String.format(NUMBER_OUT_OF_RANGE, min, max));
         }
     }
 
@@ -154,27 +134,6 @@ public class ConsoleIO {
             } catch (DateTimeParseException ex) {
                 println(INVALID_DATE);
             }
-        }
-    }
-
-    public BigDecimal readBigDecimal(String prompt) {
-        while (true) {
-            String input = readRequiredString(prompt);
-            try {
-                return new BigDecimal(input);
-            } catch (NumberFormatException ex) {
-                println(INVALID_NUMBER);
-            }
-        }
-    }
-
-    public BigDecimal readBigDecimal(String prompt, BigDecimal min, BigDecimal max) {
-        while (true) {
-            BigDecimal result = readBigDecimal(prompt);
-            if (result.compareTo(min) >= 0 && result.compareTo(max) <= 0) {
-                return result;
-            }
-            println(String.format(NUMBER_OUT_OF_RANGE, min, max));
         }
     }
 }

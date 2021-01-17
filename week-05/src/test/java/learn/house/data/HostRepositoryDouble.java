@@ -29,11 +29,6 @@ public class HostRepositoryDouble implements HostRepository {
                 .orElse(null);
     }
 
-    @Override
-    public Host findById(String hostId) throws DataAccessException {
-        return null;
-    }
-
     public static Host makeHost() {
         Host host = new Host();
 

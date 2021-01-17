@@ -40,6 +40,42 @@ class ReservationServiceTest {
     }
 
     @Test
+    void shouldFindCorrectNumberOfReservationListsByState() throws DataAccessException {
+        List<Reservation> all = service.findReservationListsByState("TX");
+
+        assertEquals(1, all.size());
+    }
+
+
+    @Test
+    void shouldNotFindMissingReservationListsByState() throws DataAccessException {
+        List<Reservation> all = service.findReservationListsByState("AK");
+
+        assertEquals(0, all.size());
+    }
+
+    @Test
+    void shouldFindCorrectNumberOfReservationByGuestEmail() throws DataAccessException {
+        List<Reservation> all = service.findReservationListByGuestEmail("slomas0@mediafire.com");
+
+        assertEquals(1, all.size());
+    }
+
+    @Test
+    void shouldFindReservationDataByGuestEmail() throws DataAccessException {
+        List<Reservation> all = service.findReservationListByGuestEmail("slomas0@mediafire.com");
+
+        assertEquals(new BigDecimal("1000"), all.get(0).getTotal());
+    }
+
+    @Test
+    void shouldNotFindMissingReservationByGuestEmail() throws DataAccessException {
+        List<Reservation> all = service.findReservationListByGuestEmail("sl$$$omas0@mediafire.com");
+
+        assertNull(all);
+    }
+
+    @Test
     void shouldFindByEmailReturnsCorrectNumberOfReservations() throws DataAccessException {
         List<Reservation> all = service.findReservationListByHostEmail("eyearnes0@sfgate.com");
 
@@ -176,7 +212,7 @@ class ReservationServiceTest {
     }
 
     @Test
-    void shouldCalculateCorrectWeekDays() throws DataAccessException{
+    void shouldCalculateCorrectWeekDays() throws DataAccessException {
         Reservation reservation = new Reservation();
         reservation.setReservationId(2);
         reservation.setStartDate(LocalDate.of(2021, 7, 11));
@@ -192,8 +228,9 @@ class ReservationServiceTest {
 //        total = $1,360
         assertEquals(BigDecimal.valueOf(1360).setScale(2, RoundingMode.HALF_UP), total);
     }
+
     @Test
-    void shouldCalculateCorrectWeekEndDays() throws DataAccessException{
+    void shouldCalculateCorrectWeekEndDays() throws DataAccessException {
         Reservation reservation = new Reservation();
         reservation.setReservationId(2);
         reservation.setStartDate(LocalDate.of(2021, 7, 9));
@@ -211,7 +248,7 @@ class ReservationServiceTest {
     }
 
     @Test
-    void shouldCalculateCorrectTotal() throws DataAccessException{
+    void shouldCalculateCorrectTotal() throws DataAccessException {
         Reservation reservation = new Reservation();
         reservation.setReservationId(2);
         reservation.setStartDate(LocalDate.of(2021, 7, 10));

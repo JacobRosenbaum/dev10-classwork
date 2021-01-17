@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
@@ -38,7 +39,21 @@ class ReservationFileRepositoryTest {
     }
 
     @Test
-    void findByHostIdShouldReturnCorrectReservationFile() throws DataAccessException {
+    void findAllReservationPathsShouldReturnCorrectNumberOfFiles() throws DataAccessException{
+        List<Path> all = repository.findAllReservationsFilePaths();
+
+        assertEquals(1, all.size());
+    }
+
+    @Test
+    void findReservationsByPathShouldReturnCorrectNumberOfReservations() throws DataAccessException{
+        List<Reservation> all = repository.findReservationsByPath();
+
+        assertEquals(13, all.size());
+    }
+
+    @Test
+    void findByHostIdShouldReturnCorrectNumberOfReservations() throws DataAccessException {
         List<Reservation> all = repository.findByHostId(hostId);
 
         assertEquals(13, all.size());

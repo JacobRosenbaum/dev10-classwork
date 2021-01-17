@@ -10,6 +10,4 @@ public interface HostRepository {
 
    Host findByEmail(String hostEmail) throws DataAccessException;
 
-   public Host findById(String hostId) throws DataAccessException;
-
 }

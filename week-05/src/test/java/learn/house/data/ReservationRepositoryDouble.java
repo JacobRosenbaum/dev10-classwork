@@ -4,6 +4,7 @@ import learn.house.models.Reservation;
 
 import java.math.BigDecimal;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,28 +17,29 @@ public class ReservationRepositoryDouble implements ReservationRepository {
 
 
     private final ArrayList<Reservation> reservations = new ArrayList<>();
-
+    private final ArrayList<Path> paths = new ArrayList<>();
 
     public ReservationRepositoryDouble() {
         Reservation reservation = new Reservation();
-
         reservation.setStartDate(startDate);
         reservation.setEndDate(endDate);
         reservation.setTotal(new BigDecimal("1000"));
         reservation.setGuest(GuestRepositoryDouble.GUEST);
         reservation.setHost(HostRepositoryDouble.HOST);
-
         reservations.add(reservation);
+
+        Path path = Paths.get( "./data/reservation_data_test", ".csv");
+        paths.add(path);
     }
 
     @Override
     public List<Path> findAllReservationsFilePaths() {
-        return null;
+        return paths;
     }
 
     @Override
     public List<Reservation> findReservationsByPath() {
-        return null;
+        return reservations;
     }
 
     @Override
@@ -62,4 +64,5 @@ public class ReservationRepositoryDouble implements ReservationRepository {
     public boolean delete(Reservation reservation) {
         return reservations.remove(reservation);
     }
+
 }

@@ -306,7 +306,6 @@ public class Controller {
         }
 
         return result;
-
     }
 
     private Reservation getHostReservation(Guest guest, Host host) throws DataAccessException {

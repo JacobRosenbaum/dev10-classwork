@@ -149,7 +149,6 @@ public class View {
     private String cleanStatus(String value) {
         return value.replace("[", "")
                 .replace("]", "");
-
     }
 
     public boolean displayTryAgain() {
