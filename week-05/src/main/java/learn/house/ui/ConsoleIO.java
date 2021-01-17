@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Locale;
 import java.util.Scanner;
 
 @Component
@@ -17,9 +18,15 @@ public class ConsoleIO {
     private static final String REQUIRED
             = "[INVALID] Value is required.";
     private static final String NEEDSATSYMBOL
-            = "[INVALID] EMAIL MUST CONTAIN AN '@'";
+            = "[INVALID] Email must contain an '@' symbol";
+    private static final String TWOCHARACTERS
+            = "[INVALID] State must be abbreviated to 2 letters";
     private static final String INVALID_DATE
             = "[INVALID] Enter a date in MM/dd/yyyy format.";
+    private final static String states = "|AL|AK|AS|AZ|AR|CA|CO|CT|DE|" +
+            "DC|FM|FL|GA|GU|HI|ID|IL|IN|IA|KS|KY|LA|ME|MH|MD|MA|MI|MN|" +
+            "MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|MP|OH|OK|OR|PW|PA|PR|RI|" +
+            "SC|SD|TN|TX|UT|VT|VI|VA|WA|WV|WI|WY|";
 
     private final Scanner scanner = new Scanner(System.in);
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
@@ -60,6 +67,21 @@ public class ConsoleIO {
                 println(NEEDSATSYMBOL);
             } else {
                 return result;
+            }
+        }
+    }
+
+    public String readState(String prompt) {
+        while (true) {
+            String result = readString(prompt);
+            if (result.isBlank()) {
+                println(REQUIRED);
+            } else if (result.length() != 2) {
+                println(TWOCHARACTERS);
+            } else if (!states.contains(result.toUpperCase(Locale.ROOT))) {
+                println("[INVALID] " + result.toUpperCase(Locale.ROOT) + " is not a state.");
+            } else {
+                return result.toUpperCase(Locale.ROOT);
             }
         }
     }
@@ -123,7 +145,7 @@ public class ConsoleIO {
                 input = readRequiredString(prompt);
             } else {
                 input = readString(prompt);
-                if (input.isBlank()){
+                if (input.isBlank()) {
                     return null;
                 }
             }

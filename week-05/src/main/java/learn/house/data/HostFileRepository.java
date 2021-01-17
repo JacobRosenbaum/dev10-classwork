@@ -47,6 +47,14 @@ public class HostFileRepository implements HostRepository {
                 .orElse(null);
     }
 
+    @Override
+    public Host findById(String hostId) throws DataAccessException {
+        return findAll().stream()
+                .filter(i -> i.getHostId().equals(hostId))
+                .findFirst()
+                .orElse(null);
+    }
+
     private Host deserialize(String[] fields) {
         Host result = new Host();
         result.setHostId(fields[0]);

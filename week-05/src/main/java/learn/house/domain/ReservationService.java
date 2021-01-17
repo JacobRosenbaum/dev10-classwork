@@ -6,8 +6,12 @@ import learn.house.models.Guest;
 import learn.house.models.Reservation;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.file.Path;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
@@ -26,6 +30,51 @@ public class ReservationService {
         this.guestRepository = guestRepository;
     }
 
+    public List<Reservation> findReservationListsByState(String state) throws DataAccessException {
+        List<Reservation> reservations = reservationRepository.findReservationsByPath();
+
+        Map<String, Host> hostMap = hostRepository.findAll()
+                .stream()
+                .collect(Collectors.toMap(Host::getHostId, i -> i));
+        Map<Integer, Guest> guestMap = guestRepository.findAll()
+                .stream()
+                .collect(Collectors.toMap(Guest::getGuestId, i -> i));
+
+        for (Reservation reservation : reservations){
+            reservation.setHost(hostMap.get(reservation.getHost().getHostId()));
+            reservation.setGuest(guestMap.get(reservation.getGuest().getGuestId()));
+        }
+
+        return reservations.stream()
+                .filter(i -> i.getHost().getState().equals(state))
+                .sorted(Comparator.comparing(Reservation::getStartDate))
+                .collect(Collectors.toList());
+    }
+
+    public List<Reservation> findReservationListByGuestEmail(String guestEmail) throws DataAccessException {
+        Guest guest = guestRepository.findByEmail(guestEmail);
+        List<Reservation> reservations = reservationRepository.findReservationsByPath();
+
+        if (guest == null) {
+            return reservations;
+        }
+
+        List<Reservation> result = reservations.stream()
+                .filter(i -> i.getGuest().getGuestId() == guest.getGuestId())
+                .sorted(Comparator.comparing(Reservation::getStartDate))
+                .collect(Collectors.toList());
+
+        Map<String, Host> hostMap = hostRepository.findAll()
+                .stream()
+                .collect(Collectors.toMap(Host::getHostId, i -> i));
+
+        for (Reservation reservation : result) {
+            reservation.setHost(hostMap.get(reservation.getHost().getHostId()));
+            reservation.setGuest(guest);
+        }
+
+        return result;
+    }
 
     public List<Reservation> findReservationListByHostEmail(String hostEmail) throws DataAccessException {
         Map<Integer, Guest> guestMap = guestRepository.findAll()

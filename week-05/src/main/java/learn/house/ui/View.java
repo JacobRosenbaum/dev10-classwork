@@ -24,7 +24,7 @@ public class View {
         for (int i = 0; i < values.length; i++) {
             System.out.printf("%s. %s\n", i, values[i].getOption());
         }
-        int index = io.readInt("\nSelect an option [0-4]: ", 0, 4);
+        int index = io.readInt("\nSelect an option [0-5]: ", 0, 6);
         return values[index];
     }
 
@@ -42,6 +42,11 @@ public class View {
         return io.readEmail("Guest Email: ");
     }
 
+    public String getState() {
+        return io.readState("State (Abbr.): ");
+
+    }
+
     public void displayReservationsByHost(List<Reservation> reservations) {
         String header = String.format("%s: %s, %s",
                 reservations.get(0).getHost().getLastName(),
@@ -51,6 +56,52 @@ public class View {
 
         for (Reservation reservation : reservations) {
             displayReservation(reservation);
+        }
+    }
+
+    public void displayReservationsByGuest(List<Reservation> reservations) {
+        String header = String.format("%s %s (%s):",
+                reservations.get(0).getGuest().getFirstName(),
+                reservations.get(0).getGuest().getLastName(),
+                reservations.get(0).getGuest().getGuestEmail());
+        displayHeader(header);
+
+        int count = 1;
+        for (Reservation reservation : reservations) {
+            io.printf("%s. %s - %s, Host: %s (%s) in %s, %s, Total: $%s%n",
+                    count,
+                    reservation.getStartDate(),
+                    reservation.getEndDate(),
+                    reservation.getHost().getLastName(),
+                    reservation.getHost().getHostEmail(),
+                    reservation.getHost().getCity(),
+                    reservation.getHost().getState(),
+                    reservation.getTotal());
+            count++;
+        }
+    }
+
+    public void displayReservationsByState(List<Reservation> reservations) {
+        String header = String.format("Reservations in %s:",
+                reservations.get(0).getHost().getState());
+        displayHeader(header);
+
+        int count = 1;
+        for (Reservation reservation : reservations) {
+            io.printf("%s. %s - %s, HOST: %s (%s) in %s, %s," +
+                            " GUEST: %s, %s, Email: %s, TOTAL: $%s%n",
+                    count,
+                    reservation.getStartDate(),
+                    reservation.getEndDate(),
+                    reservation.getHost().getLastName(),
+                    reservation.getHost().getHostEmail(),
+                    reservation.getHost().getCity(),
+                    reservation.getHost().getState(),
+                    reservation.getGuest().getLastName(),
+                    reservation.getGuest().getFirstName(),
+                    reservation.getGuest().getGuestEmail(),
+                    reservation.getTotal());
+            count++;
         }
     }
 
@@ -110,9 +161,19 @@ public class View {
         io.print("Returning to Main Menu..." + "\n");
     }
 
-    public void reservationListNotFound(Host host) {
+    public void hostReservationListNotFound(Host host) {
         io.printf("%n%s (%s) in %s, %s does not have any reservations booked at this time.%n",
                 host.getLastName(), host.getHostEmail(), host.getCity(), host.getState());
+    }
+
+    public void guestReservationListNotFound(Guest guest) {
+        io.printf("%n%s %s (%s) has not booked any reservations yet.%n",
+                guest.getFirstName(), guest.getLastName(), guest.getGuestEmail());
+    }
+
+    public void stateReservationListNotFound(String state) {
+        io.printf("%nThere are no reservations booked in %s at this time.%n",
+                state);
     }
 
     public void noReservationFound(Guest guest, Host host) {

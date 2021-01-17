@@ -8,10 +8,14 @@ import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Repository
 public class ReservationFileRepository implements ReservationRepository {
@@ -19,29 +23,36 @@ public class ReservationFileRepository implements ReservationRepository {
     private static final String HEADER = "id,start_date,end_date,guest_id,total";
     private final String directory;
 
-    public ReservationFileRepository(@Value("${reservationFilePath}")String directory) {
+    public ReservationFileRepository(@Value("${reservationFilePath}") String directory) {
         this.directory = directory;
     }
 
     @Override
-    public List<Reservation> findByHostId(String hostId) throws DataAccessException {
-        ArrayList<Reservation> result = new ArrayList<>();
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(getFilePath(hostId)))) {
-
-            reader.readLine(); // read header
-
-            for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-
-                String[] fields = line.split(",", -1);
-                if (fields.length == 5) {
-                    result.add(deserialize(fields));
-                }
-            }
+    public List<Path> findAllReservationsFilePaths() {
+        try (Stream<Path> paths = Files.walk(Paths.get(directory))) {
+            return paths
+                    .filter(Files::isRegularFile)
+                    .collect(Collectors.toList());
         } catch (IOException ex) {
-            // file not found, we need to create new file
+            //don't throw
         }
-        return result;
+        return null;
+    }
+
+    @Override
+    public List<Reservation> findReservationsByPath() {
+        List<Path> paths = findAllReservationsFilePaths();
+        List<Reservation> reservations = new ArrayList<>();
+        for (Path path : paths) {
+            List<Reservation> list = readFile(path);
+            reservations.addAll(list);
+        }
+        return reservations;
+    }
+
+    @Override
+    public List<Reservation> findByHostId(String hostId) throws DataAccessException {
+        return readFile(getFilePath(hostId));
     }
 
     @Override
@@ -89,18 +100,18 @@ public class ReservationFileRepository implements ReservationRepository {
         return maxReservationId + 1;
     }
 
-    private String getFilePath(String hostId) {
-        return Paths.get(directory, hostId + ".csv").toString();
+    private Path getFilePath(String hostId) {
+        return Paths.get(directory, hostId + ".csv");
     }
 
     private void writeAll(List<Reservation> reservations, String hostId) throws DataAccessException {
-        try (PrintWriter writer = new PrintWriter(getFilePath(hostId))) {
+        try (PrintWriter writer = new PrintWriter(getFilePath(hostId).toString())) {
 
             writer.println(HEADER);
 
             for (Reservation reservation : reservations) {
 
-                    writer.println(serialize(reservation));
+                writer.println(serialize(reservation));
 
             }
         } catch (FileNotFoundException ex) {
@@ -118,7 +129,7 @@ public class ReservationFileRepository implements ReservationRepository {
                 reservation.getTotal());
     }
 
-    private Reservation deserialize(String[] fields) {
+    private Reservation deserialize(String[] fields, Path filePath) {
         Reservation result = new Reservation();
 
         result.setReservationId(Integer.parseInt(fields[0]));
@@ -129,8 +140,34 @@ public class ReservationFileRepository implements ReservationRepository {
         guest.setGuestId(Integer.parseInt(fields[3]));
         result.setGuest(guest);
 
+        Host host = new Host();
+        String fileName = filePath.getFileName().toString()
+                .replace(".csv", "");
+        host.setHostId(fileName);
+        result.setHost(host);
+
+
         result.setTotal(BigDecimal.valueOf(Double.parseDouble(fields[4])));
 
+        return result;
+    }
+
+    private List<Reservation> readFile(Path filePath) {
+        ArrayList<Reservation> result = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath.toString()))) {
+
+            reader.readLine(); // read header
+
+            for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+
+                String[] fields = line.split(",", -1);
+                if (fields.length == 5) {
+                    result.add(deserialize(fields, filePath));
+                }
+            }
+        } catch (IOException ex) {
+            // don't throw
+        }
         return result;
     }
 

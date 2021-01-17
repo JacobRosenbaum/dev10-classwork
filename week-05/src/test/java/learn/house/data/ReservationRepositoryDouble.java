@@ -3,6 +3,7 @@ package learn.house.data;
 import learn.house.models.Reservation;
 
 import java.math.BigDecimal;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,16 @@ public class ReservationRepositoryDouble implements ReservationRepository {
         reservation.setHost(HostRepositoryDouble.HOST);
 
         reservations.add(reservation);
+    }
+
+    @Override
+    public List<Path> findAllReservationsFilePaths() {
+        return null;
+    }
+
+    @Override
+    public List<Reservation> findReservationsByPath() {
+        return null;
     }
 
     @Override

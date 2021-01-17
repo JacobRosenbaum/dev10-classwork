@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 
 @Component
 public class Controller {
@@ -52,6 +53,12 @@ public class Controller {
                 case VIEW_RESERVATIONS_BY_HOST:
                     viewReservationsByHost();
                     break;
+                case VIEW_RESERVATIONS_BY_GUEST:
+                    viewReservationsByGuest();
+                    break;
+                case VIEW_RESERVATIONS_BY_STATE:
+                    viewReservationsByState();
+                    break;
                 case ADD_RESERVATION:
                     addReservation();
                     break;
@@ -70,7 +77,7 @@ public class Controller {
     private void viewReservationsByHost() throws DataAccessException {
         view.displayHeader(MainMenuOption.VIEW_RESERVATIONS_BY_HOST.getOption());
         Host host = getHost();
-        List<Reservation> reservations = getReservationList(host);
+        List<Reservation> reservations = getHostReservationList(host);
         if (reservations != null) {
             hostService.findByEmail(host.getHostEmail());
             view.displayReservationsByHost(reservations);
@@ -78,12 +85,38 @@ public class Controller {
         view.returnToMainMenu();
     }
 
+    private void viewReservationsByGuest() throws DataAccessException {
+        view.displayHeader(MainMenuOption.VIEW_RESERVATIONS_BY_GUEST.getOption());
+        Guest guest = getGuest();
+        List<Reservation> reservations = getGuestReservationList(guest);
+        if (reservations != null) {
+            guestService.findByEmail(guest.getGuestEmail());
+            view.displayReservationsByGuest(reservations);
+        }
+        view.returnToMainMenu();
+
+
+    }
+
+    private void viewReservationsByState() throws DataAccessException {
+
+        view.displayHeader(MainMenuOption.VIEW_RESERVATIONS_BY_STATE.getOption());
+        String state = view.getState();
+        List<Reservation> reservations = getStateReservation(state);
+        if (reservations != null) {
+            view.displayReservationsByState(reservations);
+        }
+        view.returnToMainMenu();
+
+    }
+
+
     private void addReservation() throws DataAccessException {
         view.displayHeader(MainMenuOption.ADD_RESERVATION.getOption());
         Guest guest = getGuest();
         Host host = getHost();
 
-        List<Reservation> reservations = getReservationList(host);
+        List<Reservation> reservations = getHostReservationList(host);
         if (reservations != null) {
             view.displayReservationsByHost(reservations);
         }
@@ -124,7 +157,7 @@ public class Controller {
         view.displayHeader(MainMenuOption.UPDATE_RESERVATION.getOption());
         Guest guest = getGuest();
         Host host = getHost();
-        Reservation reservation = getReservation(guest, host);
+        Reservation reservation = getHostReservation(guest, host);
 
         if (reservation != null) {
             view.displayReservationHeader(reservation);
@@ -171,7 +204,7 @@ public class Controller {
         view.displayHeader(MainMenuOption.DELETE_RESERVATION.getOption());
         Guest guest = getGuest();
         Host host = getHost();
-        Reservation reservation = getReservation(guest, host);
+        Reservation reservation = getHostReservation(guest, host);
         LocalDate now = LocalDate.now();
         if (reservation != null) {
             if (reservation.getEndDate().isBefore(now) || reservation.getEndDate().equals(now)) {
@@ -218,7 +251,7 @@ public class Controller {
         Host host = new Host();
         while (validateHost) {
             hostEmail = view.getHostEmail();
-            host = hostService.findByEmail(hostEmail);
+            host = hostService.findByEmail(hostEmail.trim());
             if (host == null) {
                 view.displayHostDoesNotExist();
             } else {
@@ -235,7 +268,7 @@ public class Controller {
         Guest guest = new Guest();
         while (validateGuest) {
             guestEmail = view.getGuestEmail();
-            guest = guestService.findByEmail(guestEmail);
+            guest = guestService.findByEmail(guestEmail.trim());
             if (guest == null) {
                 view.displayGuestDoesNotExist();
             } else {
@@ -250,12 +283,12 @@ public class Controller {
         return reservationService.calculateTotal(startDate, endDate, host);
     }
 
-    private List<Reservation> getReservationList(Host host) throws DataAccessException {
+    private List<Reservation> getHostReservationList(Host host) throws DataAccessException {
 
         List<Reservation> result = reservationService.findReservationListByHostEmail(host.getHostEmail());
 
         if (result.size() == 0) {
-            view.reservationListNotFound(host);
+            view.hostReservationListNotFound(host);
             return null;
         }
 
@@ -263,7 +296,20 @@ public class Controller {
 
     }
 
-    private Reservation getReservation(Guest guest, Host host) throws DataAccessException {
+    private List<Reservation> getGuestReservationList(Guest guest) throws DataAccessException {
+
+        List<Reservation> result = reservationService.findReservationListByGuestEmail(guest.getGuestEmail());
+
+        if (result.size() == 0) {
+            view.guestReservationListNotFound(guest);
+            return null;
+        }
+
+        return result;
+
+    }
+
+    private Reservation getHostReservation(Guest guest, Host host) throws DataAccessException {
         Reservation reservation = reservationService.findReservationByGuestAndHostEmail(guest.getGuestEmail(),
                 host.getHostEmail());
 
@@ -274,4 +320,16 @@ public class Controller {
 
         return reservation;
     }
+
+    private List<Reservation> getStateReservation(String state) throws DataAccessException {
+        List<Reservation> reservations = reservationService.findReservationListsByState(state);
+
+        if (reservations.size() == 0) {
+            view.stateReservationListNotFound(state);
+            return null;
+        }
+
+        return reservations;
+    }
+
 }
