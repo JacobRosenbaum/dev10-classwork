@@ -272,116 +272,151 @@
     
 ## Ordered List of Tasks
 ### Total Completion Time Estimate: 26 hours, 40 mins
+### Total Actual Completion Time: 34 hours, 40 mins
 
 1. Create the models - Estimated Completion Time: 40 mins
-   Actual Time: 1.5 hours (pre-revision)
+   Actual Time: 2 hours 
     * [x] Host
     * [x] Guest
     * [x] Reservation
     
 2. Create the interfaces - Estimated Completion Time: 40 mins
-    * [ ] HostRepository
-    * [ ] GuestRepository
-    * [ ] ReservationRepository
+   Actual Time: 40 mins
+     * [x] HostRepository
+    * [x] GuestRepository
+    * [x] ReservationRepository
     
 3. Create HostFileRepository class - Estimated Completion Time: 20 mins
-    * [ ] Write Override methods
+   Actual Time: 30 mins
+     * [x] Write Override methods
     
 4. Create HostFileRepositoryTest class in test package - Estimated Completion Time: 20 mins
-   * [ ] Write all tests displayed above in the File Structure 
+   Actual Time: 15 mins
+    * [x] Write all tests displayed above in the File Structure 
 
 
 5. Create GuestFileRepository class - Estimated Completion Time: 20 mins
-    * [ ] Write Override methods
+   Actual Time: 30 mins
+     * [x] Write Override methods
 
 6. Create GuestFileRepositoryTest class in test package - Estimated Completion Time: 20 mins
-    * [ ] Write all tests displayed above in the File Structure  
+   Actual Time: 15 mins
+     * [x] Write all tests displayed above in the File Structure  
 
 7. Create ReservationFileRepository class - Estimated Completion Time: 1.5 hours
-    * [ ] Write Override methods
+   Actual Time: 4 hours
+     * [x] Write Override methods
 
-8. Create HostService class in test package - Estimated Completion Time: 45 minutes
-    * [ ] Write all tests displayed above in the File Structure
+8. Create HostService class - Estimated Completion Time: 45 minutes
+   Actual Time: 25 mins
+     * [x] Write pass-through methods
 
-9. Create HostService class - Estimated Completion Time: 15 minutes
-    * [ ] Write pass through methods
+9. Create HostService class in test package - Estimated Completion Time: 15 minutes
+   Actual Time: 15 mins
+     * [x] Write all tests displayed above in the File Structure
 
 10. Create HostRepositoryDouble class in test package - Estimated Completion Time: 15 minutes
-    * [ ] Write pass through methods mimicking learn.house.data in HostFileRepository
+    Actual Time: 25 mins
+    * [x] Write pass through methods mimicking learn.house.data in HostFileRepository
 
 11. Create HostServiceTest class in test package - Estimated Completion Time: 15 minutes
-    * [ ] Write all tests displayed above in the File Structure
+    Actual Time: 15 mins
+    * [x] Write all tests displayed above in the File Structure
     
 12. Create GuestService class - Estimated Completion Time: 15 minutes
-    * [ ] Write pass through methods
+    Actual Time: 15 mins
+    * [x] Write pass through methods
 
 13. Create GuestRepositoryDouble class in test package - Estimated Completion Time: 15 minutes
-    * [ ] Write pass through methods mimicking learn.house.data in GuestFileRepository
+    Actual Time: 25 mins
+    * [x] Write pass through methods mimicking learn.house.data in GuestFileRepository
 
 14. Create GuestServiceTest class in test package - Estimated Completion Time: 15 minutes
-    * [ ] Write all tests displayed above in the File Structure
+    Actual Time: 15 mins
+    * [x] Write all tests displayed above in the File Structure
 
 15. Create ReservationService class - Estimated Completion Time: 3.5 hours
-    * [ ] Write pass through methods
-    * [ ] Write CRUD methods
-    * [ ] Write helper methods
+    Actual Time: 5 hours
+    * [x] Write pass through methods
+    * [x] Write CRUD methods
+    * [x] Write helper methods
 
 16. Create ReservationRepositoryDouble class in test package - Estimated Completion Time: 1 hour
-    * [ ] Write methods mimicking learn.house.data in ReservationFileRepository
+    Actual Time: 25 mins
+    * [x] Write methods mimicking learn.house.data in ReservationFileRepository
 
 17. Create ReservationServiceTest class in test package - Estimated Completion Time: 1.5 hours
-    * [ ] Write all tests displayed above in the File Structure
+    Actual Time: 1.5 hours
+    * [x] Write all tests displayed above in the File Structure
 
 18. Create MainMenuOption enum - Estimated Completion Time: 15 mins
-    * [ ] Write enums displayed above in File Structure
+    Actual Time: 15 mins
+    * [x] Write enums displayed above in File Structure
     
 19. Create ConsoleIO class - Estimated Completion Time: 1 hour
-    * [ ] Write methods displayed above in File Structure
+    Actual Time: 20 mins
+    * [x] Write methods displayed above in File Structure
     
 20. Create learn.house.data.properties file - Estimated Completion Time: 15 minutes
-    * [ ] Write file paths displayed above in file structure
+    Actual Time: 10 mins
+    * [x] Write file paths displayed above in file structure
 
 21. Go back and annotate files - Estimated Completion Time: 15 mins
-    * [ ] Components
-    * [ ] Services
-    * [ ] Repositories
+    Actual Time: 45 mins
+    * [x] Components
+    * [x] Services
+    * [x] Repositories
 
 22. Create learn.house.App class - Estimated Completion Time: 15 mins
-    * [ ] Write main method with proper Spring DI syntax
+    Actual Time: 15 mins
+    * [x] Write main method with proper Spring DI syntax
 
 23. Create View class - Estimated Completion Time: 1 hour
-    * [ ] Write methods for View Reservations By Host displayed in File Structure
+    Actual Time: 1 hour
+    * [x] Write methods for View Reservations By Host displayed in File Structure
 
 24. Create Controller class - Estimated Completion Time: 40 mins
-    * [ ] Write methods for View Reservations By Host in File Structure
+    Actual Time: 1 hour
+    * [x] Write methods for View Reservations By Host in File Structure
 
 25. Test Method in Console until it works properly - Estimated Completion Time: 30 mins
+    Actual Time: 1.5 hours
 
 26. View class continued - Estimated Completion Time: 2 hours
-    * [ ] Write methods for Make Reservation displayed in File Structure
+    Actual Time: 2.5 hours
+    * [x] Write methods for Make Reservation displayed in File Structure
     
 27. Controller class continued - Estimated Completion Time: 1 hour
-    * [ ] Write methods for Make Reservation displayed in File Structure
+    Actual Time: 2 hours
+    * [x] Write methods for Make Reservation displayed in File Structure
 
 28. Test Method in Console until it works properly - Estimated Completion Time: 30 mins
+    Actual Time: 1.5 hours
 
 29. View class continued - Estimated Completion Time: 2 hours
-    * [ ] Write methods for Edit Reservation displayed in File Structure
+    Actual Time: 2 hours
+    * [x] Write methods for Edit Reservation displayed in File Structure
 
 30. Controller class continued - Estimated Completion Time: 1 hour
-    * [ ] Write methods for Edit Reservation displayed in File Structure
+    Actual Time: 1.5 hours
+    * [x] Write methods for Edit Reservation displayed in File Structure
 
 31. Test Method in Console until it works properly - Estimated Completion Time: 30 mins
+    Actual Time: 45 mins
 
 32. View class continued - Estimated Completion Time: 45 mins
-    * [ ] Write methods for Delete Reservation displayed in File Structure
+    Actual Time: 1 hour
+    * [x] Write methods for Delete Reservation displayed in File Structure
 
 33. Controller class continued - Estimated Completion Time: 30 mins
-    * [ ] Write methods for Delete Reservation displayed in File Structure
+    Actual Time: 30 mins
+    * [x] Write methods for Delete Reservation displayed in File Structure
 
 34. Test Method in Console until it works properly - Estimated Completion Time: 30 mins
+    Actual Time: 20 mins
 
 35. Celebrate completed app - Estimated Completion Time: rest of the night
+
 
 
     
