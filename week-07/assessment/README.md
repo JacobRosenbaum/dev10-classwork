@@ -1,7 +1,7 @@
 ## Assessment 6: Tiny Theaters
 
 ### Tasks
-### Estimated Complete Time: 15 hours, 15 minutes
+#### Estimated Complete Time: 15 hours, 15 minutes
 
 * [ ] create schema diagram: Estimated Time of Completion (ETC): 2 hours
 * [ ] write DDL script to create database ETC: 3 hours
