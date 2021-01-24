@@ -5,7 +5,6 @@ select
 	c.first_name, c.last_name, c.customer_email_address, c.customer_phone_number, c.customer_address,
     t.seat_location, 
     p.title,
-    th.theater_id,
     t.price,
     t.`date`,
     th.`name`,
@@ -20,14 +19,14 @@ inner join ticket t on c.customer_id = t.customer_id
 inner join theater th on t.theater_id = th.theater_id
 inner join location l on l.theater_id = th.theater_id
 inner join performance p on t.performance_id = p.performance_id
-order by th.theater_id;
+order by th.`name`, p.title;
 
 -- Find all performances in the last quarter of 2021 (Oct. 1, 2021 - Dec. 31 2021).
 select p.title, t.`date`
-from performance p
-inner join theater th on th.theater_id = p.theater_id
-inner join ticket t on t.theater_id = p.theater_id
-where t.`date` >= '2021-10-1' and t.`date` <= '2021-12-31';
+from ticket t
+inner join performance p on p.performance_id = t.performance_id
+where t.`date` between '2021-10-1' and '2021-12-31'
+group by p.title, t.`date`;
 
 -- List customers without duplication.
 select * from customer;
@@ -35,7 +34,7 @@ select * from customer;
 -- Find all customers without a .com email address.
 select *
 from customer
-where customer_email_address like ('%.com');
+where customer_email_address not like ('%.com');
 
 -- Find the three cheapest shows.
 select distinct p.title, t.price
@@ -45,10 +44,11 @@ order by t.price asc
 limit 3;
 
 -- List customers and the show they're attending with no duplication.
-select distinct c.first_name, c.last_name, p.title
+select c.first_name, c.last_name, p.title
 from customer c
 inner join ticket t on t.customer_id = c.customer_id
-inner join performance p on p.performance_id = t.performance_id;
+inner join performance p on p.performance_id = t.performance_id
+group by c.first_name, c.last_name, p.title;
 
 -- List customer, show, theater, and seat number in one query.
 select distinct
@@ -74,27 +74,24 @@ group by customer_name
 order by total_tickets desc;
 
 -- Calculate the total revenue per show based on tickets sold.
-select  p.title, (count(t.performance_id) * t.price) revenue
+select p.title, sum(t.price) as revenue
 from ticket t
 inner join performance p on t.performance_id = p.performance_id
-group by p.title,t.price
+group by p.performance_id
 order by revenue desc;
 
 -- Calculate the total revenue per theater based on tickets sold.
-select th.`name`, sum(t.theater_id * t.price) revenue_per_show
--- ((count(t.theater_id) * t.price) * count(t.theater_id)) total_revenue
+select th.`name`, sum(t.price) as revenue
 from ticket t
+inner join performance p on t.performance_id = p.performance_id
 inner join theater th on th.theater_id = t.theater_id
-group by th.`name`;
--- order by total_revenue desc;
+group by th.`name`
+order by revenue desc;
 
 -- Who is the biggest supporter of RCTTC? Who spent the most in 2021?
-select concat(c.first_name, ' ', c.last_name) customer_name, sum(count(t.customer_id) * t.price) money_spent
+select concat(c.first_name, ' ', c.last_name) customer_name, sum(t.price) money_spent
 from customer c
 inner join ticket t on t.customer_id = c.customer_id
-group by customer_name
--- order by money_spent desc
--- limit 1;
-
-
-
+group by concat(c.first_name, ' ', c.last_name) 
+order by money_spent desc
+limit 1;
