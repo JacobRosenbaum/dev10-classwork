@@ -64,7 +64,9 @@ create table performance_employee (
     performance_id int not null,
 	constraint fk_performance_performance_id
 		foreign key (performance_id)
-        references performance(performance_id)
+        references performance(performance_id),
+	constraint uq_performance_first_name_last_name_email
+		unique (employee_first_name, employee_last_name, employee_email_address)
 );
 
 create table performer (
