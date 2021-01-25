@@ -95,3 +95,28 @@ inner join ticket t on t.customer_id = c.customer_id
 group by concat(c.first_name, ' ', c.last_name) 
 order by money_spent desc
 limit 1;
+
+-- Find all customer login info without duplication
+select c.first_name, c.last_name, l.user_name, l.password_hash
+from login l
+inner join customer c on l.customer_id = l.customer_id
+where c.customer_id = l.customer_id;
+
+-- Find all cast and crew members and the performance they work on
+select pe.employee_first_name, pe.employee_last_name, p.title
+from performance_employee pe
+inner join performance p on pe.performance_id = p.performance_id;
+
+-- Find all performers who worked on 'Burr'
+select pe.employee_first_name, pe.employee_last_name
+from performance_employee pe
+inner join performance p on pe.performance_id = p.performance_id
+inner join performer per on pe.employee_number = per.performer_id
+where p.title = 'Burr' and pe.employee_number in (per.performer_id);
+
+-- Find all cast members who worked on 'The Sky Lit Up'
+select pe.employee_first_name, pe.employee_last_name
+from performance_employee pe
+inner join performance p on pe.performance_id = p.performance_id
+inner join crew_member cm on pe.employee_number = cm.crew_member_id
+where p.title = 'The Sky Lit Up' and pe.employee_number in (cm.crew_member_id);

@@ -13,9 +13,19 @@ create table customer (
     customer_address varchar(200) null
 );
 
+create table login (
+	customer_id int primary key,
+    user_name varchar(100) not null unique,
+    password_hash text not null,
+    constraint fk_login_customer_id
+		foreign key (customer_id)
+		references customer(customer_id)
+);
+
 create table theater (
 	theater_id int primary key auto_increment,
     `name` varchar(150) not null,
+    seat_capacity int not null,
     theater_phone_number varchar(15) not null,
     theater_email_address varchar(100) not null
 );
@@ -38,9 +48,35 @@ create table performance (
     start_date date null,
     end_date date null,
     theater_id int not null,
-    	constraint fk_performance_theater_id
+	constraint fk_performance_theater_id
 		foreign key (theater_id)
         references theater(theater_id)
+);
+
+create table performance_employee ( 
+	employee_number int primary key auto_increment,
+	employee_first_name varchar(50),
+	employee_last_name varchar(50),
+    employee_email_address varchar(100) not null,
+	employee_phone_number varchar(15),
+    performance_id int not null,
+	constraint fk_performance_performance_id
+		foreign key (performance_id)
+        references performance(performance_id)
+);
+
+create table performer (
+	performer_id int primary key,
+	constraint fk_performer_performer_id
+		foreign key (performer_id)
+        references performance_employee(employee_number)
+);
+
+create table crew_member (
+	crew_member_id int primary key,
+	constraint fk_performer_crew_member_id
+		foreign key (crew_member_id)
+        references performance_employee(employee_number)
 );
 
 create table ticket ( 
