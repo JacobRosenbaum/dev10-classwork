@@ -8,7 +8,7 @@ insert into login (customer_id, user_name, password_hash)
 select customer_id, concat(substring(first_name,1,1), last_name) user_name, concat(substring(last_name,2,5),'=%$*&', substring(first_name,1,4))
 from customer;
  
-insert into theater (`name`, seat_capacity, theater_phone_number, theater_email_address)
+insert into theater (theater_name, seat_capacity, theater_phone_number, theater_email_address)
 select distinct theater, 1, theater_phone, theater_email
 from temp_data;
 
@@ -58,13 +58,13 @@ limit 2,1;
 insert into performance (title, theater_id)
 select distinct `show`, theater_id
 from temp_data td
-inner join theater t on t.`name` = td.theater;
+inner join theater t on t.theater_name = td.theater;
 
-insert into ticket (seat_location, price, `date`, customer_id, theater_id, performance_id)
-select seat, ticket_price, str_to_date(td.`date`,'%Y-%m-%d')`date`, c.customer_id, th.theater_id, p.performance_id
+insert into ticket (seat_location, price, ticket_date, customer_id, theater_id, performance_id)
+select seat, ticket_price, str_to_date(td.`date`,'%Y-%m-%d')ticket_date, c.customer_id, th.theater_id, p.performance_id
 from temp_data td
 inner join customer c on c.last_name = td.customer_last
-inner join theater th on th.`name` = td.theater
+inner join theater th on th.theater_name = td.theater
 inner join performance p on td.`show` = p.title;
 
 insert into performance_employee (employee_first_name, employee_last_name, employee_email_address, employee_phone_number, performance_id) 
@@ -124,7 +124,7 @@ where pe.employee_number between '19' and '37';
 set sql_safe_updates = 0;
 update ticket set
 price = '22.25'
-where price = '20.00' and date = '2021-03-01';
+where price = '20.00' and ticket_date = '2021-03-01';
 set sql_safe_updates = 1;
 
 -- In the Little Fitz's 2021-03-01 performance of The Sky Lit Up, Pooh Bedburrow and Cullen Guirau seat reservations aren't in the same row.
@@ -154,54 +154,22 @@ customer_phone_number = "1-801-EAT-CAKE"
 where customer_id = 48;
 
 -- Delete all single-ticket reservations at the 10 Pin. (You don't have to do it with one query.)
-
-select customer_id
-from (
-    select customer_id
-    from ticket t
-    inner join theater th on th.theater_id = t.theater_id
-    where th.`name` = '10 Pin'
-    group by customer_id
-    having COUNT(*) = 1
-) as ONLY_ONCE;
+select ticket_id
+from ticket t 
+where customer_id in
+	(select customer_id
+	from ticket t
+	inner join theater th on th.theater_id = t.theater_id
+	where th.theater_name = '10 Pin'
+	group by customer_id
+	having COUNT(*) = 1);
 
 -- customer_id = 7, 8, 10, 15, 18, 19, 22, 25, 26
+-- ticket_id = 25, 26, 29, 41, 50, 51, 59, 67, 68
 
 delete 
 from ticket 
-where customer_id = '7';
-
-delete 
-from ticket 
-where customer_id = '8';
-
-delete 
-from ticket 
-where customer_id = '10';
-
-delete 
-from ticket 
-where customer_id = '15';
-
-delete 
-from ticket 
-where customer_id = '18';
-
-delete 
-from ticket 
-where customer_id = '19';
-
-delete 
-from ticket 
-where customer_id = '22';
-
-delete 
-from ticket 
-where customer_id = '25';
-
-delete 
-from ticket 
-where customer_id = '26';
+where ticket_id in (25, 26, 29, 41, 50, 51, 59, 67, 68);
 
 -- Delete the customer Liv Egle of Germany. It appears their reservations were an elaborate joke.
 

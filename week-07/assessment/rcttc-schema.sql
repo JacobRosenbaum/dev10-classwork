@@ -10,7 +10,9 @@ create table customer (
     last_name varchar(50) not null,
 	customer_email_address varchar(100) not null,
 	customer_phone_number varchar(15) null,
-    customer_address varchar(200) null
+    customer_address varchar(200) null,
+    constraint uq_customer_first_name_last_name_customer_email_address
+		unique (first_name, last_name, customer_email_address)
 );
 
 create table login (
@@ -24,7 +26,7 @@ create table login (
 
 create table theater (
 	theater_id int primary key auto_increment,
-    `name` varchar(150) not null,
+    theater_name varchar(150) not null,
     seat_capacity int not null,
     theater_phone_number varchar(15) not null,
     theater_email_address varchar(100) not null
@@ -89,7 +91,7 @@ create table ticket (
 	ticket_id int primary key auto_increment,
     seat_location varchar(5) not null,
     price decimal(4,2) not null,
-	`date` date not null,
+	ticket_date date not null,
     customer_id int null,
     theater_id int not null,
     performance_id int not null,
