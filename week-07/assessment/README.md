@@ -22,4 +22,6 @@
     * actual ETC 1.5 hours
 * [x] finish remaining queries ETC: 1.5 hours
     * actual ETC 2 hours
-Added time: re-thinking schema, re-designing diagram, adding and updating ddl dml, queries: 4 hours
+    
+    
+* Added time: re-thinking schema, re-designing diagram, adding and updating ddl dml, queries: 4 hours
