@@ -107,13 +107,13 @@ values
 ('Dorthy','Ciccerale','dciccerale10@buzzfeed.com','(634) 4186242','7'),
 ('Coreen','Andre','candre11@cnet.com','(714) 5935146','9');
 
-insert into performer (performer_id)
-select pe.employee_number
+insert into performer (performer_id, performance_id)
+select pe.employee_number, pe.performance_id
 from performance_employee pe
 where pe.employee_number between '1' and '18';
 
-insert into crew_member (crew_member_id)
-select pe.employee_number
+insert into crew_member (crew_member_id, performance_id)
+select pe.employee_number, pe.performance_id
 from performance_employee pe
 where pe.employee_number between '19' and '37';
 

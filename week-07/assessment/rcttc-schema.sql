@@ -66,14 +66,20 @@ create table performance_employee (
 );
 
 create table performer (
-	performer_id int primary key,
+	performer_id int,
+    performance_id int,
+    constraint
+		primary key (performer_id, performance_id),
 	constraint fk_performer_performer_id
 		foreign key (performer_id)
         references performance_employee(employee_number)
 );
 
 create table crew_member (
-	crew_member_id int primary key,
+	crew_member_id int,
+    performance_id int,
+	constraint
+		primary key (crew_member_id, performance_id),
 	constraint fk_performer_crew_member_id
 		foreign key (crew_member_id)
         references performance_employee(employee_number)
