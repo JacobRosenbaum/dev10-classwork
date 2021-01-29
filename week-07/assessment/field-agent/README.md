@@ -4,6 +4,8 @@
 * [ ] Create full HTTP CRUD for security clearance.
 * [ ] Create full HTTP CRUD for agent aliases.
 * [ ] Implement global error handling.
+    * Estimated Time of Completion (ETC): 19 hours 50 minutes (upon further consideration, I've determined this estimate to be (hopefully) padded)
+    * Actual Time of Completion (ATC):
 
 ### File updates for Security Clearance
 * SecurityClearanceRepository (existing Interface - needs following updates)
@@ -37,10 +39,10 @@
         * [ ] @GetMapping ("/{securityClearanceId}") ResponseEntity<SecurityClearance> findById(@PathVariable int securityClearanceId)
         * [ ] @PostMapping ResponseEntity<Object> add(@RequestBody SecurityClearance securityClearance)
         * [ ] @PutMapping ("/{securityClearanceId}") ResponseEntity<Object> update(@PathVariable int securityClearanceId, @RequestBody SecurityClearance securityClearance)
-        * [ ] @DeleteMapping ("/{securityClearanceId}") ResponseEntity<void> delete(@PathVariable int securityClearanceId)      
-
+        * [ ] @DeleteMapping ("/{securityClearanceId}") ResponseEntity<void> delete(@PathVariable int securityClearanceId)
 
 ### File updates for Alias
+
 * Alias (new model)
     * Fields:
         * [ ] int aliasId
@@ -128,7 +130,7 @@
     * ETC: 1.5 hours
     * ATC:
 
-
+### Task List
 #### Alias Crud
     * Estimated Time of Completion (ETC): 7 hours 50 minutes 
     * Actual Time of Completion (ATC): 
@@ -176,5 +178,40 @@
     * ETC: 45 minutes
     * ATC:
     
+### Task List
+#### Global Exception Handling
+    * Estimated Time of Completion (ETC): 2 hours 45 minutes
+    * Actual Time of Completion (ATC): 
+* [x] Read existing code to determine new files/methods
+    * ETC: 30 minutes
+    * ATC: 15 minutes
+    
+* [ ] Refactor ErrorResponse Class
+    * [ ] Delete all code in class (yikes!)
+    * [ ] Add Fields
+        * [ ] String message
+        * [ ] LocalDateTime timestamp
+    * [ ] Add methods
+        * [ ] getter for each field
+        * [ ] constructor taking in message
+
+  * ETC: 30 minutes
+  * ATC: 
+    
+* [ ] Refactor each method in every controller to return ResponseEntity instead of using old ErrorResponse code
+    * ETC: 45 minutes
+    * ATC: 
+    
+* [ ] Trial and error using VS Code endpoints to decipher a few common data integrity exceptions
+    * ETC: 15 minutes
+    * ATC: 
+    
+* [ ] Create GlobalExceptionHandler Class to prevent those common exceptions and handle a "catch-all" exception
+    * ETC: 15 minutes
+    * ATC: 
+    
+* [ ] Trial and error using VS Code endpoints to ensure exception handling works properly
+  * ETC: 30 minutes
+  * ATC: 
 
     
