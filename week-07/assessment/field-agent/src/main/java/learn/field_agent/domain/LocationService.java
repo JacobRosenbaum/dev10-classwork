@@ -48,6 +48,9 @@ public class LocationService {
             String msg = String.format("locationId: %s, not found", location.getLocationId());
             result.addMessage(msg, ResultType.NOT_FOUND);
         }
+        else {
+            result.setPayload(location);
+        }
 
         return result;
     }

@@ -15,10 +15,10 @@ import java.sql.Statement;
 import java.util.List;
 
 @Repository
-public class AliasJdbcRepository implements AliasRepository{
+public class AliasJdbcTemplateRepository implements AliasRepository{
     private final JdbcTemplate jdbcTemplate;
 
-    public AliasJdbcRepository(JdbcTemplate jdbcTemplate) {
+    public AliasJdbcTemplateRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

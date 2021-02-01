@@ -57,6 +57,8 @@ public class AgencyService {
         if (!agencyRepository.update(agency)) {
             String msg = String.format("agencyId: %s, not found", agency.getAgencyId());
             result.addMessage(msg, ResultType.NOT_FOUND);
+        } else {
+            result.setPayload(agency);
         }
 
         return result;

@@ -1,9 +1,7 @@
 package learn.field_agent.domain;
 
 import learn.field_agent.data.AliasRepository;
-import learn.field_agent.data.SecurityClearanceRepository;
 import learn.field_agent.models.Alias;
-import learn.field_agent.models.SecurityClearance;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,6 +50,8 @@ public class AliasService {
         if (!repository.update(alias)) {
             String msg = String.format("aliasId: %s, not found", alias.getAliasId());
             result.addMessage(msg, ResultType.NOT_FOUND);
+        } else {
+            result.setPayload(alias);
         }
 
         return result;

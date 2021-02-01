@@ -54,6 +54,8 @@ public class SecurityClearanceService {
         if (!repository.update(securityClearance)) {
             String msg = String.format("securityClearanceId: %s, not found", securityClearance.getSecurityClearanceId());
             result.addMessage(msg, ResultType.NOT_FOUND);
+        } else {
+            result.setPayload(securityClearance);
         }
 
         return result;

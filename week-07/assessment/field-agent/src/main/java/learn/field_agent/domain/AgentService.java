@@ -54,6 +54,8 @@ public class AgentService {
         if (!repository.update(agent)) {
             String msg = String.format("agentId: %s, not found", agent.getAgentId());
             result.addMessage(msg, ResultType.NOT_FOUND);
+        } else {
+            result.setPayload(agent);
         }
 
         return result;
