@@ -62,3 +62,5 @@ printBusinessCard({
   Mystery Guest
   "Life is an illusion..."
 */
+
+console.log(printBusinessCard.jobTitle);

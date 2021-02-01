@@ -9,6 +9,14 @@ const assert = require("assert");
 // Execute this exercise.
 // If you see the message "success!", all tests pass.
 
+function makeObject(){
+    return {
+    name: "Timi",
+    isGrumpy: false,
+    favoriteColors: ["orange", "lilac"]
+    }
+}
+
 const expected = {
     name: "Timi",
     isGrumpy: false,

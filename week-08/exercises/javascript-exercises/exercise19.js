@@ -9,6 +9,14 @@ const assert = require("assert");
 // Hint: shorthand properties are useful here, but not strictly necessary.
 // Return the object.
 
+function makeObject(a, b, c){
+    return {
+        title: a,
+        firstName: b, 
+        lastName: c
+    }
+}
+
 
 
 // Execute this exercise.
