@@ -1,9 +1,9 @@
 # Assessment 7: Field Agent
 
 ### Goals
-* [ ] Create full HTTP CRUD for security clearance.
-* [ ] Create full HTTP CRUD for agent aliases.
-* [ ] Implement global error handling.
+* [x] Create full HTTP CRUD for security clearance.
+* [x] Create full HTTP CRUD for agent aliases.
+* [x] Implement global error handling.
     * Estimated Time of Completion (ETC): 19 hours 50 minutes (upon further consideration, I've determined this estimate to be (hopefully) padded)
     * Actual Time of Completion (ATC): 14 hours 47 minutes
 
