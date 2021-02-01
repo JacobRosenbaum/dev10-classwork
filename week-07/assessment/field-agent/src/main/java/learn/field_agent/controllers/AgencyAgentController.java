@@ -21,19 +21,19 @@ public class AgencyAgentController {
     @PostMapping
     public ResponseEntity<Object> add(@RequestBody AgencyAgent agencyAgent) {
         Result<Void> result = service.addAgent(agencyAgent);
-        if (result.isSuccess()) {
-            return new ResponseEntity<>(HttpStatus.CREATED);
+        if (!result.isSuccess()) {
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
-        return ErrorResponse.build(result);
+        return new ResponseEntity<>(result.getPayload(),HttpStatus.CREATED);
     }
 
     @PutMapping
     public ResponseEntity<Object> update(@RequestBody AgencyAgent agencyAgent) {
         Result<Void> result = service.updateAgent(agencyAgent);
-        if (result.isSuccess()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if (!result.isSuccess()) {
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
-        return ErrorResponse.build(result);
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{agencyId}/{agentId}")

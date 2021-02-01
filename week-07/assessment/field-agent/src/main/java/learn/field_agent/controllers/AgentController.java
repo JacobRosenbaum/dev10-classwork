@@ -3,6 +3,7 @@ package learn.field_agent.controllers;
 import learn.field_agent.domain.AgentService;
 import learn.field_agent.domain.Result;
 import learn.field_agent.models.Agent;
+import learn.field_agent.models.Alias;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,10 +34,10 @@ public class AgentController {
     @PostMapping
     public ResponseEntity<Object> add(@RequestBody Agent agent) {
         Result<Agent> result = service.add(agent);
-        if (result.isSuccess()) {
-            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+        if (!result.isSuccess()) {
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
-        return ErrorResponse.build(result);
+        return new ResponseEntity<>(result.getPayload(),HttpStatus.OK);
     }
 
     @PutMapping("/{agentId}")
@@ -46,11 +47,11 @@ public class AgentController {
         }
 
         Result<Agent> result = service.update(agent);
-        if (result.isSuccess()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if (!result.isSuccess()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return ErrorResponse.build(result);
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{agentId}")

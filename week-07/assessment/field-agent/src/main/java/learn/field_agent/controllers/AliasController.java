@@ -25,20 +25,23 @@ public class AliasController {
 
     @GetMapping("/{agentId}")
     public ResponseEntity<List<Alias>> findById(@PathVariable int agentId) {
+        if (agentId <= 0) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
         List<Alias> all = service.findById(agentId);
         if (all == null || all.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(all);
+        return new ResponseEntity<>(all, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Object> add(@RequestBody Alias alias) {
         Result<Alias> result = service.add(alias);
-        if (result.isSuccess()) {
-            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+        if (!result.isSuccess()) {
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
-        return ErrorResponse.build(result);
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
     }
 
     @PutMapping("/{aliasId}")
@@ -48,11 +51,11 @@ public class AliasController {
         }
 
         Result<Alias> result = service.update(alias);
-        if (result.isSuccess()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if (!result.isSuccess()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return ErrorResponse.build(result);
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{aliasId}")

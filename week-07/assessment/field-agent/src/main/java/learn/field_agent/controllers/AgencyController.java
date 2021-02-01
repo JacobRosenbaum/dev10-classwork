@@ -3,6 +3,8 @@ package learn.field_agent.controllers;
 import learn.field_agent.domain.AgencyService;
 import learn.field_agent.domain.Result;
 import learn.field_agent.models.Agency;
+import learn.field_agent.models.Agent;
+import learn.field_agent.models.SecurityClearance;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,20 +29,25 @@ public class AgencyController {
 
     @GetMapping("/{agencyId}")
     public ResponseEntity<Agency> findById(@PathVariable int agencyId) {
+        if (agencyId <= 0) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
         Agency agency = agencyService.findById(agencyId);
         if (agency == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(agency);
+        return new ResponseEntity<>(agency, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Object> add(@RequestBody Agency agency) {
         Result<Agency> result = agencyService.add(agency);
-        if (result.isSuccess()) {
-            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+        if (!result.isSuccess()) {
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
-        return ErrorResponse.build(result);
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+
     }
 
     @PutMapping("/{agencyId}")
@@ -50,10 +57,11 @@ public class AgencyController {
         }
 
         Result<Agency> result = agencyService.update(agency);
-        if (result.isSuccess()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if (!result.isSuccess()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return ErrorResponse.build(result);
+
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{agencyId}")

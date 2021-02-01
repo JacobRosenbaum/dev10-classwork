@@ -20,20 +20,24 @@ public class LocationController {
 
     @GetMapping("/{locationId}")
     public ResponseEntity<Location> findById(@PathVariable int locationId) {
-        Location location = service.findById(locationId);
+        if (locationId <= 0) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
+       Location location = service.findById(locationId);
         if (location == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(location);
+        return new ResponseEntity<>(location, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Object> add(@RequestBody Location location) {
         Result<Location> result = service.add(location);
-        if (result.isSuccess()) {
-            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+        if (!result.isSuccess()) {
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
-        return ErrorResponse.build(result);
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
     }
 
     @PutMapping("/{locationId}")
@@ -43,11 +47,11 @@ public class LocationController {
         }
 
         Result<Location> result = service.update(location);
-        if (result.isSuccess()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if (!result.isSuccess()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return ErrorResponse.build(result);
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{locationId}")

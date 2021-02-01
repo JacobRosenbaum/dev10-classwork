@@ -27,20 +27,24 @@ public class SecurityClearanceController {
 
     @GetMapping("/{securityClearanceId}")
     public ResponseEntity<SecurityClearance> findById(@PathVariable int securityClearanceId) {
+        if (securityClearanceId <= 0) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
         SecurityClearance securityClearance = service.findById(securityClearanceId);
         if (securityClearance == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(securityClearance);
+        return new ResponseEntity<>(securityClearance, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Object> add(@RequestBody SecurityClearance securityClearance) {
         Result<SecurityClearance> result = service.add(securityClearance);
-        if (result.isSuccess()) {
-            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+        if (!result.isSuccess()) {
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
-        return ErrorResponse.build(result);
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
     }
 
     @PutMapping("/{securityClearanceId}")
@@ -50,11 +54,11 @@ public class SecurityClearanceController {
         }
 
         Result<SecurityClearance> result = service.update(securityClearance);
-        if (result.isSuccess()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if (!result.isSuccess()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return ErrorResponse.build(result);
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{securityClearanceId}")
