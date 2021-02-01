@@ -1,12 +1,15 @@
 package learn.field_agent.data;
 
+import learn.field_agent.models.Location;
 import learn.field_agent.models.SecurityClearance;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class SecurityClearanceJdbcTemplateRepositoryTest {
@@ -23,17 +26,44 @@ class SecurityClearanceJdbcTemplateRepositoryTest {
     }
 
     @Test
+    void shouldFindAll() {
+        List<SecurityClearance> actual = repository.findAll();
+        assertNotNull(actual);
+        assertTrue(actual.size() >= 5);
+    }
+
+    @Test
     void shouldFindById() {
-        SecurityClearance secret = new SecurityClearance(1, "Secret");
-        SecurityClearance topSecret = new SecurityClearance(2, "Top Secret");
-
         SecurityClearance actual = repository.findById(1);
-        assertEquals(secret, actual);
+        assertNotNull(actual);
+        assertEquals("Secret", actual.getName());
+    }
 
-        actual = repository.findById(2);
-        assertEquals(topSecret, actual);
+    @Test
+    void shouldAdd() {
+        SecurityClearance securityClearance = new SecurityClearance();
+        securityClearance.setName("Super Classified");
+        SecurityClearance actual = repository.add(securityClearance);
+        assertNotNull(actual);
+        assertEquals(6, actual.getSecurityClearanceId());
+    }
 
-        actual = repository.findById(3);
-        assertEquals(null, actual);
+    @Test
+    void shouldUpdate() {
+        SecurityClearance securityClearance = new SecurityClearance();
+        securityClearance.setSecurityClearanceId(2);
+        securityClearance.setName("Not That Classified");
+        assertTrue(repository.update(securityClearance));
+    }
+
+    @Test
+    void shouldDelete() {
+        assertTrue(repository.deleteById(5));
+        assertFalse(repository.deleteById(5));
+    }
+
+    @Test
+    void shouldNotDeleteWhenScInUseByAgent() {
+        assertFalse(repository.deleteById(1));
     }
 }

@@ -17,10 +17,10 @@
 
 * SecurityClearanceJdbcTemplateRepository (existing file - needs following updates)
     * Create following methods
-        * [ ] List<SecurityClearance> findAll();
-        * [ ] SecurityClearance add(SecurityClearance securityClearance)
-        * [ ] boolean update(SecurityClearance securityClearance)
-        * [ ] @Transactional boolean deleteById(int securityClearanceId)
+        * [x] List<SecurityClearance> findAll();
+        * [x] SecurityClearance add(SecurityClearance securityClearance)
+        * [x] boolean update(SecurityClearance securityClearance)
+        * [x] @Transactional boolean deleteById(int securityClearanceId)
     
 * SecurityClearanceService (new file)
     * Create following methods

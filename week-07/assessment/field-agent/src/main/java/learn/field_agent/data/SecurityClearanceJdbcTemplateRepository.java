@@ -1,12 +1,15 @@
 package learn.field_agent.data;
 
+import learn.field_agent.data.mappers.AgencyAgentMapper;
 import learn.field_agent.data.mappers.AgentMapper;
 import learn.field_agent.data.mappers.SecurityClearanceMapper;
+import learn.field_agent.models.AgencyAgent;
 import learn.field_agent.models.SecurityClearance;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -23,7 +26,7 @@ public class SecurityClearanceJdbcTemplateRepository implements SecurityClearanc
 
     @Override
     public List<SecurityClearance> findAll() {
-        final String sql = "select security_clearance, name security_clearance_name from security_clearance;";
+        final String sql = "select security_clearance_id, name security_clearance_name from security_clearance;";
 
         return jdbcTemplate.query(sql, new SecurityClearanceMapper());
     }
@@ -42,8 +45,8 @@ public class SecurityClearanceJdbcTemplateRepository implements SecurityClearanc
 
     @Override
     public SecurityClearance add(SecurityClearance securityClearance) {
-        final String sql = "insert into security_clearance (name security_clearance_name) "
-                + "values (?,?);";
+        final String sql = "insert into security_clearance (name) "
+                + "values (?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
@@ -63,7 +66,8 @@ public class SecurityClearanceJdbcTemplateRepository implements SecurityClearanc
     @Override
     public boolean update(SecurityClearance securityClearance) {
         final String sql = "update security_clearance set "
-                + "name = ?;";
+                + "name = ? "
+                + "where security_clearance_id = ?;";
 
         return jdbcTemplate.update(sql,
                 securityClearance.getName(),
@@ -71,8 +75,25 @@ public class SecurityClearanceJdbcTemplateRepository implements SecurityClearanc
     }
 
     @Override
+    @Transactional
     public boolean deleteById(int securityClearanceId) {
-        return jdbcTemplate.update(
-                "delete from security_clearance where security_clearance_id = ?", securityClearanceId) > 0;
+//        jdbcTemplate.update("delete from agency_agent where security_clearance_id = ?;", securityClearanceId);
+//        return jdbcTemplate.update(
+//                "delete from security_clearance where security_clearance_id = ?", securityClearanceId) > 0;
+        final String sql = "select aa.agency_id, aa.agent_id, aa.identifier, aa.activation_date, aa.is_active, "
+                + "sc.security_clearance_id, sc.name security_clearance_name, "
+                + "a.first_name, a.middle_name, a.last_name, a.dob, a.height_in_inches "
+                + "from agency_agent aa "
+                + "inner join agent a on aa.agent_id = a.agent_id "
+                + "inner join security_clearance sc on aa.security_clearance_id = sc.security_clearance_id "
+                + " where sc.security_clearance_id = ?;";
+
+        List<AgencyAgent> aa = jdbcTemplate.query(sql, new AgencyAgentMapper(), securityClearanceId);
+
+        if (aa.isEmpty()) {
+            return jdbcTemplate.update(
+                    "delete from security_clearance where security_clearance_id = ?", securityClearanceId) > 0;
+        }
+        return false;
     }
 }
