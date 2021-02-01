@@ -1,0 +1,35 @@
+//SECURITY CLEARANCE
+
+// findAll
+GET http://localhost:8080/api/security/clearance HTTP/1.1
+
+###
+
+// findById
+GET http://localhost:8080/api/security/clearance/2 HTTP/1.1
+
+### 
+
+// add
+POST http://localhost:8080/api/security/clearance HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Classified"
+}
+
+###
+
+// update
+PUT http://localhost:8080/api/security/clearance/3 HTTP/1.1
+Content-Type: application/json
+
+{   
+    "securityClearanceId": 3,
+    "name": "Super Classified"
+}
+
+###
+
+// delete
+DELETE  http://localhost:8080/api/security/clearance/1 HTTP/1.1
