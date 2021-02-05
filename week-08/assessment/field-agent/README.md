@@ -25,7 +25,7 @@
         * Each file will get an accompanying css file
 
 ### Task List
-    * Estimated Time of Completion (ETC): 7 hours 45 minutes
+    * Estimated Time of Completion (ETC): 8 hours 15 minutes
     * Actual Time of Completiong (ETC): 
 
 * [ ] Create React App in Assessment Folder
@@ -58,33 +58,63 @@
 
 * [ ] Create Agent component with the following functions
     * [ ] useEffect to fetch all agents right away
+        * fetch http get request
+        * recieve json state
+        * set agent state to json data
             * ETC: 25 minutes
             * ATC: 
     * [ ] handleChange for each form field to update state when the user types into the form
-            * ETC: 10 minutes
-            * ATC:     
+        * ETC: 10 minutes
+        * ATC:     
     * [ ] handleAddSubmit that posts to the api 
+        * create new agent object to send through api
+        * fetch http post request with proper headers and body
+        * condtionally verify that we revieved correct http status (if we didn't, update the error state and notify the user)
+        * reset the form and state
             * ETC: 45 minutes
             * ATC: 
-    * [ ] handleUpdateModal to populate to handle the modal
+    * [ ] handleAddCancel
+        * reset the form, state and errors allowing user to back out of add
+            * ETC: 15 minutes
+            * ATC: 
+    * [ ] handleUpdateModal to open the modal
+        * 'edit' button will open up a bootstrap modal
+        * new form with fields pre-populated with agent data will be inside modal for user to update
+        * update agent state
             * ETC: 45 minutes
             * ATC: 
     * [ ] handleUpdateSubmit to post the update to the api
+        * submit button will trigger update
+        * create new agent object to send through api
+        * fetch http put request with proper headers and body
+        * condtionally verify that we revieved correct http status (if we didn't, update the error state and notify the user)
+        * create copy of agents array
+        * get the index of the agent in the array and update that data using the updated agent state
+        * close the modal and reset the state
             * ETC: 1 hour
             * ATC: 
+    * [ ] handleUpdateCancel
+        * reset the form, state and errors allowing user to back out of update
+            * ETC: 15 minutes
+            * ATC: 
     * [ ] handleDelete to delete an agent from the api
+        * fetch http delete request with proper headers and body
+        * condtionally verify that we revieved correct http status (if we didn't, update the error state and notify the user)
+        * filter out agent using their id
+        * set the state to the filtered array
             * ETC: 30 minutes
             * ATC: 
-    * [ ] handleErrors to show user an error
+    * [ ] handleErrors to show users an error
+        * map through the errors using the state array and use a bootstrap alert to notify the user
             * ETC: 1 hour
             * ATC: 
 
 * [ ] Agent component should return the following
     * [ ] form the the user can enter agent data into
-            * ETC: 1 hour
-            * ATC: 
+        * ETC: 1 hour
+        * ATC: 
     * [ ] table that shows the current agent data
-            * ETC: 1 hour
-            * ATC: 
+        * ETC: 1 hour
+        * ATC: 
 
 
