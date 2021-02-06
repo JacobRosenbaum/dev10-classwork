@@ -1,0 +1,55 @@
+.jumbotron {
+    margin-top: -40px;
+}
+
+#table {
+    opacity: .8;
+    text-align: center;
+    height: 500px;
+    overflow-y: scroll;
+    position: relative;
+    bottom: 75px;
+}
+
+#deleteButton {
+    position: relative;
+    right: 65px;
+    font-size: 15px;
+    background-color: lightslategray !important;
+    border-color: lightslategray !important;
+}
+
+#editButton {
+    position: relative;
+    right: 65px;
+    font-size: 15px;
+    background-color: lightslategray !important;
+    border-color: lightslategray !important;
+}
+
+#addButton {
+    /* position: relative;
+    right: 60px; */
+    font-size: 15px;
+    background-color: lightcoral !important;
+    border-color: lightcoral !important;
+}
+
+#editButton:hover {
+    background-color: lightcoral !important;
+    border-color: lightcoral !important;
+}
+
+#deleteButton:hover {
+    background-color: lightcoral !important;
+    border-color: lightcoral !important;
+}
+
+#addButton:hover {
+    background-color: lightsalmon !important;
+    border-color: lightsalmon !important;
+}
+
+th {
+    font-weight: bolder
+}
