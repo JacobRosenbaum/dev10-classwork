@@ -35,19 +35,15 @@ function Agents() {
         }
     };
 
-    function refreshPage() {
-		window.location.reload(false);
-	}
-
     function closeModal() {
         setModalIsOpen(false);
     }
 
     useEffect(() => {
         fetch('http://localhost:8080/api/agent')
-            .then(response => response.json()) // assume that it's a 200
+            .then(response => response.json())
             .then(data => setAgents(data))
-            .then(console.log('fetched data'))
+            .then(console.log('fetched agents'))
             .catch(error => console.log(error));
     }, []);
 
@@ -84,7 +80,6 @@ function Agents() {
                     setHeightInInches(' ');
                     setErrors([]);
                     setModalIsOpen(false);
-                    refreshPage();
                 } else {
                     setModalIsOpen(false);
                     setErrors(data);
@@ -124,11 +119,10 @@ function Agents() {
             dob,
             heightInInches
         };
-
+    
         const body = JSON.stringify(updatedAgent);
-
+        console.log(body + ' updated');
         try {
-            // we need to make the fetch
             const response = await fetch(`http://localhost:8080/api/agent/${editAgentId}`, {
                 method: "PUT",
                 headers: {
@@ -136,10 +130,11 @@ function Agents() {
                 },
                 body
             });
-
             if (response.status === 200) {
                 const newAgents = [...agents];
-                const agentIndexToEdit = agents.findIndex(agent => agent.id === editAgentId);
+                const agentIndexToEdit = agents.findIndex(agent => agent.agentId === editAgentId);
+                console.log(agentIndexToEdit + ' new'); 
+
                 newAgents[agentIndexToEdit] = {
                     agentId: editAgentId,
                     firstName,
@@ -156,7 +151,9 @@ function Agents() {
                 setHeightInInches(' ');
                 setErrors([]);
                 setModalIsOpen(false);
-                refreshPage();
+                console.log(newAgents[agentIndexToEdit]);
+                console.log(agents)
+                // refreshPage();
             } else if (response.status === 400) {
                 const data = await response.json();
                 setModalIsOpen(false);
