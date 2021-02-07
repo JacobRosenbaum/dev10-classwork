@@ -11,4 +11,5 @@ a:hover{
     color: orange !important;
     zoom: 101%;
     text-decoration: none;
+    cursor: pointer;
 }

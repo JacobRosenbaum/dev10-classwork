@@ -70,7 +70,7 @@ function Agents() {
 
             if (response.status === 200 || response.status === 400) {
                 const data = await response.json();
-                if (data.id) {
+                if (data.agentId) {
                     console.log(...agents, data)
                     setAgents([...agents, data]);
                     setFirstName(' ');
@@ -119,7 +119,7 @@ function Agents() {
             dob,
             heightInInches
         };
-    
+
         const body = JSON.stringify(updatedAgent);
         console.log(body + ' updated');
         try {
@@ -130,10 +130,10 @@ function Agents() {
                 },
                 body
             });
-            if (response.status === 200) {
+            if (response.status === 204) {
                 const newAgents = [...agents];
                 const agentIndexToEdit = agents.findIndex(agent => agent.agentId === editAgentId);
-                console.log(agentIndexToEdit + ' new'); 
+                console.log(agentIndexToEdit + ' new');
 
                 newAgents[agentIndexToEdit] = {
                     agentId: editAgentId,
@@ -151,9 +151,6 @@ function Agents() {
                 setHeightInInches(' ');
                 setErrors([]);
                 setModalIsOpen(false);
-                console.log(newAgents[agentIndexToEdit]);
-                console.log(agents)
-                // refreshPage();
             } else if (response.status === 400) {
                 const data = await response.json();
                 setModalIsOpen(false);
@@ -169,10 +166,29 @@ function Agents() {
         }
     };
 
+    const handleDelete = async (agentId) => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/agent/${agentId}`, {
+                method: "DELETE"
+            });
+
+            if (response.status === 204) {
+                const newAgents = agents.filter(agent => agent.agentId !== agentId);
+                setAgents(newAgents);
+            } else if (response.status === 404) {
+                throw new Error(`Agent ID #${agentId} not found.`);
+            } else {
+                throw new Error('Error Error! Sorry:(');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <div className='container'>
             <div className="jumbotron">
-                <h1 id='title' className="display-4">Agents</h1>
+                <h1 className="display-4">Agents</h1>
                 <p className="lead"></p>
             </div>
             <div id='table'>
@@ -207,9 +223,8 @@ function Agents() {
                                         <button id='editButton' className="btn btn-primary btn-sm"
                                             onClick={() => handleUpdate(agent.agentId)}>Edit
                                     </button>
-                                        <button id='deleteButton' className="btn btn-danger btn-sm ml-3">
-                                            Delete
-                                        {/* // onClick={() => handleDelete(agent.id)}>Delete */}
+                                        <button id='deleteButton' className="btn btn-danger btn-sm ml-3"
+                                            onClick={() => handleDelete(agent.agentId)}>Delete
                                         </button>
                                     </div>
                                 </td>

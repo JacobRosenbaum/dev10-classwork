@@ -1,13 +1,13 @@
 .jumbotron{
     background-color: transparent;
     color: silver;
-    margin-top: 100px ;
     text-align: center;
     letter-spacing: 4px
 }
 
 #title{
     font-size: 57px;
+    margin-top: 90px
 }
 
 
