@@ -1,0 +1,9 @@
+// ERRORS
+
+// findAll
+GET  http://localhost:8080/api/errors HTTP/1.1
+
+###
+
+//findByErrorCode
+GET  http://localhost:8080/api/errors/400 HTTP/1.1

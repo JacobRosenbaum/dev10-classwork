@@ -1,0 +1,84 @@
+//SECURITY CLEARANCE
+
+// findAll
+GET http://localhost:8080/api/security/clearance HTTP/1.1
+
+###
+
+// findById
+GET http://localhost:8080/api/security/clearance/2 HTTP/1.1
+
+### 
+
+// add
+POST http://localhost:8080/api/security/clearance HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Classified"
+}
+
+###
+
+// update
+PUT http://localhost:8080/api/security/clearance/3 HTTP/1.1
+Content-Type: application/json
+
+{   
+    "securityClearanceId": 3,
+    "name": "Super Classified"
+}
+
+###
+
+// delete
+DELETE  http://localhost:8080/api/security/clearance/1 HTTP/1.1
+
+// ALIAS
+
+###
+
+// findByAgentId
+GET http://localhost:8080/api/alias/3 HTTP/1.1
+
+### 
+
+// add
+POST http://localhost:8080/api/alias HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Bill Nye",
+    "persona": "Science man",
+    "agentId": 2
+}
+
+###
+
+// update
+PUT http://localhost:8080/api/alias/2 HTTP/1.1
+Content-Type: application/json
+
+{   
+    "aliasId": 2,
+    "name": "Will Smith",
+    "persona": "Man of La Mancha",
+    "agentId": 2
+}
+
+###
+
+// delete
+DELETE  http://localhost:8080/api/alias/8 HTTP/1.1
+
+###
+
+// ERRORS
+
+// findAll
+GET  http://localhost:8080/api/errors HTTP/1.1
+
+###
+
+//findByErrorCode
+GET  http://localhost:8080/api/errors/400 HTTP/1.1
