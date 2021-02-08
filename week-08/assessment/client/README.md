@@ -52,7 +52,7 @@
     * ETC: 15 minutes
     * ATC: 10 minutes
 
-* [ ] Test that all the endpoints are accurate
+* [x] Test that all the endpoints are accurate
     * ETC: 10 minutes
     * ATC: 5 minutes
 
