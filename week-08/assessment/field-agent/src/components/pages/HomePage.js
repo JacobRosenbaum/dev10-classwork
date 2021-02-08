@@ -6,8 +6,7 @@ function HomePage() {
     return (
         <div className='container'>
             <div className="jumbotron">
-                    <h1 id='title' className="display-4">Jacob's World Famous Secret Agency</h1>
-                    <p className="lead"></p>
+                    <div> <span id='title' className = "text_1">Welcome Field Agents</span></div>
             </div>
         </div>
     );

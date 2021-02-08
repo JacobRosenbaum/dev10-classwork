@@ -48,9 +48,6 @@
     border-color: lightsalmon !important;
 }
 
-th {
-    font-weight: bolder
-}
 
 .modalTitle {
     text-align: center;
@@ -70,7 +67,7 @@ th {
     border-color: lightcoral !important;
     margin: 0;
     position: absolute;
-    top: 88%;
+    bottom: 5%;
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
@@ -90,4 +87,93 @@ th {
 
 #close:hover {
     zoom: 101%;
+}
+
+th {
+    position: sticky;
+    top: 0;
+    font-weight: bolder;
+    z-index: 100;
+    background-color: #403a40
+        /* background-color: lightcoral */
+}
+
+tr {
+    z-index: 0;
+}
+
+#firstName {
+    cursor: pointer;
+}
+
+#firstName:hover {
+    color: lightcoral !important
+}
+
+#closeAlias {
+    font-size: 22px;
+    cursor: pointer;
+    position: absolute;
+    right: 10px
+}
+
+#closeAlias:hover {
+    zoom: 101%;
+}
+
+#aliasTable {
+    color: white;
+    text-align: center
+}
+
+.aliasHeader {
+    background-color: lightcoral
+}
+
+@keyframes typewriter {
+
+  0%,
+  100% {
+    width: 0;
+  }
+
+  20%,
+  80% {
+    width: 10.2em;
+  }
+}
+
+@keyframes caret {
+
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.text_1 {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typewriter;
+  display: inline-block;
+  position: relative;
+  animation-duration: 10s;
+  animation-timing-function: steps(25, end);
+  animation-iteration-count: infinite;
+  font-family: 'Noto Sans JP', sans-serif;
+
+}
+
+
+.text_1::after {
+  content: "|";
+  position: absolute;
+  right: 0;
+  animation: caret infinite;
+  animation-duration: 1s;
+  animation-timing-function: steps(1, end);
 }
