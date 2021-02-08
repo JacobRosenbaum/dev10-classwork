@@ -1,12 +1,12 @@
 # Assessment 8: Field Agent
 
 ### Goals
-* [ ] View all Agents
-* [ ] Add an Agent
-* [ ] Update an Agent
-* [ ] Delete an Agent
-* [ ] Design easy to use and aesthetically pleasing UI
-* [ ] Route using React Router
+* [x] View all Agents
+* [x] Add an Agent
+* [x] Update an Agent
+* [x] Delete an Agent
+* [x] Design easy to use and aesthetically pleasing UI
+* [x] Route using React Router
 
 ### UI Design
     * Landing page with cool background image and 'Jacob's Secret Agency' displayed prominently in middle
@@ -26,64 +26,64 @@
 
 ### Task List
     * Estimated Time of Completion (ETC): 8 hours 15 minutes
-    * Actual Time of Completiong (ETC): 
+    * Actual Time of Completiong (ETC): 8 hours 50 minutes
 
-* [ ] Create React App in Assessment Folder
+* [x] Create React App in Assessment Folder
     * ETC: 5 minutes
     * ATC: 3 minutes
 
-* [ ] Delete all unnecessary files / code
+* [x] Delete all unnecessary files / code
     * ETC: 10 minutes
-    * ATC: 
+    * ATC: 5 minutes
 
-* [ ] Update package.json to include React Router
+* [x] Update package.json to include React Router
     * ETC: 5 minutes
-    * ATC: 
+    * ATC: 1 minute
 
-* [ ] Create home page component and add styling
+* [x] Create home page component and add styling
     * ETC: 15 minutes
-    * ATC: 
+    * ATC: 20 minutes
 
-* [ ] Update App file to route to home page upon navigation to site
+* [x] Update App file to route to home page upon navigation to site
     * ETC: 10 minutes
-    * ATC: 
+    * ATC: 10 minutes
 
-* [ ] Write all the missing HTTP requests for the agent api
+* [x] Write all the missing HTTP requests for the agent api
     * ETC: 15 minutes
-    * ATC: 
+    * ATC: 10 minutes
 
 * [ ] Test that all the endpoints are accurate
     * ETC: 10 minutes
-    * ATC: 
+    * ATC: 5 minutes
 
-* [ ] Create Agent component with the following functions
-    * [ ] useEffect to fetch all agents right away
+* [x] Create Agent component with the following functions
+    * [x] useEffect to fetch all agents right away
         * fetch http get request
         * recieve json state
         * set agent state to json data
             * ETC: 25 minutes
-            * ATC: 
-    * [ ] handleChange for each form field to update state when the user types into the form
+            * ATC: 20 minutes
+    * [x] handleChange for each form field to update state when the user types into the form
         * ETC: 10 minutes
-        * ATC:     
-    * [ ] handleAddSubmit that posts to the api 
+        * ATC: 5 minutes   
+    * [x] handleAddSubmit that posts to the api 
         * create new agent object to send through api
         * fetch http post request with proper headers and body
         * condtionally verify that we revieved correct http status (if we didn't, update the error state and notify the user)
         * reset the form and state
             * ETC: 45 minutes
-            * ATC: 
-    * [ ] handleAddCancel
+            * ATC: 45 minutes
+    * [x] handleAddCancel
         * reset the form, state and errors allowing user to back out of add
             * ETC: 15 minutes
-            * ATC: 
-    * [ ] handleUpdateModal to open the modal
+            * ATC: 10 minutes
+    * [x] handleUpdateModal to open the modal
         * 'edit' button will open up a bootstrap modal
         * new form with fields pre-populated with agent data will be inside modal for user to update
         * update agent state
             * ETC: 45 minutes
-            * ATC: 
-    * [ ] handleUpdateSubmit to post the update to the api
+            * ATC: 2 hours
+    * [x] handleUpdateSubmit to post the update to the api
         * submit button will trigger update
         * create new agent object to send through api
         * fetch http put request with proper headers and body
@@ -92,29 +92,29 @@
         * get the index of the agent in the array and update that data using the updated agent state
         * close the modal and reset the state
             * ETC: 1 hour
-            * ATC: 
-    * [ ] handleUpdateCancel
+            * ATC: 1 hour
+    * [x] handleUpdateCancel
         * reset the form, state and errors allowing user to back out of update
             * ETC: 15 minutes
-            * ATC: 
-    * [ ] handleDelete to delete an agent from the api
+            * ATC: 5 minutes
+    * [x] handleDelete to delete an agent from the api
         * fetch http delete request with proper headers and body
         * condtionally verify that we revieved correct http status (if we didn't, update the error state and notify the user)
         * filter out agent using their id
         * set the state to the filtered array
             * ETC: 30 minutes
-            * ATC: 
-    * [ ] handleErrors to show users an error
+            * ATC: 20 minutes
+    * [x] handleErrors to show users an error
         * map through the errors using the state array and use a bootstrap alert to notify the user
             * ETC: 1 hour
-            * ATC: 
+            * ATC: 45 minutes
 
-* [ ] Agent component should return the following
+* [x] Agent component should return the following
     * [ ] form the the user can enter agent data into
         * ETC: 1 hour
-        * ATC: 
-    * [ ] table that shows the current agent data
+        * ATC: 1.5 hours
+    * [x] table that shows the current agent data
         * ETC: 1 hour
-        * ATC: 
+        * ATC: 1 hour
 
 
