@@ -1,4 +1,4 @@
-# Assessment 9: ThymeLeaf Field Agent
+# Assessment 9: Thymeleaf Field Agent
 
 ### Goals
 * [ ] Multi-page, server-side rendered site
