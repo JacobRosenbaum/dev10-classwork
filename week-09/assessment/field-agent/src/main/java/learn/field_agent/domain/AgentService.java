@@ -71,22 +71,22 @@ public class AgentService {
             result.addMessage("Agent cannot be null", ResultType.INVALID);
             return result;
         }
-
-        if (Validations.isNullOrBlank(agent.getFirstName())) {
-            result.addMessage("First Name is required", ResultType.INVALID);
-        }
-
-        if (Validations.isNullOrBlank(agent.getLastName())) {
-            result.addMessage("Last name is required", ResultType.INVALID);
-        }
+//
+//        if (Validations.isNullOrBlank(agent.getFirstName())) {
+//            result.addMessage("First Name is required", ResultType.INVALID);
+//        }
+//
+//        if (Validations.isNullOrBlank(agent.getLastName())) {
+//            result.addMessage("Last name is required", ResultType.INVALID);
+//        }
 
         if (agent.getDob() != null && agent.getDob().isAfter(LocalDate.now().minusYears(12))) {
             result.addMessage("Agents younger than 12 are not allowed", ResultType.INVALID);
         }
 
-        if (agent.getHeightInInches() < 36 || agent.getHeightInInches() > 96) {
-            result.addMessage("Height must be between 36 and 96 inches", ResultType.INVALID);
-        }
+//        if (agent.getHeightInInches() < 36 || agent.getHeightInInches() > 96) {
+//            result.addMessage("Height must be between 36 and 96 inches", ResultType.INVALID);
+//        }
 
         return result;
     }

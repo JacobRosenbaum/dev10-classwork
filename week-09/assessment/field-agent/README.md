@@ -19,15 +19,15 @@
 ### Task List
     * Estimated Time of Completion (ETC): 7 hours 56 minutes
     * Actual Time of Completiong (ATC): 
-* [ ] Read through code from assessment 7
+* [x] Read through code from assessment 7
     * ETC: 15 minutes
-    * ATC: 
-* [ ] Read through HTML from assessment 8 in the browser to see what can be re-used
+    * ATC: 15 minutes
+* [x] Read through HTML from assessment 8 in the browser to see what can be re-used
     * ETC: 15 minutes
-    * ATC:
-* [ ] Update pom file to include Thymeleaf
+    * ATC: 15 minutes
+* [x] Update pom file to include Thymeleaf
     * ETC: 5 minutes
-    * ATC:
+    * ATC: 2 minutes
 * [ ] Move the following manual validations to annotations using the Validation API
     * [ ] First name cannot be null or empty
     * [ ] Last name cannot be null or empty

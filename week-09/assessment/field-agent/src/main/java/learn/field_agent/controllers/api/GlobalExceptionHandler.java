@@ -1,4 +1,4 @@
-package learn.field_agent.controllers;
+package learn.field_agent.controllers.api;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import learn.field_agent.domain.AliasService;

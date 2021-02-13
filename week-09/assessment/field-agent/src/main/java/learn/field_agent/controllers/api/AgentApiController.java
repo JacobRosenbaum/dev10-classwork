@@ -1,4 +1,4 @@
-package learn.field_agent.controllers;
+package learn.field_agent.controllers.api;
 
 import learn.field_agent.domain.AgentService;
 import learn.field_agent.domain.Result;
@@ -13,11 +13,11 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = {"http://localhost:3000"})
 @RequestMapping("/api/agent")
-public class AgentController {
+public class AgentApiController {
 
     private final AgentService service;
 
-    public AgentController(AgentService service) {
+    public AgentApiController(AgentService service) {
         this.service = service;
     }
 

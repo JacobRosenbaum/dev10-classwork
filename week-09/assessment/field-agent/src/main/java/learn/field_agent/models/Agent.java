@@ -1,16 +1,24 @@
 package learn.field_agent.models;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.*;
 
 public class Agent {
 
     private int agentId;
+    @NotBlank(message = "First Name is required")
     private String firstName;
     private String middleName;
+    @NotBlank(message = "Last Name is required")
     private String lastName;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private LocalDate dob;
+    @Min(value = 36, message = "Height must be between 36 and 96 inches")
+    @Max(value = 96, message = "Height must be between 36 and 96 inches")
     private int heightInInches;
     private List<AgentAgency> agencies = new ArrayList<>();
 
