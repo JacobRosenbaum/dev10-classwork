@@ -1,0 +1,209 @@
+body{
+  background-image: url('/images/lightening.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  font-family: 'Rajdhani', sans-serif;
+}
+
+.jumbotron{
+    background-color: transparent;
+    color: silver;
+    text-align: center;
+    margin-top: -40px;
+    /* letter-spacing: 4px */
+}
+
+#title{
+    font-size: 38px;
+    margin-top: 90px;
+    font-weight: 100 !important
+}
+
+#table {
+    opacity: .8;
+    text-align: center;
+    height: 550px;
+    overflow-y: scroll;
+    position: relative;
+    bottom: 75px;
+}
+
+#deleteButton {
+    position: relative;
+    right: 65px;
+    font-size: 15px;
+    background-color: lightslategray !important;
+    border-color: lightslategray !important;
+    color: white !important
+}
+
+#editButton {
+    position: relative;
+    right: 65px;
+    font-size: 15px;
+    background-color: lightslategray !important;
+    border-color: lightslategray !important;
+    color: white !important
+}
+
+#addButton {
+    font-size: 15px;
+    background-color: lightcoral !important;
+    border-color: lightcoral !important;
+    color: white !important
+}
+
+#editButton:hover {
+    background-color: lightcoral !important;
+    border-color: lightcoral !important;
+    color: white !important
+}
+
+#deleteButton:hover {
+    background-color: lightcoral !important;
+    border-color: lightcoral !important;
+    color: white !important
+}
+
+#addButton:hover {
+    background-color: lightsalmon !important;
+    border-color: lightsalmon !important;
+    color: white !important
+}
+
+#addButtonAnchor {
+    color: white !important
+}
+
+#addButtonAnchor:hover {
+    color: white !important
+}
+
+
+.modalTitle {
+    text-align: center;
+    margin-bottom: 30px
+}
+
+.form-control {
+    text-align: center;
+    background-color: coral !important;
+    border-color: coral !important;
+
+    margin-bottom: 20px;
+    margin: 0 auto;
+}
+
+#form {
+    width: 400px;
+    margin: 0 auto
+}
+
+label {
+    font-size: 25px;
+
+}
+
+.submitButton {
+    font-size: 15px;
+    background-color: lightcoral !important;
+    border-color: lightcoral !important;
+    margin: 0;
+    margin-left: 3px
+}
+
+.submitButton:hover {
+    background-color: lightsalmon !important;
+    border-color: lightsalmon !important;
+}
+
+th {
+    position: sticky;
+    top: 0;
+    font-weight: bolder;
+    z-index: 100;
+    background-color: #403a40
+        /* background-color: lightcoral */
+}
+
+tr {
+    z-index: 0;
+}
+
+
+@keyframes typewriter {
+
+  0%,
+  100% {
+    width: 0;
+  }
+
+  20%,
+  80% {
+    width: 10.2em;
+  }
+}
+
+@keyframes caret {
+
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.text_1 {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typewriter;
+  display: inline-block;
+  position: relative;
+  animation-duration: 10s;
+  animation-timing-function: steps(25, end);
+  animation-iteration-count: infinite;
+  font-family: 'Noto Sans JP', sans-serif;
+
+}
+
+
+.text_1::after {
+  content: "|";
+  position: absolute;
+  right: 0;
+  animation: caret infinite;
+  animation-duration: 1s;
+  animation-timing-function: steps(1, end);
+}
+
+#header {
+    font-size: 35px;
+    color: silver !important
+}
+
+a {
+    color: silver !important
+}
+
+a:hover{
+    color: orange !important;
+    zoom: 101%;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#cancelButton{
+    color: white !important;
+    margin-right: 3px;
+    background-color: lightslategray;
+    border-color: lightslategray
+}
+
+#cancelButton:hover {
+    background-color: firebrick;
+    border-color: firebrick
+}

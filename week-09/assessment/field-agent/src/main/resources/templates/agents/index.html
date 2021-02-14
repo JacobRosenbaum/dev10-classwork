@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:background-image="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
@@ -9,9 +9,11 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
           integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="/css/agents.css"/>
     <title>Field Agent</title>
 </head>
 <body>
+
 
 <ul id='header' class="nav justify-content-center">
     <li class="nav-item">
@@ -39,14 +41,19 @@
         <table class="table table-dark">
             <thead id='head'>
             <tr>
-                <th scope="col">First</th>
-                <th scope="col">Middle</th>
-                <th scope="col">Last</th>
-                <th scope="col">DOB</th>
-                <th scope="col">Height</th>
+                <th scope="col">First
+                </th>
+                <th scope="col">Middle
+                </th>
+                <th scope="col">Last
+                </th>
+                <th scope="col">DOB
+                </th>
+                <th scope="col">Height
+                </th>
                 <th scope="col">
-                    <button>
-                        <a href="/agents/create">
+                    <button class="btn btn-primary btn-sm"  id="addButton">
+                        <a id="addButtonAnchor" href="/agents/create">
                             Add Agent
                         </a>
                     </button>
@@ -63,10 +70,10 @@
                 <td>
                     <div class="float-right">
                         <a id='editButton' class="btn btn-primary btn-sm" href="edit.html"
-                        th:href="@{/agents/update/{id}(id=${agent.agentId})}">
+                           th:href="@{/agents/update/{id}(id=${agent.agentId})}">
                             Edit
                         </a>
-                        <a id='deleteButton' class="btn btn-danger btn-sm ml-3"  href="delete.html"
+                        <a id='deleteButton' class="btn btn-danger btn-sm ml-3" href="delete.html"
                            th:href="@{/agents/delete/{id}(id=${agent.agentId})}">
                             Delete
                         </a>

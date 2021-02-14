@@ -9,6 +9,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
           integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="/css/agents.css"/>
     <title>Field Agent</title>
 </head>
 <body>
@@ -29,24 +30,13 @@
 </ul>
 
 <div class='container'>
-    <div class="jumbotron">
-        <h1 class="display-4">Delete Agent
-        </h1>
-        <p>
-            Would you like to delete this agent from the database?
-        </p>
-        <ul>
-            <li th:text="${agent.firstName}">First name</li>
-            <li th:text="${agent.middleName}">Middle name</li>
-            <li th:text="${agent.lastName}">Last name</li>
-            <li th:text="${agent.dob}">dob</li>
-            <li th:text="${agent.heightInInches}">date of birth</li>
-        </ul>
-
+    <div class="jumbotron" style="margin-top: 50px">
+        <h3>
+            Are you sure you would like to delete <span th:text="${agent.firstName} + ' ' + ${agent.lastName}"> </span> from the database?
+        </h3>
         <form method="post">
-
-            <div>
-                <a class="btn btn-warning" href="/agents">Cancel</a>
+            <div style="margin-top: 20px">
+                <a id="cancelButton" class="btn btn-warning" href="/agents">Cancel</a>
                 <button class="btn btn-primary submitButton" type="submit">Delete
                     Agent
                 </button>

@@ -9,6 +9,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
           integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="/css/agents.css"/>
     <title>Field Agent</title>
 </head>
 <body>
@@ -31,9 +32,9 @@
 <div class='container'>
     <div class="jumbotron">
         <h1 class='modalTitle'>
-            [[${agent.agentId > 0 ? 'Update' : 'Create'}]] Agent
+            [[${agent.agentId > 0 ? 'Update' : 'Add'}]] Agent
         </h1>
-        <form method="post" th:object="${agent}">
+        <form method="post" th:object="${agent}" id="form">
             <div class="form-group">
                 <label class="label" for="firstName">First Name </label>
                 <input id="firstName" name="firstName" type="text" class="form-control" th:field="*{firstName}">
@@ -52,16 +53,15 @@
             </div>
             <div class="form-group">
                 <label class="label" for="height">Height </label>
-                <input id="height" name="height" type="number"  min="36" max="96" class="form-control"
-                       th:field="*{heightInInches}" >
+                <input id="height" name="height" type="number" min="36" max="96" class="form-control"
+                       th:field="*{heightInInches}">
             </div>
             <input type="hidden" th:field="*{agentId}">
-            <div>
-                <a class="btn btn-warning" href="/agents">Cancel</a>
-                <button class="btn btn-primary submitButton" type="submit">[[${agent.agentId > 0 ? 'Update' : 'Create'}]]
-                   Agent
+                <a id="cancelButton" class="btn btn-warning" href="/agents">Cancel</a>
+                <button class="btn btn-primary submitButton" type="submit">[[${agent.agentId > 0 ? 'Update' :
+                    'Add'}]]
+                    Agent
                 </button>
-            </div>
         </form>
     </div>
 </div>
