@@ -29,7 +29,7 @@ public class AgentUiController {
     }
 
     @GetMapping("/create")
-    public String create(@ModelAttribute("agent") Agent agent, Model model) {
+    public String create(@ModelAttribute("agent") Agent agent) {
         agent.setHeightInInches(36);
         return "agents/form";
     }
@@ -40,6 +40,7 @@ public class AgentUiController {
             BindingResult result, Model model) {
 
         if (result.hasErrors()) {
+            System.out.println(result.getAllErrors());
             return "agents/form";
         }
 
@@ -84,7 +85,6 @@ public class AgentUiController {
             for (String message : serviceResult.getMessages()) {
                 result.addError(new ObjectError("agent", message));
             }
-
             return "agents/form";
         }
 
@@ -115,5 +115,15 @@ public class AgentUiController {
         agentService.deleteById(id);
 
         return "redirect:/agents";
+    }
+
+    @GetMapping("/missions")
+    public String getMission() {
+        return "/missions";
+    }
+
+    @GetMapping("/agencies")
+    public String getAgency() {
+        return "/agencies";
     }
 }

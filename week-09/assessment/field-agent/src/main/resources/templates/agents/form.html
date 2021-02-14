@@ -19,10 +19,10 @@
         <a class="nav-link" href="/agents">Agents</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="/agencies">Agencies</a>
+        <a class="nav-link" href="/agents/agencies">Agencies</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="/missions">Missions</a>
+        <a class="nav-link" href="/agents/missions">Missions</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="/">Home Base</a>
@@ -32,8 +32,10 @@
 <div class='container'>
     <div class="jumbotron">
         <h1 class='modalTitle'>
-            [[${agent.agentId > 0 ? 'Update' : 'Add'}]] Agent
+            [[${agent.agentId > 0 ? 'Edit' : 'Add'}]] Agent
         </h1>
+        <div id="errors" class="notification is-danger" th:errors="${agent.*}">All Errors Messages</div>
+
         <form method="post" th:object="${agent}" id="form">
             <div class="form-group">
                 <label class="label" for="firstName">First Name </label>
@@ -58,9 +60,8 @@
             </div>
             <input type="hidden" th:field="*{agentId}">
                 <a id="cancelButton" class="btn btn-warning" href="/agents">Cancel</a>
-                <button class="btn btn-primary submitButton" type="submit">[[${agent.agentId > 0 ? 'Update' :
-                    'Add'}]]
-                    Agent
+                <button class="btn btn-primary submitButton" type="submit">
+                    Submit
                 </button>
         </form>
     </div>

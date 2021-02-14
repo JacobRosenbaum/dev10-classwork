@@ -10,12 +10,13 @@ import javax.validation.constraints.*;
 public class Agent {
 
     private int agentId;
-    @NotBlank(message = "First Name is required")
+    @NotBlank(message = "first name is required")
     private String firstName;
     private String middleName;
-    @NotBlank(message = "Last Name is required")
+    @NotBlank(message = "last name is required")
     private String lastName;
     @DateTimeFormat(pattern="yyyy-MM-dd")
+    @PastOrPresent
     private LocalDate dob;
     @Min(value = 36, message = "Height must be between 36 and 96 inches")
     @Max(value = 96, message = "Height must be between 36 and 96 inches")

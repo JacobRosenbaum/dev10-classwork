@@ -88,9 +88,8 @@ body{
 
 .form-control {
     text-align: center;
-    background-color: coral !important;
-    border-color: coral !important;
-
+    background-color: silver !important;
+    border-color: silver !important;
     margin-bottom: 20px;
     margin: 0 auto;
 }
@@ -207,3 +206,21 @@ a:hover{
     background-color: firebrick;
     border-color: firebrick
 }
+
+#errors {
+    text-align: center;
+    font-size: 20px;
+    background-color: lightcoral;
+    border-color: lightcoral !important;
+    border-radius: 5px;
+    padding: 10px;
+    color: white;
+    width: 400px;
+    margin: 0 auto;
+    margin-top: -15px
+}
+
+#list{
+    list-style-type: none;
+}
+
