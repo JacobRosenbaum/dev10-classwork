@@ -11,9 +11,12 @@ public class Agent {
 
     private int agentId;
     @NotBlank(message = "first name is required")
+    @Size(max = 50, message = "first name cannot be longer than {max} characters.")
     private String firstName;
+    @Size(max = 50, message = "middle name cannot be longer than {max} characters.")
     private String middleName;
     @NotBlank(message = "last name is required")
+    @Size(max = 50, message = "last name cannot be longer than {max} characters.")
     private String lastName;
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @PastOrPresent
